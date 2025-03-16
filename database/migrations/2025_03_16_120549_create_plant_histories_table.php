@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plants', function (Blueprint $table) {
+        Schema::create('plant_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('device_id')->constrained()->onDelete('cascade');
-            $table->string('name');
-            $table->float('maximum_moisture')->default(0);
-            $table->float('minimum_moisture')->default(0);
+            $table->foreignId('plant_id')->constrained()->onDelete('cascade');
+            $table->float('moisture_level')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plants');
+        Schema::dropIfExists('plant_histories');
     }
 };
