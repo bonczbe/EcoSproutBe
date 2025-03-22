@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Device extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'name',
         'location',
@@ -23,8 +25,13 @@ class Device extends Model
     {
         return $this->hasMany(DeviceHistory::class);
     }
-    public function customerplants(): HasMany
+    public function customer_plants(): HasMany
+{
+    return $this->hasMany(CustomerPlant::class, 'device_id');
+}
+public function users()
     {
-        return $this->hasMany(CustomerPlant::class);
+        return $this->belongsToMany(User::class, 'device_user');
     }
+
 }

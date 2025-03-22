@@ -48,4 +48,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function devices()
+    {
+        return $this->belongsToMany(Device::class, 'device_user');
+    }
 }
