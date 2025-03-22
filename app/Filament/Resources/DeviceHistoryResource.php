@@ -13,7 +13,8 @@ class DeviceHistoryResource extends Resource
 {
     protected static ?string $model = DeviceHistory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Devices';
+
 
     public static function form(Form $form): Form
     {

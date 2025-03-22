@@ -17,9 +17,16 @@ return new class extends Migration
             $table->date('date');
             $table->decimal('max_celsius', 5, 2);
             $table->decimal('min_celsius', 5, 2);
-            $table->boolean('cloudy')->default(false);
-            $table->boolean('rainy')->default(false);
+            $table->decimal('average_celsius', 5, 2);
+            $table->integer('uv');
+            $table->integer('rain_chance');
+            $table->integer('snow_chance');
             $table->decimal('expected_maximum_rain', 5, 2)->nullable();
+            $table->decimal('expected_maximum_snow', 5, 2)->nullable();
+            $table->decimal('expected_maximum_rain_tomorrow', 5, 2)->nullable();
+            $table->decimal('expected_maximum_snow_tomorrow', 5, 2)->nullable();
+            $table->json('condition');
+            $table->json('astro');
             $table->timestamps();
         });
     }

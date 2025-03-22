@@ -14,7 +14,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function form(Form $form): Form
     {
@@ -30,11 +30,16 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('id'),
                 TextColumn::make('name'),
-                TextColumn::make('email'),
                 TextColumn::make('lastName')
                     ->default('-'),
                 TextColumn::make('firstName')
                     ->default('-'),
+                TextColumn::make('email'),
+                TextColumn::make('numberOfDevices')
+                ->getStateUsing(fn($record) => $record->devices->count())
+                ->numeric()
+                ->default(0),
+
             ])
             ->filters([
                 //

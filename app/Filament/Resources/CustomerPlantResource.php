@@ -13,7 +13,7 @@ class CustomerPlantResource extends Resource
 {
     protected static ?string $model = CustomerPlant::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Plants';
 
     public static function form(Form $form): Form
     {
