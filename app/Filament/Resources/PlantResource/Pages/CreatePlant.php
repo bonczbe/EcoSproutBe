@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\PlantResource\Pages;
 
 use App\Filament\Resources\PlantResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreatePlant extends CreateRecord

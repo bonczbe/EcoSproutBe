@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class DeviceHistory extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'water_level',
         'device_id',
-    'temperature',
+        'temperature',
     ];
 
     public function device(): BelongsTo

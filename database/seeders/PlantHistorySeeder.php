@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\PlantHistory;
 use App\Models\CustomerPlant;
+use App\Models\PlantHistory;
+use Illuminate\Database\Seeder;
 
 class PlantHistorySeeder extends Seeder
 {

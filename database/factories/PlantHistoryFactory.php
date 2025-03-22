@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\PlantHistory;
 use App\Models\CustomerPlant;
+use App\Models\PlantHistory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PlantHistoryFactory extends Factory
 {

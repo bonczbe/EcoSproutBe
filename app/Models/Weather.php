@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Weather extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'date',
         'max_celsius',

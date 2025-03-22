@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\CustomerPlant;
 use App\Models\Device;
 use App\Models\Plant;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CustomerPlantFactory extends Factory
 {

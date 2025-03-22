@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\DeviceHistory;
 use App\Models\Device;
+use App\Models\DeviceHistory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DeviceHistoryFactory extends Factory
 {

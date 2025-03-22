@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Device extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'location',
@@ -16,6 +17,7 @@ class Device extends Model
         'is_inside',
         'city',
     ];
+
     protected $casts = [
         'is_on' => 'boolean',
         'is_inside' => 'boolean',
@@ -25,13 +27,14 @@ class Device extends Model
     {
         return $this->hasMany(DeviceHistory::class);
     }
+
     public function customer_plants(): HasMany
-{
-    return $this->hasMany(CustomerPlant::class, 'device_id');
-}
-public function users()
+    {
+        return $this->hasMany(CustomerPlant::class, 'device_id');
+    }
+
+    public function users()
     {
         return $this->belongsToMany(User::class, 'device_user');
     }
-
 }

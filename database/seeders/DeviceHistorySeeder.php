@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\DeviceHistory;
 use App\Models\Device;
+use App\Models\DeviceHistory;
+use Illuminate\Database\Seeder;
 
 class DeviceHistorySeeder extends Seeder
 {

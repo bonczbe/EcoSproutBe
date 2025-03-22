@@ -9,13 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class PlantHistory extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'moisture_level',
-        'plant_id'
+        'plant_id',
     ];
 
     public function customerPlant(): BelongsTo
-{
-    return $this->belongsTo(CustomerPlant::class, 'customer_plant_id');
-}
+    {
+        return $this->belongsTo(CustomerPlant::class, 'customer_plant_id');
+    }
 }

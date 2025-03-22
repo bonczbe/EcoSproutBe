@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Weather;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -69,7 +68,7 @@ class WeatherController extends Controller
     {
         $response = Http::get('https://api.openweathermap.org/data/2.5/weather', [
             'q' => $location,
-            'appid' => env('OPEN_WEATHER',''),
+            'appid' => env('OPEN_WEATHER', ''),
             'units' => 'metric',
         ]);
 
@@ -80,6 +79,4 @@ class WeatherController extends Controller
         $cloudy = $weatherData['clouds']['all'] > 50;
         $expectedMaximumRain = $rainy ? $weatherData['rain']['1h'] : 0;
     }
-
-
 }

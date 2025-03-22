@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class CustomerPlant extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'maximum_moisture',
         'minimum_moisture',
@@ -27,6 +28,7 @@ class CustomerPlant extends Model
     {
         return $this->belongsTo(Plant::class);
     }
+
     public function histories(): HasMany
     {
         return $this->hasMany(PlantHistory::class, 'customer_plant_id');
