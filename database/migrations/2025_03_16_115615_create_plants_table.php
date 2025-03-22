@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create('plants', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('device_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->float('maximum_moisture')->default(0);
-            $table->float('minimum_moisture')->default(0);
             $table->timestamps();
         });
     }

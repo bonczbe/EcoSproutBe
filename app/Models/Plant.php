@@ -11,17 +11,10 @@ class Plant extends Model
 
     protected $fillable = [
         'name',
-        'maximum_moisture',
-        'minimum_moisture',
-        'device_id'
     ];
 
-    public function device(): BelongsTo
+    public function customerplants(): HasMany
     {
-        return $this->belongsTo(Device::class);
-    }
-    public function histories(): HasMany
-    {
-        return $this->hasMany(PlantHistory::class);
+        return $this->hasMany(CustomerPlant::class);
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('plant_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('plant_id')->constrained()->onDelete('cascade');
+            $table->foreignId('customer_plant_id')->constrained()->onDelete('cascade');
             $table->float('moisture_level')->nullable();
             $table->timestamps();
         });

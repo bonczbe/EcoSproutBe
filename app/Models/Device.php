@@ -19,13 +19,12 @@ class Device extends Model
         'is_inside' => 'boolean',
     ];
 
-    public function plants(): HasMany
-    {
-        return $this->hasMany(Plant::class);
-    }
-
     public function histories(): HasMany
     {
         return $this->hasMany(DeviceHistory::class);
+    }
+    public function customerplants(): HasMany
+    {
+        return $this->hasMany(CustomerPlant::class);
     }
 }
