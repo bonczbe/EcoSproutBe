@@ -11,7 +11,7 @@ class DeviceSeeder extends Seeder
     {
         Device::create([
             'name' => 'Smart Irrigation Sensor',
-            'city' => 'New York',
+            'city' => 'Budapest',
             'location' => 'Greenhouse 1',
             'is_inside' => true,
             'is_on' => true,

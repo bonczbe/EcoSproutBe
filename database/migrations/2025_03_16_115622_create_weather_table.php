@@ -27,6 +27,7 @@ return new class extends Migration
             $table->decimal('expected_maximum_snow_tomorrow', 5, 2)->nullable();
             $table->json('condition');
             $table->json('astro');
+            $table->unique(['city','date'],'city_date');
             $table->timestamps();
         });
     }

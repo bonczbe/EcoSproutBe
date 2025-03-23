@@ -68,7 +68,9 @@ class WeatherController extends Controller
 
     public function getWeather(string $location)
     {
-        $cacheKey = "weather_{$location}";
+        $location = strtolower($location);
+        $today = Carbon::now()->toDateString;
+        $cacheKey = "weather_{$location}_{$today}";
         $callCountKey = 'weather_api_call_count';
 
         $callCount = Cache::get($callCountKey,0);
