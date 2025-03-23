@@ -11,6 +11,7 @@ class Weather extends Model
 
     protected $fillable = [
         'date',
+        'time_zone',
         'max_celsius',
         'min_celsius',
         'average_celsius',

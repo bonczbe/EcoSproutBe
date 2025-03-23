@@ -10,6 +10,3 @@ Route::get('/test', function () {
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
-
-
-Route::get('/weather/{location}', [WeatherController::class, 'getWeather']);

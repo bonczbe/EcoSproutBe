@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             DeviceSeeder::class,
             PlantSeeder::class,
-            WeatherSeeder::class,
             CustomerPlantSeeder::class,
             PlantHistorySeeder::class,
             DeviceHistorySeeder::class,

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('weather', function (Blueprint $table) {
             $table->id();
             $table->string('city');
+            $table->string('time_zone');
             $table->date('date');
             $table->decimal('max_celsius', 5, 2);
             $table->decimal('min_celsius', 5, 2);
@@ -27,7 +28,7 @@ return new class extends Migration
             $table->decimal('expected_maximum_snow_tomorrow', 5, 2)->nullable();
             $table->json('condition');
             $table->json('astro');
-            $table->unique(['city','date'],'city_date');
+            $table->unique(['city', 'date'], 'city_date');
             $table->timestamps();
         });
     }

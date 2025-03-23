@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('location');
             $table->boolean('is_inside');
             $table->boolean('is_on')->default(false);
-            $table->foreignId('timezone_id')->nullable()->constrained('timezones')->nullOnDelete();
             $table->timestamps();
         });
     }

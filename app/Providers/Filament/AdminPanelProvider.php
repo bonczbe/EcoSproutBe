@@ -44,8 +44,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 NavigationGroup::make()
-                     ->label('Devices')
-                     ->icon('heroicon-o-cpu-chip'),
+                    ->label('Devices')
+                    ->icon('heroicon-o-cpu-chip'),
                 NavigationGroup::make()
                     ->label('Plants')
                     ->icon('heroicon-o-sun'),

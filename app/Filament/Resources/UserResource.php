@@ -36,9 +36,9 @@ class UserResource extends Resource
                     ->default('-'),
                 TextColumn::make('email'),
                 TextColumn::make('numberOfDevices')
-                ->getStateUsing(fn($record) => $record->devices->count())
-                ->numeric()
-                ->default(0),
+                    ->getStateUsing(fn ($record) => $record->devices->count())
+                    ->numeric()
+                    ->default(0),
 
             ])
             ->filters([

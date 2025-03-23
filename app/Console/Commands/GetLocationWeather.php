@@ -31,90 +31,124 @@ class GetLocationWeather extends Command
      */
     public function handle()
     {
-        $deviceLocations = Device::all()->pluck('city');
-        Log::info('Got cities: ' . $deviceLocations);
+        $deviceLocations = Device::all()->pluck('city')->toArray();
+        Log::info('Got cities: '.implode(', ', $deviceLocations));
 
-        $locationsWeather=[];
+        $locationsWeather = [];
 
-        foreach ($deviceLocations as $key=>$deviceLocation) {
-            Log::info('Started fetching weather for ' . $deviceLocation);
-            $locationsWeather[$key]=$this->getWeather($deviceLocation);
-            Log::info('Finished fetching weather for ' . $deviceLocation);
+        foreach ($deviceLocations as $deviceLocation) {
+            Log::info("Started fetching weather for {$deviceLocation}");
+            $locationsWeather[] = $this->getWeather($deviceLocation);
+            Log::info("Finished fetching weather for {$deviceLocation}");
         }
-        Log::info('Start to upsert cities weather: ' . $deviceLocations);
 
-        Weather::upsert($locationsWeather,['city','date']);
+        Log::info('Start upserting cities weather...');
+        Weather::upsert($locationsWeather, ['city', 'date']);
     }
 
-    private function getWeather(string $location){
+    /**
+     * Get weather data for a specific location.
+     *
+     * @return array|null
+     */
+    private function getWeather(string $location)
+    {
 
         $location = strtolower($location);
-        $today = Carbon::now()->toDateString();
 
-        $cacheKey = "weather_{$location}_{$today}";
         $callCountKey = 'weather_api_call_count';
 
-        $callCount = Cache::get($callCountKey,0);
-
-        $weatherData = Cache::get($cacheKey,false);
+        $callCount = Cache::get($callCountKey, 0);
 
         if ($callCount >= 800000) {
             Log::error('API call limit exceeded for this month');
+
             return;
         }
 
-        if (!$weatherData||$weatherData['date']!=Carbon::today()->format('Y-m-d')) {
+        $lastWeather = Weather::where('city', $location)
+            ->orderBy('date', 'desc')
+            ->first();
 
-                $response = Http::get('https://api.weatherapi.com/v1/forecast.json', [
-                    'key' => env("WEATHERAPI_COM",null),
-                    'q' => $location,
-                    'days' => 2,
-                    'aqi' => 'no',
-                    'alerts' => 'no',
-                ]);
+        $today = null;
+        $weatherData = [];
+        $cacheKey = '';
 
-                Cache::increment($callCountKey);
+        if ($lastWeather) {
+            $today = Carbon::now($lastWeather->time_zone)->toDateString();
 
+            $cacheKey = "weather_{$location}_{$today}";
 
-                $weatherData = $response->json();
+            $weatherData = Cache::get($cacheKey, []);
+        }
 
+        if (empty($weatherData) || $weatherData['date'] != Carbon::today($lastWeather->time_zone)->format('Y-m-d')) {
 
-                $date= isset($weatherData['forecast']['forecastday'][0]['date'])
-                ? Carbon::parse($weatherData['forecast']['forecastday'][0]['date'])->toDateString()
-                : Carbon::create(1000, 1, 1)->toDateString();
-                $maxCelsius = $weatherData['forecast']['forecastday'][0]['day']['maxtemp_c']??-1000;
-                $minCelsius = $weatherData['forecast']['forecastday'][0]['day']['mintemp_c']??-1000;
-                $averageCelsius = $weatherData['forecast']['forecastday'][0]['day']['avgtemp_c']??-1000;
-                $uv = $weatherData['forecast']['forecastday'][0]['day']['uv']??-1000;
-                $rain_chance = $weatherData['forecast']['forecastday'][0]['day']['daily_chance_of_rain']??-1000;
-                $snow_chance = $weatherData['forecast']['forecastday'][0]['day']['daily_chance_of_snow']??-1000;
-                $expected_maximum_rain = $weatherData['forecast']['forecastday'][0]['day']['totalprecip_mm']??-1000;
-                $expected_maximum_snow = $weatherData['forecast']['forecastday'][0]['day']['totalsnow_cm']??-1000;
-                $expected_maximum_rain_tomorrow = $weatherData['forecast']['forecastday'][1]['day']['totalprecip_mm']??-1000;
-                $expected_maximum_snow_tomorrow = $weatherData['forecast']['forecastday'][1]['day']['totalsnow_cm']??-1000;
-                $condition = $weatherData['forecast']['forecastday'][0]['day']['condition'];
-                $astro = $weatherData['forecast']['forecastday'][0]['astro'] ;
+            $weatherData = $this->fetchWeatherData($location);
 
-                $weatherData = [
-                    'city'=> $location,
-                    'date'=> $date,
-                    'max_celsius' => $maxCelsius,
-                    'min_celsius' => $minCelsius,
-                    'average_celsius' => $averageCelsius,
-                    'uv' => $uv,
-                    'rain_chance' => $rain_chance,
-                    'snow_chance' => $snow_chance,
-                    'expected_maximum_rain' => $expected_maximum_rain,
-                    'expected_maximum_snow' => $expected_maximum_snow,
-                    'expected_maximum_snow_tomorrow' => $expected_maximum_snow_tomorrow,
-                    'expected_maximum_rain_tomorrow' => $expected_maximum_rain_tomorrow,
-                    'condition' => json_encode($condition),
-                    'astro' => json_encode($astro),
+            Cache::increment($callCountKey);
 
-                ];
-                Cache::put($cacheKey, $weatherData, now()->addDay());
+            $today = Carbon::now($weatherData['time_zone'])->toDateString();
+
+            $cacheKey = "weather_{$location}_{$today}";
+            Cache::put($cacheKey, $weatherData, now()->addDay());
 
         }
+
         return $weatherData;
+    }
+
+    /**
+     * Fetch fresh weather data from the API.
+     *
+     * @param  string  $location
+     */
+    private function fetchWeatherData($location): ?array
+    {
+
+        $response = Http::get('https://api.weatherapi.com/v1/forecast.json', [
+            'key' => env('WEATHERAPI_COM', null),
+            'q' => $location,
+            'days' => 2,
+            'aqi' => 'no',
+            'alerts' => 'no',
+        ]);
+        try {
+
+            $weatherData = $response->json();
+
+            $weatherData = [
+                'city' => $location,
+                'date' => $this->parseWeatherDate($weatherData['forecast']['forecastday'][0]['date']),
+                'time_zone' => $weatherData['location']['tz_id'] ?? 'Europe/Budapest',
+                'max_celsius' => $weatherData['forecast']['forecastday'][0]['day']['maxtemp_c'] ?? -1000,
+                'min_celsius' => $weatherData['forecast']['forecastday'][0]['day']['mintemp_c'] ?? -1000,
+                'average_celsius' => $weatherData['forecast']['forecastday'][0]['day']['avgtemp_c'] ?? -1000,
+                'uv' => $weatherData['forecast']['forecastday'][0]['day']['uv'] ?? -1000,
+                'rain_chance' => $weatherData['forecast']['forecastday'][0]['day']['daily_chance_of_rain'] ?? -1000,
+                'snow_chance' => $weatherData['forecast']['forecastday'][0]['day']['daily_chance_of_snow'] ?? -1000,
+                'expected_maximum_rain' => $weatherData['forecast']['forecastday'][0]['day']['totalprecip_mm'] ?? -1000,
+                'expected_maximum_snow' => $weatherData['forecast']['forecastday'][0]['day']['totalsnow_cm'] ?? -1000,
+                'expected_maximum_rain_tomorrow' => $weatherData['forecast']['forecastday'][1]['day']['totalprecip_mm'] ?? -1000,
+                'expected_maximum_snow_tomorrow' => $weatherData['forecast']['forecastday'][1]['day']['totalsnow_cm'] ?? -1000,
+                'condition' => json_encode($weatherData['forecast']['forecastday'][0]['day']['condition'] ?? []),
+                'astro' => json_encode($weatherData['forecast']['forecastday'][0]['astro'] ?? []),
+            ];
+
+            return $weatherData;
+        } catch (\Exception $e) {
+            Log::error('Something went wrong while fetching data from api message:'.$e->getMessage());
+
+            return null;
+        }
+
+    }
+
+    /**
+     * Parse the weather date string and return it.
+     */
+    private function parseWeatherDate(string $dateString): string
+    {
+        return Carbon::parse($dateString)->toDateString() ?? Carbon::create(1000, 1, 1)->toDateString();
     }
 }

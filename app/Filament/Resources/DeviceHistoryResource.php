@@ -15,7 +15,6 @@ class DeviceHistoryResource extends Resource
 
     protected static ?string $navigationGroup = 'Devices';
 
-
     public static function form(Form $form): Form
     {
         return $form
