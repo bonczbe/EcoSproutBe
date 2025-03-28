@@ -23,7 +23,7 @@ class WeatherService
 
     public function fetchAndStoreWeatherForAllDevices()
     {
-        $cities = $this->deviceRepository->getAllCities();
+        $cities = $this->deviceRepository->getAllCityNames();
         Log::info('Got cities: ' . implode(', ', $cities));
 
         $weatherData = [];

@@ -6,7 +6,7 @@ use App\Models\Device;
 
 class DeviceRepository
 {
-    public function getAllCities(): array
+    public function getAllCityNames(): array
     {
         return Device::all()->pluck('city')->toArray();
     }
