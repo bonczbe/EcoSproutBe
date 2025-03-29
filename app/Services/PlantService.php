@@ -23,7 +23,11 @@ class PlantService
 
         $plants = $this->fetchPlants();
 
-        $this->plantRepository->upsertPlantData($plants);
+        try {
+            $this->plantRepository->upsertPlantData($plants);
+        } catch (\Exception $e) {
+            Log::error(''.$e->getMessage());
+        }
     }
 
     protected function fetchPlants(): array
@@ -70,12 +74,7 @@ class PlantService
                 Log::error('Reached the daily limit!');
             }
         }
-        try {
-            return $plantData;
-        } catch (\Exception $e) {
-            Log::error(''.$e->getMessage());
 
-            return [];
-        }
+        return $plantData;
     }
 }
