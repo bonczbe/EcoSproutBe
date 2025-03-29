@@ -8,7 +8,7 @@ class WeatherDTO
 {
     public static function fromApiResponse(array $data, string $city): array
     {
-        $timezone = $data['location']['tz_id'] ?? 'UTC';
+        $timezone = $data['location']['tz_id'] ?? 'Europe/Budapest';
         $date = Carbon::now($timezone)->toDateString();
         return [
             'city' => $city,
