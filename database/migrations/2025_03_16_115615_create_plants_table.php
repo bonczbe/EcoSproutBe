@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('plants', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name_en')->nullable();
+            $table->string('name_hu')->nullable();
+            $table->string('name_botanical');
+            $table->json('other_names')->nullable();
+            $table->string('default_image', 280);
+            $table->string('species_epithet');
+            $table->string('genus');
+            $table->foreignId('plant_type_id')->nullable()->constrained('plant_types')->onDelete('cascade');
             $table->timestamps();
         });
     }

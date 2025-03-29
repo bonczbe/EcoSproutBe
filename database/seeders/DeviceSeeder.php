@@ -17,6 +17,6 @@ class DeviceSeeder extends Seeder
             'is_on' => true,
         ]);
 
-        Device::factory(10)->create();
+        // Device::factory(10)->create();
     }
 }

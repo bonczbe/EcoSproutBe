@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('dirt_type')->default('mid');
             $table->foreignId('device_id')->constrained()->onDelete('cascade');
             $table->foreignId('plant_id')->constrained()->onDelete('cascade');
+            $table->foreignId('plant_type_id')->nullable()->constrained('plant_types')->onDelete('set null');
             $table->timestamps();
         });
     }

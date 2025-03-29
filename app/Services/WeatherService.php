@@ -2,17 +2,18 @@
 
 namespace App\Services;
 
+use App\DTOs\WeatherDTO;
 use App\Repositories\DeviceRepository;
 use App\Repositories\WeatherRepository;
-use App\DTOs\WeatherDTO;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class WeatherService
 {
     protected DeviceRepository $deviceRepository;
+
     protected WeatherRepository $weatherRepository;
 
     public function __construct(DeviceRepository $deviceRepository, WeatherRepository $weatherRepository)
@@ -24,7 +25,7 @@ class WeatherService
     public function fetchAndStoreWeatherForAllDevices()
     {
         $cities = $this->deviceRepository->getAllCityNames();
-        Log::info('Got cities: ' . implode(', ', $cities));
+        Log::info('Got cities: '.implode(', ', $cities));
 
         $weatherData = [];
         foreach ($cities as $city) {
@@ -42,10 +43,10 @@ class WeatherService
     private function getWeather(string $city): ?array
     {
         $city = strtolower($city);
-        $cacheKey = "weather_{$city}_" . Carbon::today()->toDateString();
+        $cacheKey = "weather_{$city}_".Carbon::today()->toDateString();
         $weatherData = Cache::get($cacheKey);
 
-        if (!$weatherData) {
+        if (! $weatherData) {
             $weatherData = $this->fetchWeatherData($city);
             if ($weatherData) {
                 Cache::put($cacheKey, $weatherData, now()->addDay());
@@ -67,9 +68,11 @@ class WeatherService
 
         try {
             $data = $response->json();
+
             return WeatherDTO::fromApiResponse($data, $city);
         } catch (\Exception $e) {
-            Log::error("Error fetching weather for {$city}: " . $e->getMessage());
+            Log::error("Error fetching weather for {$city}: ".$e->getMessage());
+
             return null;
         }
     }

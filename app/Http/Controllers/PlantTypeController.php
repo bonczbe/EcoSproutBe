@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Weather;
+use App\Models\PlantType;
 use Illuminate\Http\Request;
 
-class WeatherController extends Controller
+class PlantTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class WeatherController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Weather $weather)
+    public function show(PlantType $plantType)
     {
         //
     }
@@ -42,7 +42,7 @@ class WeatherController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Weather $weather)
+    public function edit(PlantType $plantType)
     {
         //
     }
@@ -50,7 +50,7 @@ class WeatherController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Weather $weather)
+    public function update(Request $request, PlantType $plantType)
     {
         //
     }
@@ -58,7 +58,7 @@ class WeatherController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Weather $weather)
+    public function destroy(PlantType $plantType)
     {
         //
     }
