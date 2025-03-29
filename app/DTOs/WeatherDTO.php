@@ -2,14 +2,18 @@
 
 namespace App\DTOs;
 
+use Carbon\Carbon;
+
 class WeatherDTO
 {
     public static function fromApiResponse(array $data, string $city): array
     {
+        $timezone = $data['location']['tz_id'] ?? 'UTC';
+        $date = Carbon::now($timezone)->toDateString();
         return [
             'city' => $city,
-            'date' => $data['forecast']['forecastday'][0]['date'] ?? null,
-            'time_zone' => $data['location']['tz_id'] ?? 'UTC',
+            'date' => $date,
+            'time_zone' =>  $timezone,
             'max_celsius' => $data['forecast']['forecastday'][0]['day']['maxtemp_c'] ?? null,
             'min_celsius' => $data['forecast']['forecastday'][0]['day']['mintemp_c'] ?? null,
             'average_celsius' => $data['forecast']['forecastday'][0]['day']['avgtemp_c'] ?? null,
