@@ -10,10 +10,11 @@ class WeatherDTO
     {
         $timezone = $data['location']['tz_id'] ?? 'Europe/Budapest';
         $date = Carbon::now($timezone)->toDateString();
+
         return [
             'city' => $city,
             'date' => $date,
-            'time_zone' =>  $timezone,
+            'time_zone' => $timezone,
             'max_celsius' => $data['forecast']['forecastday'][0]['day']['maxtemp_c'] ?? null,
             'min_celsius' => $data['forecast']['forecastday'][0]['day']['mintemp_c'] ?? null,
             'average_celsius' => $data['forecast']['forecastday'][0]['day']['avgtemp_c'] ?? null,

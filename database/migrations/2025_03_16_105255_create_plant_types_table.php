@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('plant_types', function (Blueprint $table) {
             $table->id();
             $table->string('type');
+            $table->string('type_hu');
             $table->integer('min_soil_moisture');
             $table->integer('max_soil_moisture');
             $table->timestamps();

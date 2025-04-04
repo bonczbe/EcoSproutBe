@@ -13,6 +13,7 @@ class PlantType extends Model
 
     protected $fillable = [
         'type',
+        'type_hu',
         'min_soil_moisture',
         'max_soil_moisture',
     ];

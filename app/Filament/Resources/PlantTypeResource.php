@@ -7,6 +7,7 @@ use App\Models\PlantType;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class PlantTypeResource extends Resource
@@ -27,7 +28,12 @@ class PlantTypeResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('type'),
+                TextColumn::make('type_hu'),
+                TextColumn::make('min_soil_moisture')
+                    ->label('min soil moisture %'),
+                TextColumn::make('max_soil_moisture')
+                    ->label('max soil moisture %'),
             ])
             ->filters([
                 //
