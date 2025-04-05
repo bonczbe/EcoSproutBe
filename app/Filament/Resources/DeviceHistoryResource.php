@@ -40,7 +40,7 @@ class DeviceHistoryResource extends Resource
                     ->numeric()
                     ->default(0),
                 TextColumn::make('temperature')
-                ->suffix('℃')
+                    ->suffix('℃')
                     ->numeric()
                     ->default(0),
                 TextColumn::make('created_at')

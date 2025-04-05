@@ -21,24 +21,23 @@ class PlantService
     {
         Log::info('Started to fetch the daily 100 plants...');
 
-        $plants = $this->fetchPlants();
-
         try {
-            $this->plantRepository->upsertPlantData($plants);
+            $this->fetchPlants();
         } catch (\Exception $e) {
             Log::error(''.$e->getMessage());
         }
     }
 
-    protected function fetchPlants(): array
+    protected function fetchPlants()
     {
         $perPage = 30;
         $maxRequests = 100;
-        $plantData = [];
 
         for ($i = 0; $i < $maxRequests; $i++) {
+            $plantData = [];
 
-            $currentPage = floor((Plant::distinct('name_botanical')->count()+count($plantData)) / $perPage) + 1;
+            $currentPage = floor(Plant::distinct('name_botanical')->count() / $perPage) + 1;
+
             $response = Http::get('https://perenual.com/api/v2/species-list', [
                 'key' => env('PERENUAL_COM'),
                 'page' => $currentPage,
@@ -67,14 +66,14 @@ class PlantService
                     Log::error('Failed to fetch data. HTTP Status: '.$response->status()."\n");
                 }
 
-                sleep(6);
+                $this->plantRepository->upsertPlantData($plantData);
+                sleep(2);
 
             } else {
                 $i = $maxRequests;
                 Log::error('Reached the daily limit!');
             }
-        }
 
-        return $plantData;
+        }
     }
 }

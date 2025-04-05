@@ -33,9 +33,9 @@ class CustomerPlantResource extends Resource
                     ->label('User Name'),
                 TextColumn::make('dirt_type'),
                 TextColumn::make('maximum_moisture')
-                ->suffix('%'),
+                    ->suffix('%'),
                 TextColumn::make('minimum_moisture')
-                ->suffix('%'),
+                    ->suffix('%'),
                 TextColumn::make('plant.name_en')
                     ->label('Plant Name (EN)'),
                 TextColumn::make('plant.name_hu')

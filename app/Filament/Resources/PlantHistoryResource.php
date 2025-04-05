@@ -39,36 +39,34 @@ class PlantHistoryResource extends Resource
                     ->sortable(),
                 TextColumn::make('maximum_moisture')
                     ->label('Max Moisture')
-                    ->getStateUsing(fn ($record) =>
-                        ($record->customerPlant->maximum_moisture === null || $record->customerPlant->maximum_moisture < 0)
+                    ->getStateUsing(fn ($record) => ($record->customerPlant->maximum_moisture === null || $record->customerPlant->maximum_moisture < 0)
                             ? $record->customerPlant->plant?->plantType?->max_soil_moisture
                             : $record->customerPlant->maximum_moisture
                     )
                     ->sortable()
                     ->suffix('%')
                     ->alignRight(),
-                    TextColumn::make('minimum_moisture')
-                        ->label('Min Moisture')
-                        ->getStateUsing(fn ($record) =>
-                            ($record->customerPlant->minimum_moisture === null || $record->customerPlant->minimum_moisture < 0)
-                                ? $record->customerPlant->plant?->plantType?->min_soil_moisture
-                                : $record->customerPlant->minimum_moisture
-                        )
-                        ->sortable()
-                        ->suffix('%')
-                        ->alignRight(),
+                TextColumn::make('minimum_moisture')
+                    ->label('Min Moisture')
+                    ->getStateUsing(fn ($record) => ($record->customerPlant->minimum_moisture === null || $record->customerPlant->minimum_moisture < 0)
+                            ? $record->customerPlant->plant?->plantType?->min_soil_moisture
+                            : $record->customerPlant->minimum_moisture
+                    )
+                    ->sortable()
+                    ->suffix('%')
+                    ->alignRight(),
             ])
             ->filters([
-                        //
-                    ])
+                //
+            ])
             ->actions([
-                        Tables\Actions\EditAction::make(),
-                    ])
+                Tables\Actions\EditAction::make(),
+            ])
             ->bulkActions([
-                        Tables\Actions\BulkActionGroup::make([
-                            Tables\Actions\DeleteBulkAction::make(),
-                        ]),
-                    ]);
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ]);
     }
 
     public static function getRelations(): array
