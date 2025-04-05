@@ -7,6 +7,7 @@ use App\Models\CustomerPlant;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class CustomerPlantResource extends Resource
@@ -27,7 +28,25 @@ class CustomerPlantResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id'),
+                TextColumn::make('device.users.name')
+                    ->label('User Name'),
+                TextColumn::make('dirt_type'),
+                TextColumn::make('maximum_moisture')
+                ->suffix('%'),
+                TextColumn::make('minimum_moisture')
+                ->suffix('%'),
+                TextColumn::make('plant.name_en')
+                    ->label('Plant Name (EN)'),
+                TextColumn::make('plant.name_hu')
+                    ->label('Plant Name (HU)'),
+                TextColumn::make('plant.customer_plants.type')
+                    ->label('Plant Type (EN)'),
+                TextColumn::make('plant.customer_plants.type_hu')
+                    ->label('Plant Type (HU)'),
+                TextColumn::make('Moisture Level')
+                    ->getStateUsing(fn ($record) => $record->histories->last()->moisture_level ?? 0)
+                    ->suffix('%'),
             ])
             ->filters([
                 //

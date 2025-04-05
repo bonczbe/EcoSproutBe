@@ -7,6 +7,7 @@ use App\Models\DeviceHistory;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class DeviceHistoryResource extends Resource
@@ -27,7 +28,23 @@ class DeviceHistoryResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('device.id')
+                    ->label('Device ID'),
+                TextColumn::make('device.users.name')
+                    ->label('User Name'),
+                TextColumn::make('device.city')
+                    ->label('City'),
+                TextColumn::make('device.name')
+                    ->label('Device Name'),
+                TextColumn::make('water_level')
+                    ->numeric()
+                    ->default(0),
+                TextColumn::make('temperature')
+                ->suffix('℃')
+                    ->numeric()
+                    ->default(0),
+                TextColumn::make('created_at')
+                    ->dateTime('Y.m.d - H:i'),
             ])
             ->filters([
                 //

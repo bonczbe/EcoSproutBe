@@ -7,6 +7,8 @@ use App\Models\Device;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class DeviceResource extends Resource
@@ -27,7 +29,17 @@ class DeviceResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id')
+                    ->label('Device ID'),
+                TextColumn::make('users.name')
+                    ->label('User Name'),
+                TextColumn::make('name'),
+                TextColumn::make('city'),
+                TextColumn::make('location'),
+                IconColumn::make('is_on')
+                    ->label('Power Status'),
+                IconColumn::make('is_inside')
+                    ->label('Inside Status'),
             ])
             ->filters([
                 //

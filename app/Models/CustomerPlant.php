@@ -33,9 +33,4 @@ class CustomerPlant extends Model
     {
         return $this->hasMany(PlantHistory::class, 'customer_plant_id');
     }
-
-    public function plantType()
-    {
-        return $this->belongsTo(PlantType::class, 'plant_type_id')->withDefault(fn () => $this->plant->plantType);
-    }
 }

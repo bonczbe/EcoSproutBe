@@ -37,43 +37,48 @@ class WeatherResource extends Resource
                     ->searchable()
                     ->alignCenter(),
 
-                    TextColumn::make('uv')
+                TextColumn::make('uv')
                     ->numeric()
                     ->default(0),
 
                 TextColumn::make('max_celsius')
                     ->numeric()
                     ->default(0)
-                    ->label('Max ℃')
+                    ->label('Max')
+                    ->suffix('℃')
                     ->sortable()
                     ->color(fn ($record) => $record->max_celsius > 35 ? 'danger' : ($record->max_celsius < 0 ? 'info' : 'default')),
 
                 TextColumn::make('min_celsius')
                     ->numeric()
                     ->default(0)
-                    ->label('Min ℃')
+                    ->label('Min')
+                    ->suffix('℃')
                     ->sortable()
                     ->color(fn ($record) => $record->min_celsius < 0 ? 'info' : 'default'),
 
                 TextColumn::make('average_celsius')
                     ->numeric()
                     ->default(0)
-                    ->label('AVG ℃')
+                    ->label('AVG')
+                    ->suffix('℃')
                     ->sortable()
                     ->alignCenter(),
 
                 TextColumn::make('totalprecip_mm')
                     ->numeric()
                     ->default(0)
-                    ->label('Precipitate (mm)')
+                    ->label('Precipitate')
                     ->tooltip('Total precipitation in millimeters')
                     ->sortable()
+                    ->suffix('mm')
                     ->alignCenter(),
 
                 TextColumn::make('rain_chance')
                     ->numeric()
                     ->default(0)
-                    ->label('Rain %')
+                    ->label('Rain')
+                    ->suffix('%')
                     ->color(fn ($record) => $record->rain_chance > 50 ? 'warning' : 'default')
                     ->sortable()
                     ->alignCenter(),
@@ -81,7 +86,8 @@ class WeatherResource extends Resource
                 TextColumn::make('snow_chance')
                     ->numeric()
                     ->default(0)
-                    ->label('Snow %')
+                    ->label('Snow')
+                    ->suffix('%')
                     ->color(fn ($record) => $record->snow_chance > 50 ? 'info' : 'default')
                     ->sortable()
                     ->alignCenter(),
@@ -90,24 +96,28 @@ class WeatherResource extends Resource
                     ->numeric()
                     ->default(0)
                     ->label('Max Rain')
+                    ->suffix('mm')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('expected_maximum_snow')
                     ->numeric()
                     ->default(0)
                     ->label('Max Snow')
+                    ->suffix('mm')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('expected_maximum_rain_tomorrow')
                     ->numeric()
                     ->default(0)
                     ->label('Max Rain Tomorrow')
+                    ->suffix('mm')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('expected_maximum_snow_tomorrow')
                     ->numeric()
                     ->default(0)
                     ->label('Max Snow Tomorrow')
+                    ->suffix('mm')
                     ->sortable(),
             ])
             ->filters([

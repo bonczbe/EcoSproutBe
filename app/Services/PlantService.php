@@ -38,7 +38,7 @@ class PlantService
 
         for ($i = 0; $i < $maxRequests; $i++) {
 
-            $currentPage = floor(Plant::count() / $perPage) + 1;
+            $currentPage = floor((Plant::distinct('name_botanical')->count()+count($plantData)) / $perPage) + 1;
             $response = Http::get('https://perenual.com/api/v2/species-list', [
                 'key' => env('PERENUAL_COM'),
                 'page' => $currentPage,

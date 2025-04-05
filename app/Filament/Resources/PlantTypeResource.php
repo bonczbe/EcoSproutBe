@@ -14,7 +14,7 @@ class PlantTypeResource extends Resource
 {
     protected static ?string $model = PlantType::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Plants';
 
     public static function form(Form $form): Form
     {
@@ -31,9 +31,11 @@ class PlantTypeResource extends Resource
                 TextColumn::make('type'),
                 TextColumn::make('type_hu'),
                 TextColumn::make('min_soil_moisture')
-                    ->label('min soil moisture %'),
+                    ->label('min soil moisture')
+                    ->suffix('%'),
                 TextColumn::make('max_soil_moisture')
-                    ->label('max soil moisture %'),
+                    ->label('max soil moisture')
+                    ->suffix('%'),
             ])
             ->filters([
                 //
