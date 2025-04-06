@@ -4,7 +4,6 @@ namespace App\Filament\Resources\DeviceHistoryResource\Widgets;
 
 use App\Models\Device;
 use App\Models\DeviceHistory;
-use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
@@ -19,7 +18,8 @@ class DeviceWaterChart extends ApexChartWidget
 
         if ($deviceId) {
             $device = Device::find($deviceId);
-            return 'Device Water Chart - ' . ($device?->name ?? 'Unknown Device');
+
+            return 'Device Water Chart - '.($device?->name ?? 'Unknown Device');
         }
 
         return 'Device Water Chart - No Device Selected';
@@ -58,7 +58,7 @@ class DeviceWaterChart extends ApexChartWidget
 
     protected function getOptions(): array
     {
-        $deviceId = $this->filterFormData['name'];
+        $deviceId = $this->filterFormData['name']??'';
         $interval = $this->filterFormData['interval'] ?? 'day';
         $dateStart = $this->filterFormData['date_start'] ?? now()->subMonth()->toDateString();
         $dateEnd = $this->filterFormData['date_end'] ?? now()->toDateString();
@@ -76,11 +76,11 @@ class DeviceWaterChart extends ApexChartWidget
         switch ($interval) {
             case '5 minutes':
                 $groupFormat = '%Y-%m-%d %H:%i';
-                $selectFormat = 'DATE_FORMAT(created_at, "' . $groupFormat . '") as date';
+                $selectFormat = 'DATE_FORMAT(created_at, "'.$groupFormat.'") as date';
                 break;
             case 'hour':
                 $groupFormat = '%Y-%m-%d %H:00';
-                $selectFormat = 'DATE_FORMAT(created_at, "' . $groupFormat . '") as date';
+                $selectFormat = 'DATE_FORMAT(created_at, "'.$groupFormat.'") as date';
                 break;
             case 'week':
                 $selectFormat = 'YEARWEEK(created_at, 1) as date';
@@ -106,8 +106,9 @@ class DeviceWaterChart extends ApexChartWidget
         $labels = $results->pluck('date')
             ->map(function ($date) use ($interval) {
                 if ($interval === 'week') {
-                    return 'Week ' . substr($date, -2) . ' (' . substr($date, 0, 4) . ')';
+                    return 'Week '.substr($date, -2).' ('.substr($date, 0, 4).')';
                 }
+
                 return $date;
             })
             ->toArray();
