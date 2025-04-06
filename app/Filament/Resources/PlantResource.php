@@ -7,6 +7,8 @@ use App\Models\Plant;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class PlantResource extends Resource
@@ -27,7 +29,24 @@ class PlantResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id'),
+                TextColumn::make('name_botanical'),
+                TextColumn::make('name_en')
+                ->label('English Name'),
+                TextColumn::make('name_hu')
+                ->label('Hungarian Name'),
+                TextColumn::make('other_names')
+                ->label('Other Names')
+                ->badge()
+                ->separator(',')
+                ->color('info'),
+                ImageColumn::make('default_image'),
+                TextColumn::make('species_epithet'),
+                TextColumn::make('genus'),
+                TextColumn::make('plantType.type')
+                ->label('Plant Type (EN)'),
+                TextColumn::make('plantType.type_hu')
+                ->label('Plant Type (HU)'),
             ])
             ->filters([
                 //
