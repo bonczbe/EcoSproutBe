@@ -4,14 +4,13 @@ namespace App\Filament\Resources\DeviceHistoryResource\Widgets;
 
 use App\Models\Device;
 use App\Models\DeviceHistory;
-use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
-class DeviceWaterChart extends ApexChartWidget
+class DeviceTemperatureChart extends ApexChartWidget
 {
-    protected static ?string $chartId = 'deviceWaterChart';
+    protected static ?string $chartId = 'deviceTemperatureChart';
 
     protected function getHeading(): string
     {
@@ -19,10 +18,10 @@ class DeviceWaterChart extends ApexChartWidget
 
         if ($deviceId) {
             $device = Device::find($deviceId);
-            return 'Device Water Chart - ' . ($device?->name ?? 'Unknown Device');
+            return 'Device Temperature Chart - ' . ($device?->name ?? 'Unknown Device');
         }
 
-        return 'Device Water Chart - No Device Selected';
+        return 'Device Temperature Chart - No Device Selected';
     }
 
     protected function getFormSchema(): array
@@ -64,15 +63,9 @@ class DeviceWaterChart extends ApexChartWidget
         $dateEnd = $this->filterFormData['date_end'] ?? now()->toDateString();
 
         $query = DeviceHistory::query()
-            ->whereBetween('created_at', [$dateStart, $dateEnd]);
+            ->whereBetween('created_at', [$dateStart, $dateEnd])
+            ->where('device_id', $deviceId);
 
-        if ($deviceId) {
-            $query->where('device_id', $deviceId);
-        } else {
-            $query->where('id', -1);
-        }
-
-        // Determine SQL group format based on interval
         switch ($interval) {
             case '5 minutes':
                 $groupFormat = '%Y-%m-%d %H:%i';
@@ -94,12 +87,12 @@ class DeviceWaterChart extends ApexChartWidget
         }
 
         $results = $query
-            ->selectRaw("$selectFormat, AVG(water_level) as avg_water_level")
+            ->selectRaw("$selectFormat, AVG(temperature) as avg_temperature")
             ->groupBy('date')
             ->orderBy('date')
             ->get();
 
-        $data = $results->pluck('avg_water_level')
+        $data = $results->pluck('avg_temperature')
             ->map(fn ($value) => round($value, 2))
             ->toArray();
 
@@ -125,7 +118,7 @@ class DeviceWaterChart extends ApexChartWidget
             ],
             'series' => [
                 [
-                    'name' => 'Water Level (%)',
+                    'name' => 'Average Temperature (℃)',
                     'data' => $data,
                 ],
             ],
@@ -143,7 +136,7 @@ class DeviceWaterChart extends ApexChartWidget
             ],
             'yaxis' => [
                 'title' => [
-                    'text' => 'Water Level (%)',
+                    'text' => 'Temperature (℃)',
                 ],
                 'labels' => [
                     'style' => [
@@ -152,7 +145,7 @@ class DeviceWaterChart extends ApexChartWidget
                 ],
                 'min' => 0,
             ],
-            'colors' => ['#3b82f6'],
+            'colors' => ['#f59e0b'],
             'stroke' => [
                 'curve' => 'smooth',
             ],

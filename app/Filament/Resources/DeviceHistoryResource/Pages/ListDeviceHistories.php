@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\DeviceHistoryResource\Pages;
 
 use App\Filament\Resources\DeviceHistoryResource;
+use App\Filament\Resources\DeviceHistoryResource\Widgets\DeviceChartFilters;
+use App\Filament\Resources\DeviceHistoryResource\Widgets\DeviceTemperatureChart;
 use App\Filament\Resources\DeviceHistoryResource\Widgets\DeviceWaterChart;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -22,6 +24,7 @@ class ListDeviceHistories extends ListRecords
     {
         return [
             DeviceWaterChart::class,
+            DeviceTemperatureChart::class,
         ];
     }
 }
