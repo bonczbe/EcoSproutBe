@@ -21,7 +21,6 @@ class Plant extends Model
         'plant_type_id',
     ];
 
-
     protected $casts = [
         'other_names' => 'array',
         'default_image' => 'json',

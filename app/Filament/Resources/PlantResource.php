@@ -32,21 +32,21 @@ class PlantResource extends Resource
                 TextColumn::make('id'),
                 TextColumn::make('name_botanical'),
                 TextColumn::make('name_en')
-                ->label('English Name'),
+                    ->label('English Name'),
                 TextColumn::make('name_hu')
-                ->label('Hungarian Name'),
+                    ->label('Hungarian Name'),
                 TextColumn::make('other_names')
-                ->label('Other Names')
-                ->badge()
-                ->separator(',')
-                ->color('info'),
+                    ->label('Other Names')
+                    ->badge()
+                    ->separator(',')
+                    ->color('info'),
                 ImageColumn::make('default_image'),
                 TextColumn::make('species_epithet'),
                 TextColumn::make('genus'),
                 TextColumn::make('plantType.type')
-                ->label('Plant Type (EN)'),
+                    ->label('Plant Type (EN)'),
                 TextColumn::make('plantType.type_hu')
-                ->label('Plant Type (HU)'),
+                    ->label('Plant Type (HU)'),
             ])
             ->filters([
                 //
