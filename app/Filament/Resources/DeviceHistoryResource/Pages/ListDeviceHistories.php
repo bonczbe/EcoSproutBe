@@ -3,14 +3,17 @@
 namespace App\Filament\Resources\DeviceHistoryResource\Pages;
 
 use App\Filament\Resources\DeviceHistoryResource;
+use App\Filament\Resources\DeviceHistoryResource\Widgets\DeviceHistoryFilters;
 use App\Filament\Resources\DeviceHistoryResource\Widgets\DeviceTemperatureChart;
 use App\Filament\Resources\DeviceHistoryResource\Widgets\DeviceWaterChart;
-use App\Filament\Resources\DeviceHistoryResource\Widgets\Filters;
 use Filament\Actions;
+use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
 use Filament\Resources\Pages\ListRecords;
 
 class ListDeviceHistories extends ListRecords
 {
+    use HasFiltersForm;
+
     protected static string $resource = DeviceHistoryResource::class;
 
     protected function getHeaderActions(): array
@@ -23,7 +26,7 @@ class ListDeviceHistories extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            Filters::class,
+            DeviceHistoryFilters::class,
             DeviceWaterChart::class,
             DeviceTemperatureChart::class,
         ];

@@ -4,68 +4,39 @@ namespace App\Filament\Resources\DeviceHistoryResource\Widgets;
 
 use App\Models\Device;
 use App\Models\DeviceHistory;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
+use Livewire\Attributes\On;
 
 class DeviceTemperatureChart extends ApexChartWidget
 {
+
     protected static ?string $chartId = 'deviceTemperatureChart';
+
+    public array $filters = [];
 
     protected function getHeading(): string
     {
-        $deviceId = $this->filterFormData['name'] ?? null;
-
-        if ($deviceId) {
-            $device = Device::find($deviceId);
-
-            return 'Device Temperature Chart - '.($device?->name ?? 'Unknown Device');
-        }
-
-        return 'Device Temperature Chart - No Device Selected';
-    }
-
-    protected function getFormSchema(): array
-    {
-        return [
-            Select::make('name')
-                ->label('Device')
-                ->nullable(false)
-                ->options(Device::all()->pluck('name', 'id'))
-                ->default(Device::first()->id),
-
-            Select::make('interval')
-                ->label('Interval')
-                ->nullable(false)
-                ->options([
-                    '5 minutes' => 'Every 5 Minutes',
-                    'hour' => 'Hourly',
-                    'day' => 'Daily',
-                    'week' => 'Weekly',
-                    'month' => 'Monthly',
-                ])
-                ->default('day'),
-
-            DatePicker::make('date_start')
-                ->label('Start Date')
-                ->default(now()->subMonth()->toDateString()),
-
-            DatePicker::make('date_end')
-                ->label('End Date')
-                ->default(now()->toDateString()),
-        ];
+        return 'Device Temperature Chart ';
     }
 
     protected function getOptions(): array
     {
-        $deviceId = $this->filterFormData['name']??'';
-        $interval = $this->filterFormData['interval'] ?? 'day';
-        $dateStart = $this->filterFormData['date_start'] ?? now()->subMonth()->toDateString();
-        $dateEnd = $this->filterFormData['date_end'] ?? now()->toDateString();
+        $filters = $this->filters;
+
+
+        $deviceId = $filters['name'] ?? Device::first()?->id;
+        $interval = $filters['interval'] ?? 'day';
+        $dateStart = $filters['date_start'] ?? now()->subMonth()->toDateString();
+        $dateEnd = $filters['date_end'] ?? now()->toDateString();
 
         $query = DeviceHistory::query()
-            ->whereBetween('created_at', [$dateStart, $dateEnd])
-            ->where('device_id', $deviceId);
+            ->whereBetween('created_at', [$dateStart, $dateEnd]);
+
+        if ($deviceId) {
+            $query->where('device_id', $deviceId);
+        } else {
+            $query->where('id', -1);
+        }
 
         switch ($interval) {
             case '5 minutes':
@@ -158,5 +129,11 @@ class DeviceTemperatureChart extends ApexChartWidget
                 'position' => 'top',
             ],
         ];
+    }
+
+    #[On('changedDeviceHistoryFilter')]
+    public function setFilters(array $data): void
+    {
+        $this->filters = $data;
     }
 }
