@@ -41,7 +41,10 @@ class DeviceHistoryFilters extends Widget implements HasForms
                 ->reactive()
                     ->label('Device')
                     ->nullable(false)
-                    ->options(Device::all()->pluck('name', 'id'))
+                    ->options(
+                        Device::all()->mapWithKeys(function ($device) {
+                            return [$device->id => "{$device->id} - {$device->name}"];
+                        }))
                     ->default($this->data['name'])
                     ->afterStateUpdated(fn () => $this->emitFilterChange()),
 
