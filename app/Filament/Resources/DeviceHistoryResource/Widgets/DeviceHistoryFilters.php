@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\DeviceHistoryResource\Widgets;
 
 use App\Models\Device;
-use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -38,7 +37,7 @@ class DeviceHistoryFilters extends Widget implements HasForms
             ->columns(2)
             ->schema([
                 Select::make('name')
-                ->reactive()
+                    ->reactive()
                     ->label('Device')
                     ->nullable(false)
                     ->options(

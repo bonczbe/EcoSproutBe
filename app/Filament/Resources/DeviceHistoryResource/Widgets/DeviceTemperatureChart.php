@@ -4,6 +4,7 @@ namespace App\Filament\Resources\DeviceHistoryResource\Widgets;
 
 use App\Models\Device;
 use App\Models\DeviceHistory;
+use Carbon\Carbon;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 use Livewire\Attributes\On;
 
@@ -26,9 +27,8 @@ class DeviceTemperatureChart extends ApexChartWidget
 
         $deviceId = $filters['name'] ?? Device::first()?->id;
         $interval = $filters['interval'] ?? 'day';
-        $dateStart = $filters['date_start'] ?? now()->subMonth()->toDateString();
-        $dateEnd = $filters['date_end'] ?? now()->toDateString();
-
+        $dateStart = isset($filters['date_start']) ? Carbon::parse($filters['date_start'])->startOfDay()->toDateTimeString() : now()->subMonth()->toDateTimeString();
+        $dateEnd = isset($filters['date_end']) ? Carbon::parse($filters['date_end'])->endOfDay()->toDateTimeString() : now()->endOfDay()->toDateTimeString();
         $query = DeviceHistory::query()
             ->whereBetween('created_at', [$dateStart, $dateEnd]);
 
