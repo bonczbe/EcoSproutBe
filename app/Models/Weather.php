@@ -26,6 +26,9 @@ class Weather extends Model
         'condition',
         'astro',
         'city',
+        'expected_max_celsius',
+        'expected_min_celsius',
+        'expected_avgtemp_celsius',
     ];
 
     protected $casts = [

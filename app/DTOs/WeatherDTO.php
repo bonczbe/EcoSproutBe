@@ -23,6 +23,9 @@ class WeatherDTO
             'snow_chance' => $data['forecast']['forecastday'][0]['day']['daily_chance_of_snow'] ?? null,
             'expected_maximum_rain' => $data['forecast']['forecastday'][0]['day']['totalprecip_mm'] ?? null,
             'expected_maximum_snow' => $data['forecast']['forecastday'][0]['day']['totalsnow_cm'] ?? null,
+            'expected_max_celsius' => $data['forecast']['forecastday'][0]['day']['maxtemp_c'] ?? null,
+            'expected_min_celsius' => $data['forecast']['forecastday'][0]['day']['mintemp_c'] ?? null,
+            'expected_avgtemp_celsius' => $data['forecast']['forecastday'][0]['day']['avgtemp_c'] ?? null,
             'condition' => json_encode($data['forecast']['forecastday'][0]['day']['condition'] ?? []),
             'astro' => json_encode($data['forecast']['forecastday'][0]['astro'] ?? []),
         ];

@@ -10,7 +10,6 @@ use Livewire\Attributes\On;
 
 class DeviceTemperatureChart extends ApexChartWidget
 {
-
     protected static ?string $chartId = 'deviceTemperatureChart';
 
     public array $filters = [];
@@ -23,7 +22,6 @@ class DeviceTemperatureChart extends ApexChartWidget
     protected function getOptions(): array
     {
         $filters = $this->filters;
-
 
         $deviceId = $filters['name'] ?? Device::first()?->id;
         $interval = $filters['interval'] ?? 'day';

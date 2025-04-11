@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('city');
             $table->string('time_zone');
-            $table->date('date');
+            $table->timestamp('date');
             $table->decimal('max_celsius', 5, 2)->nullable();
             $table->decimal('min_celsius', 5, 2)->nullable();
             $table->decimal('average_celsius', 5, 2)->nullable();
@@ -25,7 +25,9 @@ return new class extends Migration
             $table->decimal('expected_maximum_rain', 5, 2)->nullable();
             $table->decimal('expected_maximum_snow', 5, 2)->nullable();
             $table->decimal('expected_maximum_rain_tomorrow', 5, 2)->nullable();
-            $table->decimal('expected_maximum_snow_tomorrow', 5, 2)->nullable();
+            $table->decimal('expected_max_celsius', 5, 2)->nullable();
+            $table->decimal('expected_min_celsius', 5, 2)->nullable();
+            $table->decimal('expected_avgtemp_celsius', 5, 2)->nullable();
             $table->json('condition')->nullable();
             $table->json('astro')->nullable();
             $table->unique(['city', 'date'], 'city_date');

@@ -92,33 +92,56 @@ class WeatherResource extends Resource
                     ->sortable()
                     ->alignCenter(),
 
-                Tables\Columns\TextColumn::make('expected_maximum_rain')
+                TextColumn::make('expected_maximum_rain')
                     ->numeric()
                     ->default(0)
                     ->label('Max Rain')
                     ->suffix('mm')
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('expected_maximum_snow')
+                TextColumn::make('expected_maximum_snow')
                     ->numeric()
                     ->default(0)
                     ->label('Max Snow')
                     ->suffix('mm')
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('expected_maximum_rain_tomorrow')
+                TextColumn::make('expected_maximum_rain_tomorrow')
                     ->numeric()
                     ->default(0)
                     ->label('Max Rain Tomorrow')
                     ->suffix('mm')
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('expected_maximum_snow_tomorrow')
+                TextColumn::make('expected_maximum_snow_tomorrow')
                     ->numeric()
                     ->default(0)
                     ->label('Max Snow Tomorrow')
                     ->suffix('mm')
                     ->sortable(),
+
+                TextColumn::make('expected_max_celsius')
+                    ->numeric()
+                    ->default(0)
+                    ->label('Max Temp Tomorrow')
+                    ->suffix('℃')
+                    ->sortable()
+                    ->alignCenter(),
+
+                TextColumn::make('expected_min_celsius')
+                    ->numeric()
+                    ->default(0)
+                    ->label('Min Temp Tomorrow')
+                    ->suffix('℃')
+                    ->sortable()
+                    ->alignCenter(),
+                TextColumn::make('expected_avgtemp_celsius')
+                    ->numeric()
+                    ->default(0)
+                    ->label('Avg Temp Tomorrow')
+                    ->suffix('℃')
+                    ->sortable()
+                    ->alignCenter(),
             ])
             ->filters([
             ])
