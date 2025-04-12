@@ -105,6 +105,24 @@ class WeatherResource extends Resource
                     ->label('Max Snow')
                     ->suffix('mm')
                     ->sortable(),
+                    TextColumn::make('rain_chance_tomorrow')
+                    ->numeric()
+                    ->default(0)
+                    ->label('Rain Tomorrow')
+                    ->suffix('%')
+                    ->color(fn ($record) => $record->rain_chance_tomorrow > 50 ? 'warning' : 'default')
+                    ->sortable()
+                    ->alignCenter(),
+
+                TextColumn::make('snow_chance_tomorrow')
+                    ->numeric()
+                    ->default(0)
+                    ->label('Snow Tomorrow')
+                    ->suffix('%')
+                    ->color(fn ($record) => $record->snow_chance_tomorrow > 50 ? 'info' : 'default')
+                    ->sortable()
+                    ->alignCenter(),
+
 
                 TextColumn::make('expected_maximum_rain_tomorrow')
                     ->numeric()
@@ -119,6 +137,13 @@ class WeatherResource extends Resource
                     ->label('Max Snow Tomorrow')
                     ->suffix('mm')
                     ->sortable(),
+                    TextColumn::make('uv_tomorrow')
+                        ->numeric()
+                        ->default(0)
+                        ->label('UV Tomorrow')
+                        ->suffix('')
+                        ->sortable()
+                        ->alignCenter(),
 
                 TextColumn::make('expected_max_celsius')
                     ->numeric()

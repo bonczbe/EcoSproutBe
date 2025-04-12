@@ -12,7 +12,6 @@ class PlantHistory extends Model
 
     protected $fillable = [
         'moisture_level',
-        'plant_id',
     ];
 
     public function customerPlant(): BelongsTo

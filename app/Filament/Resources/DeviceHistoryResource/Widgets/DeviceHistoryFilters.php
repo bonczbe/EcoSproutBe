@@ -39,17 +39,21 @@ class DeviceHistoryFilters extends Widget implements HasForms
                 Select::make('name')
                     ->reactive()
                     ->label('Device')
+                    ->searchable()
                     ->nullable(false)
                     ->options(
-                        Device::all()->mapWithKeys(function ($device) {
-                            return [$device->id => "{$device->id} - {$device->name}"];
-                        }))
+                        Device::all()
+                            ->sortBy('name')
+                            ->mapWithKeys(function ($device) {
+                                return [$device->id => "{$device->id} - {$device->name}"];
+                            }))
                     ->default($this->data['name'])
                     ->afterStateUpdated(fn () => $this->emitFilterChange()),
 
                 Select::make('interval')
                     ->label('Interval')
                     ->reactive()
+                    ->searchable()
                     ->nullable(false)
                     ->options([
                         '5 minutes' => 'Every 5 Minutes',

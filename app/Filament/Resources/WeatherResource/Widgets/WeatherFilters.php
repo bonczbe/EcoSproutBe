@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\WeatherResource\Widgets;
 
 use App\Models\Weather;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -39,18 +38,20 @@ class WeatherFilters extends Widget implements HasForms
             ->schema([
                 Select::make('city')
                     ->reactive()
+                    ->searchable()
                     ->label('Cities')
                     ->nullable(false)
                     ->options(
-                        Weather::all()->mapWithKeys(function ($device) {
-                            return [$device->city => ucfirst($device->city)];
+                        Weather::all()->sortBy('city')->mapWithKeys(function ($weather) {
+                            return [$weather->city => ucfirst($weather->city)];
                         }))
                     ->default($this->data['city'])
                     ->afterStateUpdated(fn () => $this->emitFilterChange()),
 
-                Select::make('interval')
+                    Select::make('interval')
                     ->label('Interval')
                     ->reactive()
+                    ->searchable()
                     ->nullable(false)
                     ->options([
                         'day' => 'Daily',
@@ -60,13 +61,14 @@ class WeatherFilters extends Widget implements HasForms
                     ->default($this->data['interval'])
                     ->afterStateUpdated(fn () => $this->emitFilterChange()),
 
+
                 DateTimePicker::make('date_start')
                     ->label('Start Date')
                     ->default($this->data['date_start'])
                     ->reactive()
                     ->afterStateUpdated(fn () => $this->emitFilterChange()),
 
-                    DateTimePicker::make('date_end')
+                DateTimePicker::make('date_end')
                     ->label('End Date')
                     ->default($this->data['date_end'])
                     ->reactive()

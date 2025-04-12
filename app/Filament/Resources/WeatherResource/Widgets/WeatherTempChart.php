@@ -7,9 +7,9 @@ use Carbon\Carbon;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 use Livewire\Attributes\On;
 
-class WeatherChart extends ApexChartWidget
+class WeatherTempChart extends ApexChartWidget
 {
-    protected static ?string $chartId = 'weatherChartId';
+    protected static ?string $chartId = 'weatherRainChartId';
 
     protected int|string|array $columnSpan = 'full';
 
@@ -29,7 +29,7 @@ class WeatherChart extends ApexChartWidget
         $dateStart = isset($filters['date_start']) ? Carbon::parse($filters['date_start'])->startOfDay()->toDateTimeString() : now()->startOfDay()->subMonth()->toDateTimeString();
         $dateEnd = isset($filters['date_end']) ? Carbon::parse($filters['date_end'])->endOfDay()->toDateTimeString() : now()->endOfDay()->toDateTimeString();
         $query = Weather::query()
-            ->whereBetween('created_at', [$dateStart, $dateEnd]);
+            ->whereBetween('date', [$dateStart, $dateEnd]);
 
         if ($city) {
             $query->where('city', $city);
