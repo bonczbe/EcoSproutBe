@@ -4,6 +4,7 @@ namespace App\Filament\Resources\WeatherResource\Widgets;
 
 use App\Models\Weather;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -23,10 +24,10 @@ class WeatherFilters extends Widget implements HasForms
     public function __construct()
     {
         $this->data = [
-            'city' => Weather::first()->id,
+            'city' => Weather::first()->city,
             'interval' => 'day',
-            'date_start' => now()->subMonth()->toDateString(),
-            'date_end' => now()->toDateString(),
+            'date_start' => now()->startOfDay()->subMonth()->toDateTimeString(),
+            'date_end' => now()->endOfDay()->toDateTimeString(),
         ];
     }
 
@@ -42,7 +43,7 @@ class WeatherFilters extends Widget implements HasForms
                     ->nullable(false)
                     ->options(
                         Weather::all()->mapWithKeys(function ($device) {
-                            return [$device->id => ucfirst($device->city)];
+                            return [$device->city => ucfirst($device->city)];
                         }))
                     ->default($this->data['city'])
                     ->afterStateUpdated(fn () => $this->emitFilterChange()),
@@ -59,13 +60,13 @@ class WeatherFilters extends Widget implements HasForms
                     ->default($this->data['interval'])
                     ->afterStateUpdated(fn () => $this->emitFilterChange()),
 
-                DatePicker::make('date_start')
+                DateTimePicker::make('date_start')
                     ->label('Start Date')
                     ->default($this->data['date_start'])
                     ->reactive()
                     ->afterStateUpdated(fn () => $this->emitFilterChange()),
 
-                DatePicker::make('date_end')
+                    DateTimePicker::make('date_end')
                     ->label('End Date')
                     ->default($this->data['date_end'])
                     ->reactive()

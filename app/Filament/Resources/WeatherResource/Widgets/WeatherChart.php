@@ -26,15 +26,15 @@ class WeatherChart extends ApexChartWidget
 
         $city = $filters['city'] ?? Weather::first()?->city;
         $interval = $filters['interval'] ?? 'day';
-        $dateStart = isset($filters['date_start']) ? Carbon::parse($filters['date_start'])->startOfDay()->toDateTimeString() : now()->subMonth()->toDateTimeString();
+        $dateStart = isset($filters['date_start']) ? Carbon::parse($filters['date_start'])->startOfDay()->toDateTimeString() : now()->startOfDay()->subMonth()->toDateTimeString();
         $dateEnd = isset($filters['date_end']) ? Carbon::parse($filters['date_end'])->endOfDay()->toDateTimeString() : now()->endOfDay()->toDateTimeString();
         $query = Weather::query()
             ->whereBetween('created_at', [$dateStart, $dateEnd]);
 
         if ($city) {
-            $query->where('id', $city);
+            $query->where('city', $city);
         } else {
-            $query->where('id', -1);
+            $query->where('city', null);
         }
 
         switch ($interval) {

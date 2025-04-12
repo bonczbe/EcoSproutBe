@@ -25,7 +25,7 @@ class DeviceWaterChart extends ApexChartWidget
 
         $deviceId = $filters['name'] ?? Device::first()?->id;
         $interval = $filters['interval'] ?? 'day';
-        $dateStart = isset($filters['date_start']) ? Carbon::parse($filters['date_start'])->startOfDay()->toDateTimeString() : now()->subMonth()->toDateTimeString();
+        $dateStart = isset($filters['date_start']) ? Carbon::parse($filters['date_start'])->startOfDay()->toDateTimeString() : now()->startOfDay()->subMonth()->toDateTimeString();
         $dateEnd = isset($filters['date_end']) ? Carbon::parse($filters['date_end'])->endOfDay()->toDateTimeString() : now()->endOfDay()->toDateTimeString();
 
         $query = DeviceHistory::query()
