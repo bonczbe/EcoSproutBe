@@ -14,7 +14,8 @@ class Plant extends Model
         'name_en',
         'name_hu',
         'name_botanical',
-        'other_names',
+        'family',
+        'family_hu',
         'default_image',
         'species_epithet',
         'genus',
@@ -22,7 +23,6 @@ class Plant extends Model
     ];
 
     protected $casts = [
-        'other_names' => 'array',
         'default_image' => 'json',
     ];
 

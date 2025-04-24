@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name_en')->nullable();
             $table->string('name_hu')->nullable();
             $table->string('name_botanical');
-            $table->json('other_names')->nullable();
+            $table->string('family');
+            $table->string('family_hu')->nullable();
             $table->string('default_image', 280);
             $table->string('species_epithet');
             $table->string('genus');
