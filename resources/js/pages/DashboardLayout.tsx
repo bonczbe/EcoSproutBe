@@ -3,19 +3,13 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { ReactNode } from 'react';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-    },
-];
-
 type Props = {
     children: ReactNode;
     title?: string;
+    breadcrumbs: BreadcrumbItem[];
 };
 
-export default function DashboardLayout({ children, title = 'Dashboard' }: Props) {
+export default function DashboardLayout({ children, title = 'Dashboard', breadcrumbs }: Props) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={title} />

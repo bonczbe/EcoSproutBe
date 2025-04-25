@@ -10,7 +10,7 @@ function Overview() {
 }
 
 Overview.layout = (page: React.ReactNode) => (
-    <DashboardLayout title="Overview" breadcrumbs={[{ title: 'Dashboard', href: '/dashboard' }]}>
+    <DashboardLayout title="Plants" breadcrumbs={[{ title: 'Plants', href: '/plants' }]}>
         {page}
     </DashboardLayout>
 );

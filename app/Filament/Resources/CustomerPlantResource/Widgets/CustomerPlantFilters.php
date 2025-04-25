@@ -26,7 +26,7 @@ class CustomerPlantFilters extends Widget implements HasForms
     public function __construct()
     {
         $this->data = [
-            'user_name' => User::first()->name,
+            'user_name' => User::first()->name??null,
             'device_id' => null,
             'plant_id' => null,
             'interval' => '5 minutes',

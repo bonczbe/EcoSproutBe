@@ -23,7 +23,7 @@ class WeatherFilters extends Widget implements HasForms
     public function __construct()
     {
         $this->data = [
-            'city' => Weather::first()->city,
+            'city' => Weather::first()->city??null,
             'interval' => 'day',
             'date_start' => now()->startOfDay()->subMonth()->toDateTimeString(),
             'date_end' => now()->endOfDay()->toDateTimeString(),
