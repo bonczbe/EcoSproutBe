@@ -1,25 +1,14 @@
-import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
-import { ReactNode } from 'react';
+import DashboardLayout from './DashboardLayout';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-    },
-];
-
-type Props = {
-    children: ReactNode;
-    title?: string;
-};
-
-export default function DashboardLayout({ children, title = 'Dashboard' }: Props) {
+function Overview() {
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={title} />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">{children}</div>
-        </AppLayout>
+        <div>
+            <h1 className="text-2xl font-bold">Welcome</h1>
+            <p>This is the dashboard overview.</p>
+        </div>
     );
 }
+
+Overview.layout = (page: React.ReactNode) => <DashboardLayout title="Overview">{page}</DashboardLayout>;
+
+export default Overview;
