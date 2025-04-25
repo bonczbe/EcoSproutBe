@@ -16,6 +16,8 @@ return new class extends Migration
             $table->float('maximum_moisture')->default(0);
             $table->float('minimum_moisture')->default(0);
             $table->string('dirt_type')->default('mid');
+            $table->string('pot_size')->default('mid');
+            $table->string('plant_img')->nullable();
             $table->foreignId('device_id')->constrained()->onDelete('cascade');
             $table->foreignId('plant_id')->constrained()->onDelete('cascade');
             $table->foreignId('plant_type_id')->nullable()->constrained('plant_types')->onDelete('set null');

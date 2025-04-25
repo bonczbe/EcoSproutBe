@@ -14,6 +14,8 @@ class CustomerPlant extends Model
     protected $fillable = [
         'maximum_moisture',
         'minimum_moisture',
+        'pot_size',
+        'plant_img',
         'dirt_type',
         'device_id',
         'plant_id',

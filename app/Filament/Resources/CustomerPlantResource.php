@@ -7,6 +7,7 @@ use App\Models\CustomerPlant;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -31,6 +32,8 @@ class CustomerPlantResource extends Resource
                 TextColumn::make('id'),
                 TextColumn::make('device.users.name')
                     ->label('User Name'),
+                    TextColumn::make('pot_size')
+                        ->label('Pot Size'),
                 TextColumn::make('dirt_type'),
                 TextColumn::make('maximum_moisture')
                     ->suffix('%'),
@@ -39,7 +42,9 @@ class CustomerPlantResource extends Resource
                 TextColumn::make('plant.name_en')
                     ->label('Plant Name (EN)'),
                 TextColumn::make('plant.name_hu')
-                    ->label('Plant Name (HU)'),
+                        ->label('Plant Name (HU)'),
+                ImageColumn::make('plant_img')
+                    ->label('Image'),
                 TextColumn::make('plant.customer_plants.type')
                     ->label('Plant Type (EN)'),
                 TextColumn::make('plant.customer_plants.type_hu')
