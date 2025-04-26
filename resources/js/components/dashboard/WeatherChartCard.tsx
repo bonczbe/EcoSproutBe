@@ -1,7 +1,7 @@
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useState } from 'react';
+import MultiSelect from './MultiSelect';
 import WeatherChartFilters from './WeatherChartFilters';
-import MultiSelect from './MultiSelect'; // Import the renamed component
 
 interface FiltersState {
     city: string;
@@ -20,13 +20,12 @@ interface FiltersOptions {
 interface ColourOption {
     label: string;
     value: string;
-    color: string;
 }
 
 const colourOptions: ColourOption[] = [
-    { value: 'chocolate', label: 'Chocolate', color: '#d2691e' },
-    { value: 'strawberry', label: 'Strawberry', color: '#ff6347' },
-    { value: 'vanilla', label: 'Vanilla', color: '#f3e5ab' },
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
 ];
 
 function WeatherChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }) {
@@ -60,17 +59,15 @@ function WeatherChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }
         <div className="flex min-h-48 flex-col items-center justify-center gap-4 rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">
             <WeatherChartFilters filters={filters} filtersOptions={filtersOptions} onChange={handleFilterChange} />
 
-            {/* Use MultiSelect Component */}
-            <MultiSelect
-                options={colourOptions}
-                value={selectedValues}
-                onChange={handleSelectChange}
-            />
+            <MultiSelect options={colourOptions} value={selectedValues} onChange={handleSelectChange} />
 
             <div className="w-9/10 rounded-xl bg-gray-200 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20 dark:bg-gray-900">
                 <LineChart
                     height={300}
-                    series={[{ data: pData, label: 'pv' }, { data: uData, label: 'uv' }]}
+                    series={[
+                        { data: pData, label: 'pv' },
+                        { data: uData, label: 'uv' },
+                    ]}
                     xAxis={[{ scaleType: 'point', data: xLabels }]}
                     yAxis={[{ width: 50 }]}
                     margin={margin}

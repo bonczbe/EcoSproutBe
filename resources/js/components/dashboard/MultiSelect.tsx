@@ -1,16 +1,14 @@
 import Select from 'react-select';
-import chroma from 'chroma-js';
 
-interface ColourOption {
+interface MultiOption {
     label: string;
     value: string;
-    color: string;
 }
 
 interface MultiSelectProps {
-    options: ColourOption[];
-    value: ColourOption[];
-    onChange: (selectedOptions: ColourOption[]) => void;
+    options: MultiOption[];
+    value: MultiOption[];
+    onChange: (selectedOptions: MultiOption[]) => void;
 }
 
 const colourStyles = {
@@ -29,39 +27,32 @@ const colourStyles = {
         borderRadius: '0.375rem',
         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
         borderColor: '#E5E7EB',
-        backgroundColor: 'var(--bg-color)',
+        backgroundColor: 'purple',
     }),
-    option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
-        const color = chroma(data.color);
+    option: (styles: any, { isDisabled, isSelected }: any) => {
         return {
             ...styles,
-            backgroundColor: isDisabled ? undefined : isSelected ? data.color : isFocused ? color.alpha(0.1).css() : undefined,
-            color: isDisabled ? '#ccc' : isSelected ? (chroma.contrast(color, 'white') > 2 ? 'white' : 'black') : data.color,
+            backgroundColor: isDisabled ? undefined : isSelected ? 'none' : undefined,
+            color: '#ccc',
             cursor: isDisabled ? 'not-allowed' : 'pointer',
             ':active': {
                 ...styles[':active'],
-                backgroundColor: !isDisabled ? (isSelected ? data.color : color.alpha(0.3).css()) : undefined,
+                backgroundColor: !isDisabled ? 'none' : undefined,
             },
         };
     },
     multiValue: (styles: any, { data }: any) => {
-        const color = chroma(data.color);
         return {
             ...styles,
-            backgroundColor: color.alpha(0.1).css(),
         };
     },
     multiValueLabel: (styles: any, { data }: any) => ({
         ...styles,
-        color: data.color,
+        backgroundColor: 'yellow',
     }),
     multiValueRemove: (styles: any, { data }: any) => ({
         ...styles,
-        color: data.color,
-        ':hover': {
-            backgroundColor: data.color,
-            color: 'white',
-        },
+        backgroundColor: 'pink',
     }),
 };
 
