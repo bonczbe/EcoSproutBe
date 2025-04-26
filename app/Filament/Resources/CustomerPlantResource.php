@@ -32,8 +32,8 @@ class CustomerPlantResource extends Resource
                 TextColumn::make('id'),
                 TextColumn::make('device.users.name')
                     ->label('User Name'),
-                    TextColumn::make('pot_size')
-                        ->label('Pot Size'),
+                TextColumn::make('pot_size')
+                    ->label('Pot Size'),
                 TextColumn::make('dirt_type'),
                 TextColumn::make('maximum_moisture')
                     ->suffix('%'),
@@ -42,7 +42,7 @@ class CustomerPlantResource extends Resource
                 TextColumn::make('plant.name_en')
                     ->label('Plant Name (EN)'),
                 TextColumn::make('plant.name_hu')
-                        ->label('Plant Name (HU)'),
+                    ->label('Plant Name (HU)'),
                 ImageColumn::make('plant_img')
                     ->label('Image'),
                 TextColumn::make('plant.customer_plants.type')

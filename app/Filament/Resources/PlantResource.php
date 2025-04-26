@@ -35,14 +35,14 @@ class PlantResource extends Resource
                     ->label('English Name'),
                 TextColumn::make('name_hu')
                     ->label('Hungarian Name'),
-                    TextColumn::make('family')
-                        ->label('Family')
-                        ->badge()
-                        ->color('info'),
-                        TextColumn::make('family_hu')
-                            ->label('Family (HU)')
-                            ->badge()
-                            ->color('info'),
+                TextColumn::make('family')
+                    ->label('Family')
+                    ->badge()
+                    ->color('info'),
+                TextColumn::make('family_hu')
+                    ->label('Family (HU)')
+                    ->badge()
+                    ->color('info'),
                 ImageColumn::make('default_image'),
                 TextColumn::make('species_epithet'),
                 TextColumn::make('genus'),

@@ -10,6 +10,4 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('user')->group(function () {
-
-})->middleware('auth:sanctum');
+Route::prefix('user')->group(function () {})->middleware('auth:sanctum');

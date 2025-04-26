@@ -52,6 +52,7 @@ class WeatherService
                 Cache::put($cacheKey, $weatherData, now()->addDay());
             }
         }
+
         return $weatherData;
     }
 

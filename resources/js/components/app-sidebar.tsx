@@ -14,11 +14,6 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Stats',
-        href: '/stats',
-        icon: ChartBarIncreasing,
-    },
-    {
         title: 'Devices',
         href: '/devices',
         icon: LaptopMinimalCheck,

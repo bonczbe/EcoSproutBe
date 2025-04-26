@@ -20,20 +20,22 @@ class WeatherRainUvChart extends ApexChartWidget
     {
         return 'Device Rain and UV Chart ';
     }
+
     protected function getFormSchema(): array
     {
         return [
 
             Select::make('type')
-            ->options([
-                'rain'=>'Rain',
-                'snow'=>'Snow',
-                'uv'=>'UV',
-            ])
-            ->default('rain'),
+                ->options([
+                    'rain' => 'Rain',
+                    'snow' => 'Snow',
+                    'uv' => 'UV',
+                ])
+                ->default('rain'),
 
         ];
     }
+
     protected function getOptions(): array
     {
         $filters = $this->filters;
@@ -82,7 +84,7 @@ class WeatherRainUvChart extends ApexChartWidget
             ->orderBy('date_filtering')
             ->get();
 
-            $avgRainChance = $results->pluck('rain_chance_calc')
+        $avgRainChance = $results->pluck('rain_chance_calc')
             ->map(fn ($value) => round($value, 2))
             ->toArray();
 
@@ -101,9 +103,6 @@ class WeatherRainUvChart extends ApexChartWidget
         $maxSnowChance = $results->pluck('expected_maximum_snow_calc')
             ->map(fn ($value) => round($value, 2))
             ->toArray();
-
-
-
 
         $expectedRainTomorrow = $results->pluck('rain_chance_tomorrow_calc')
             ->map(fn ($value) => round($value, 2))
@@ -125,7 +124,6 @@ class WeatherRainUvChart extends ApexChartWidget
             ->map(fn ($value) => round($value, 2))
             ->toArray();
 
-
         $labels = $results->pluck('date_filtering')
             ->map(function ($date) use ($interval) {
                 if ($interval === 'week') {
@@ -142,7 +140,6 @@ class WeatherRainUvChart extends ApexChartWidget
         array_unshift($expectedUVTomorrow, $avgUVIndex[0] ?? 0);
         array_unshift($expectedMaxRainTomorrow, $maxRainChance[0] ?? 0);
         array_unshift($expectedMaxSnowTomorrow, $maxSnowChance[0] ?? 0);
-
 
         $series = [];
 
@@ -195,7 +192,6 @@ class WeatherRainUvChart extends ApexChartWidget
             ];
         }
 
-
         return [
             'chart' => [
                 'type' => 'line',
@@ -208,7 +204,7 @@ class WeatherRainUvChart extends ApexChartWidget
                 ],
             ],
 
-        'series' => $series,
+            'series' => $series,
 
             'xaxis' => [
                 'categories' => $labels,

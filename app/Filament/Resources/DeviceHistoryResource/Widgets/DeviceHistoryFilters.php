@@ -23,7 +23,7 @@ class DeviceHistoryFilters extends Widget implements HasForms
     public function __construct()
     {
         $this->data = [
-            'name' => Device::first()->id??null,
+            'name' => Device::first()->id ?? null,
             'interval' => 'day',
             'date_start' => now()->subMonth()->toDateString(),
             'date_end' => now()->toDateString(),
