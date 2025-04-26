@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Weather;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -9,8 +10,25 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
+        $user = auth('web')->user();
+        $filtersRaw = Weather::query()
+            ->select('city', 'time_zone', 'date')
+            ->get();
+
+        $cities = $filtersRaw->pluck('city')->filter()->unique()->values();
+        $timeZones = $filtersRaw->pluck('time_zone')->filter()->unique()->values();
+        $startDates = $filtersRaw->pluck('date')->filter()->unique()->sort()->values();
+        $endDates = $startDates;
+
+
         return Inertia::render('dashboard', [
-            'user' => auth('web')->user()->toArray(),
+            'user' => $user->toArray(),
+            'filters' => [
+                'cities' => $cities,
+                'timeZones' => $timeZones,
+                'startDates' => $startDates,
+                'endDates' => $endDates,
+            ],
         ]);
     })->name('dashboard');
     Route::get('devices', function () {

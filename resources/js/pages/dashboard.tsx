@@ -1,12 +1,15 @@
 import ComingSoonCard from '@/components/ComingSoonCard';
 import ToggleInfoButton from '@/components/dashboard/ToggleInfoButton';
 import UserInfoCard from '@/components/dashboard/UserInfoCard';
+import WeatherChartCard from '@/components/dashboard/WeatherChartCard';
 import WelcomeCard from '@/components/dashboard/WelcomeCard';
+import { PageProps } from '@/types';
+import { usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import tzLookup from 'tz-lookup';
 import DashboardLayout from './DashboardLayout';
 
-type OverviewProps = {
+interface OverviewProps {
     user: {
         id: number;
         name: string;
@@ -17,12 +20,19 @@ type OverviewProps = {
         created_at: string;
         updated_at: string;
     };
-};
+}
+interface Filters {
+    cities: string[];
+    startDates: string[];
+    endDates: string[];
+    timeZones: string[];
+}
 
 function Overview({ user }: OverviewProps) {
     const [location, setLocation] = useState<GeolocationCoordinates | null>(null);
     const [time, setTime] = useState<Date | null>(null);
     const [isInfoCardVisible, setIsInfoCardVisible] = useState<boolean>(true);
+    const { filters } = usePage<PageProps<{ filters: Filters }>>().props;
 
     const getLocation = () => {
         if (navigator.geolocation) {
@@ -80,7 +90,7 @@ function Overview({ user }: OverviewProps) {
             <ToggleInfoButton isVisible={isInfoCardVisible} onToggle={() => setIsInfoCardVisible((prev) => !prev)} />
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 {isInfoCardVisible && <UserInfoCard user={user} />}
-                <ComingSoonCard />
+                <WeatherChartCard filtersOptions={filters} />
                 <ComingSoonCard />
                 <ComingSoonCard />
                 <ComingSoonCard />

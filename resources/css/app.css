@@ -157,3 +157,28 @@
         @apply bg-background text-foreground;
     }
 }
+
+.dark .multiselect-dropdown {
+    background-color: #2d3748; /* dark background */
+    color: white; /* dark text color */
+    border: 1px solid #4a5568; /* dark border */
+}
+
+.multiselect-dropdown {
+    background-color: white; /* light background */
+    color: black; /* light text color */
+    border: 1px solid #e2e8f0; /* light border */
+}
+
+.dark .multiselect-item {
+    background-color: #4a5568; /* dark item background */
+    color: white; /* dark item text */
+}
+
+.multiselect-item:hover {
+    background-color: #cbd5e0; /* light hover effect */
+}
+
+.dark .multiselect-item:hover {
+    background-color: #2d3748; /* dark hover effect */
+}
