@@ -1,4 +1,4 @@
-import DashboardLayout from './DashboardLayout';
+import DashboardLayout from '../layouts/DashboardLayout';
 
 function Overview() {
     return (

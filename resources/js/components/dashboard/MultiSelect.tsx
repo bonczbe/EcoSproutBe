@@ -26,8 +26,8 @@ const colourStyles = {
         ...styles,
         borderRadius: '0.375rem',
         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-        borderColor: '#E5E7EB',
-        backgroundColor: 'purple',
+        borderColor: '#FFFFFF',
+        backgroundColor: 'rgba(79, 81, 85, 0.9)',
     }),
     option: (styles: any, { isDisabled, isSelected }: any) => {
         return {
@@ -44,15 +44,19 @@ const colourStyles = {
     multiValue: (styles: any, { data }: any) => {
         return {
             ...styles,
+            borderRadius: '0.375rem',
+            backgroundColor: 'rgba(99, 101, 105, 0.9)',
         };
     },
     multiValueLabel: (styles: any, { data }: any) => ({
         ...styles,
-        backgroundColor: 'yellow',
+        backgroundColor: 'rgba(79, 81, 85, 0.9)',
+        color: 'white',
+        paddingRight: '0.5rem',
     }),
     multiValueRemove: (styles: any, { data }: any) => ({
         ...styles,
-        backgroundColor: 'pink',
+        backgroundColor: 'rgba(99, 101, 105, 0.9)',
     }),
 };
 

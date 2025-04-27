@@ -7,7 +7,7 @@ import { PageProps } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import tzLookup from 'tz-lookup';
-import DashboardLayout from './DashboardLayout';
+import DashboardLayout from '../layouts/DashboardLayout';
 
 interface OverviewProps {
     user: {

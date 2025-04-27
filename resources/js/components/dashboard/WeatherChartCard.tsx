@@ -71,6 +71,17 @@ function WeatherChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }
                     xAxis={[{ scaleType: 'point', data: xLabels }]}
                     yAxis={[{ width: 50 }]}
                     margin={margin}
+                    sx={{
+                        '.MuiChartsAxis-tickLabel': {
+                            fill: '#9CA3AF',
+                        },
+                        '.MuiChartsAxis-label': {
+                            fill: '#9CA3AF',
+                        },
+                        '.MuiChartsLegend-root': {
+                            color: '#9CA3AF',
+                        },
+                    }}
                 />
             </div>
         </div>
