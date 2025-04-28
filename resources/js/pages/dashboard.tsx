@@ -5,6 +5,7 @@ import WeatherChartCard from '@/components/dashboard/WeatherChartCard';
 import WelcomeCard from '@/components/dashboard/WelcomeCard';
 import { PageProps } from '@/types';
 import { usePage } from '@inertiajs/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import tzLookup from 'tz-lookup';
 import DashboardLayout from '../layouts/DashboardLayout';
@@ -21,6 +22,7 @@ interface OverviewProps {
         updated_at: string;
     };
 }
+
 interface Filters {
     cities: string[];
     startDates: string[];
@@ -89,7 +91,23 @@ function Overview({ user }: OverviewProps) {
             <WelcomeCard greeting={getGreeting()} firstName={user.first_name} localTime={time?.toLocaleString().slice(0, -3)} />
             <ToggleInfoButton isVisible={isInfoCardVisible} onToggle={() => setIsInfoCardVisible((prev) => !prev)} />
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                {isInfoCardVisible && <UserInfoCard user={user} />}
+                <div className="col-span-full">
+                    <AnimatePresence mode="wait">
+                        {isInfoCardVisible && (
+                            <motion.div
+                                key="userinfocard"
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.4, ease: 'easeInOut' }}
+                                className="overflow-hidden"
+                            >
+                                <UserInfoCard user={user} />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+
                 <WeatherChartCard filtersOptions={filters} />
                 <ComingSoonCard />
                 <ComingSoonCard />
