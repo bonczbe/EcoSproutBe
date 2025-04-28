@@ -1,3 +1,4 @@
+import { useMediaQuery } from '@mui/material';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useState } from 'react';
 import MultiSelect from './MultiSelect';
@@ -35,6 +36,7 @@ function WeatherChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }
         endDate: '',
         timeZone: '',
     });
+    const isDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
     const [selectedValues, setSelectedValues] = useState<ColourOption[]>([]);
 
@@ -57,9 +59,12 @@ function WeatherChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }
 
     return (
         <div className="flex min-h-48 flex-col items-center justify-center gap-4 rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">
+            <h1 className="text-2xl">
+                <b>Weather Chart</b>
+            </h1>
             <WeatherChartFilters filters={filters} filtersOptions={filtersOptions} onChange={handleFilterChange} />
 
-            <MultiSelect options={colourOptions} value={selectedValues} onChange={handleSelectChange} />
+            <MultiSelect options={colourOptions} value={selectedValues} onChange={handleSelectChange} label={'Hide Lines'} />
 
             <div className="w-9/10 rounded-xl bg-gray-200 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20 dark:bg-gray-900">
                 <LineChart

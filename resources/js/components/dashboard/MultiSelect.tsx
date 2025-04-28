@@ -9,6 +9,7 @@ interface MultiSelectProps {
     options: MultiOption[];
     value: MultiOption[];
     onChange: (selectedOptions: MultiOption[]) => void;
+    label: string | null;
 }
 
 const colourStyles = {
@@ -60,9 +61,10 @@ const colourStyles = {
     }),
 };
 
-const MultiSelect = ({ options, value, onChange }: MultiSelectProps) => {
+const MultiSelect = ({ options, value, onChange, label }: MultiSelectProps) => {
     return (
-        <div className="mt-4 w-full">
+        <div className="w-full px-6">
+            <label>{label}</label>
             <Select
                 options={options}
                 isMulti
