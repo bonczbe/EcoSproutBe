@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@mui/material';
+import { useAppearance } from '@/hooks/use-appearance';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { useState } from 'react';
 import MultiSelect from './MultiSelect';
@@ -36,7 +36,7 @@ function WeatherChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }
         endDate: '',
         timeZone: '',
     });
-    const isDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const { appearance } = useAppearance();
 
     const [selectedValues, setSelectedValues] = useState<ColourOption[]>([]);
 
@@ -66,7 +66,7 @@ function WeatherChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }
 
             <MultiSelect options={colourOptions} value={selectedValues} onChange={handleSelectChange} label={'Hide Lines'} />
 
-            <div className="w-9/10 rounded-xl bg-gray-200 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20 dark:bg-gray-900">
+            <div className="w-9/10 rounded-xl bg-gray-400/50 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20">
                 <LineChart
                     height={300}
                     series={[
@@ -76,17 +76,6 @@ function WeatherChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }
                     xAxis={[{ scaleType: 'point', data: xLabels }]}
                     yAxis={[{ width: 50 }]}
                     margin={margin}
-                    sx={{
-                        '.MuiChartsAxis-tickLabel': {
-                            fill: '#9CA3AF',
-                        },
-                        '.MuiChartsAxis-label': {
-                            fill: '#9CA3AF',
-                        },
-                        '.MuiChartsLegend-root': {
-                            color: '#9CA3AF',
-                        },
-                    }}
                 />
             </div>
         </div>
