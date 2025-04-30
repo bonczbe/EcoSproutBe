@@ -1,85 +1,49 @@
-import { useAppearance } from '@/hooks/use-appearance';
-import { LineChart } from '@mui/x-charts/LineChart';
+import useWeatherChartData from '@/hooks/useWeatherChartData';
+import { ColourOption, FiltersOptions, FiltersState } from '@/types/weather';
 import { useState } from 'react';
+import WeatherChart from '../WeatherChart';
 import MultiSelect from './MultiSelect';
 import WeatherChartFilters from './WeatherChartFilters';
 
-interface FiltersState {
-    city: string;
-    startDate: string;
-    endDate: string;
-    timeZone: string;
-}
-
-interface FiltersOptions {
-    cities: string[];
-    startDates: string[];
-    endDates: string[];
-    timeZones: string[];
-}
-
-interface ColourOption {
-    label: string;
-    value: string;
-}
-
-const colourOptions: ColourOption[] = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
-
-function WeatherChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }) {
+export default function WeatherChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }) {
     const [filters, setFilters] = useState<FiltersState>({
         city: '',
         startDate: '',
         endDate: '',
-        timeZone: '',
     });
-    const { appearance } = useAppearance();
 
     const [selectedValues, setSelectedValues] = useState<ColourOption[]>([]);
 
+    const { chartData, loading } = useWeatherChartData(filters);
+
     const handleFilterChange = (field: keyof FiltersState, value: string) => {
-        setFilters((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
+        setFilters((prev) => ({ ...prev, [field]: value }));
     };
 
-    const handleSelectChange = (selectedOptions: any) => {
+    const handleSelectChange = (selectedOptions: ColourOption[]) => {
         setSelectedValues(selectedOptions);
-        console.log(selectedOptions);
     };
-
-    const margin = { right: 24 };
-    const uData = [4000, 3000, 2000, 2780, 1890, 2390, 3490];
-    const pData = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
-    const xLabels = ['Page A', 'Page B', 'Page C', 'Page D', 'Page E', 'Page F', 'Page G'];
 
     return (
         <div className="flex min-h-48 flex-col items-center justify-center gap-4 rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">
-            <h1 className="text-2xl">
-                <b>Weather Chart</b>
-            </h1>
+            <h1 className="text-2xl font-bold">Weather Chart</h1>
+
             <WeatherChartFilters filters={filters} filtersOptions={filtersOptions} onChange={handleFilterChange} />
 
-            <MultiSelect options={colourOptions} value={selectedValues} onChange={handleSelectChange} label={'Hide Lines'} />
+            <MultiSelect
+                options={[
+                    { value: 'chocolate', label: 'Chocolate' },
+                    { value: 'strawberry', label: 'Strawberry' },
+                    { value: 'vanilla', label: 'Vanilla' },
+                ]}
+                value={selectedValues}
+                onChange={handleSelectChange}
+                label="Hide Lines"
+            />
 
             <div className="w-9/10 rounded-xl bg-gray-400/50 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20">
-                <LineChart
-                    height={300}
-                    series={[
-                        { data: pData, label: 'pv' },
-                        { data: uData, label: 'uv' },
-                    ]}
-                    xAxis={[{ scaleType: 'point', data: xLabels }]}
-                    yAxis={[{ width: 50 }]}
-                    margin={margin}
-                />
+                {loading ? <div>Loading...</div> : <WeatherChart data={chartData} />}
             </div>
         </div>
     );
 }
-
-export default WeatherChartCard;

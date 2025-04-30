@@ -2,8 +2,10 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+function Input({ className, type, ...props }: any) {
   return (
+    <div className="flex flex-col">
+            {props.label && <label className="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{props.label}</label>}
     <input
       type={type}
       data-slot="input"
@@ -15,6 +17,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
       )}
       {...props}
     />
+    </div>
   )
 }
 

@@ -16,18 +16,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->get();
 
         $cities = $filtersRaw->pluck('city')->filter()->unique()->values();
-        $timeZones = $filtersRaw->pluck('time_zone')->filter()->unique()->values();
-        $startDates = $filtersRaw->pluck('date')->filter()->unique()->sort()->values();
-        $endDates = $startDates;
+        $startDate = $filtersRaw->pluck('date')->filter()->unique()->sort()->values()[0]??null;
 
 
         return Inertia::render('dashboard', [
             'user' => $user->toArray(),
             'filters' => [
                 'cities' => $cities,
-                'timeZones' => $timeZones,
-                'startDates' => $startDates,
-                'endDates' => $endDates,
+                'startDate' => $startDate,
             ],
         ]);
     })->name('dashboard');

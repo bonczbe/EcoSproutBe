@@ -25,9 +25,7 @@ interface OverviewProps {
 
 interface Filters {
     cities: string[];
-    startDates: string[];
-    endDates: string[];
-    timeZones: string[];
+    startDate: string | null;
 }
 
 function Overview({ user }: OverviewProps) {
