@@ -9,73 +9,41 @@ class PlantSeeder extends Seeder
 {
     public function run(): void
     {
-        $plants = [
-            [
-                'name_en' => 'Rose',
-                'name_hu' => 'Rózsa',
-                'name_botanical' => 'Rosa indica',
-                'family' => 'Garden rose',
-                'default_image' => json_encode(['url' => 'images/rose.jpg']),
-                'species_epithet' => 'indica',
-                'genus' => 'Rosa',
-                'plant_type_id' => 2,
-            ],
-            [
-                'name_en' => 'Orchid',
-                'name_hu' => 'Orchidea',
-                'name_botanical' => 'Phalaenopsis amabilis',
-                'family' => 'Garden rose',
-                'default_image' => json_encode(['url' => 'images/orchid.jpg']),
-                'species_epithet' => 'amabilis',
-                'genus' => 'Phalaenopsis',
-                'plant_type_id' => 2,
-            ],
-            [
-                'name_en' => 'Tulip',
-                'name_hu' => 'Tulipán',
-                'name_botanical' => 'Tulipa gesneriana',
-                'family' => 'Garden rose',
-                'default_image' => json_encode(['url' => 'images/tulip.jpg']),
-                'species_epithet' => 'gesneriana',
-                'genus' => 'Tulipa',
-                'plant_type_id' => 2,
-            ],
-            [
-                'name_en' => 'Lavender',
-                'name_hu' => 'Levendula',
-                'name_botanical' => 'Lavandula angustifolia',
-                'family' => 'Garden rose',
-                'default_image' => json_encode(['url' => 'images/lavender.jpg']),
-                'species_epithet' => 'angustifolia',
-                'genus' => 'Lavandula',
-                'plant_type_id' => 2,
-            ],
-            [
-                'name_en' => 'Sunflower',
-                'name_hu' => 'Napraforgó',
-                'name_botanical' => 'Helianthus annuus',
-                'family' => 'Garden rose',
-                'default_image' => json_encode(['url' => 'images/sunflower.jpg']),
-                'species_epithet' => 'annuus',
-                'genus' => 'Helianthus',
-                'plant_type_id' => 2,
-            ],
-            [
-                'name_en' => 'Daffodil',
-                'name_hu' => 'Nárcisz',
-                'name_botanical' => 'Narcissus pseudonarcissus',
-                'family' => 'Garden rose',
-                'default_image' => json_encode(['url' => 'images/daffodil.jpg']),
-                'species_epithet' => 'pseudonarcissus',
-                'genus' => 'Narcissus',
-                'plant_type_id' => 2,
-            ],
-        ];
+        $filePath = database_path('seeders/files/plants.csv');
+        $handle = fopen($filePath, 'r');
 
-        foreach ($plants as $plant) {
-            Plant::create($plant);
+        // Skip the header
+        fgetcsv($handle);
+
+        $batchSize = 500;
+        $batch = [];
+
+        while (($row = fgetcsv($handle)) !== false) {
+            $batch[] = [
+                'name_botanical'   => $row[0],
+                'name_en'          => $row[1],
+                'name_hu'          => $row[2],
+                'default_image'    => $row[3],
+                'species_epithet'  => $row[4],
+                'genus'            => $row[5],
+                'plant_type_id'    => (int) $row[6],
+                'family'           => $row[7],
+                'family_hu'        => $row[8] ?? null,
+                'created_at'       => now(),
+                'updated_at'       => now(),
+            ];
+
+            if (count($batch) >= $batchSize) {
+                Plant::insert($batch);
+                $batch = [];
+            }
         }
 
-        // Plant::factory(10)->create();
+        // Insert remaining rows
+        if (!empty($batch)) {
+            Plant::insert($batch);
+        }
+
+        fclose($handle);
     }
 }

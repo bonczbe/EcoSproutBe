@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name_botanical');
             $table->string('family');
             $table->string('family_hu')->nullable();
-            $table->string('default_image', 280);
+            $table->string('default_image', 1000);
             $table->string('species_epithet');
             $table->string('genus');
             $table->foreignId('plant_type_id')->nullable()->constrained('plant_types')->onDelete('cascade');
