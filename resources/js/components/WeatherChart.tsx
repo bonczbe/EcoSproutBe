@@ -2,6 +2,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 
 interface WeatherChartProps {
     data: any[];
+    selectedValues: { value: string; label: string }[];
 }
 
 type AggregatedWeather = {
@@ -33,7 +34,7 @@ function safeParseFloat(value: any): number {
     return isNaN(parsed) ? 0 : parsed;
 }
 
-export default function WeatherChart({ data }: WeatherChartProps) {
+export default function WeatherChart({ data, selectedValues }: WeatherChartProps) {
     const margin = { right: 24 };
 
     const aggregatedByDate = data.reduce<Record<string, AggregatedWeather>>((acc, item) => {
@@ -119,6 +120,19 @@ export default function WeatherChart({ data }: WeatherChartProps) {
     const maxCelsiusExpected = averagedData.map((item) => item.expected_max_celsius);
     const minCelsiusExpected = averagedData.map((item) => item.expected_min_celsius);
     const avgTempCelsiusExpected = averagedData.map((item) => item.expected_avgtemp_celsius);
+
+    console.log(selectedValues);
+
+    const series = [
+        { data: maxCelsius, label: 'Max °C' },
+        { data: minCelsius, label: 'Min °C' },
+        { data: avgCelsius, label: 'Avg °C' },
+        { data: uvData, label: 'UV Index' },
+        { data: uvTomorrow, label: 'UV Index Tomorrow' },
+        { data: maxCelsiusExpected, label: 'Expected Max °C Tomorrow' },
+        { data: minCelsiusExpected, label: 'Expected Min °C Tomorrow' },
+        { data: avgTempCelsiusExpected, label: 'Expected Avg Temp °C Tomorrow' },
+    ];
 
     return (
         <LineChart

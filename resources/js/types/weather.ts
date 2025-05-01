@@ -9,7 +9,7 @@ export interface FiltersOptions {
     startDate: string | null;
 }
 
-export interface ColourOption {
+export interface weatherOption {
     label: string;
     value: string;
 }

@@ -1,5 +1,5 @@
 import useWeatherChartData from '@/hooks/useWeatherChartData';
-import { ColourOption, FiltersOptions, FiltersState } from '@/types/weather';
+import { FiltersOptions, FiltersState, weatherOption } from '@/types/weather';
 import { useState } from 'react';
 import WeatherChart from '../WeatherChart';
 import MultiSelect from './MultiSelect';
@@ -12,7 +12,12 @@ export default function WeatherChartCard({ filtersOptions }: { filtersOptions: F
         endDate: '',
     });
 
-    const [selectedValues, setSelectedValues] = useState<ColourOption[]>([]);
+    const [selectedValues, setSelectedValues] = useState<weatherOption[]>([
+        { value: 'uv_tomorrow', label: 'UV Index Tomorrow' },
+        { value: 'expected_max_celsius', label: 'Expected Max °C Tomorrow' },
+        { value: 'expected_min_celsius', label: 'Expected Min °C Tomorrow' },
+        { value: 'expected_avgtemp_celsius', label: 'Expected Avg Temp °C Tomorrow' },
+    ]);
 
     const { chartData, loading } = useWeatherChartData(filters);
 
@@ -20,9 +25,20 @@ export default function WeatherChartCard({ filtersOptions }: { filtersOptions: F
         setFilters((prev) => ({ ...prev, [field]: value }));
     };
 
-    const handleSelectChange = (selectedOptions: ColourOption[]) => {
+    const handleSelectChange = (selectedOptions: weatherOption[]) => {
         setSelectedValues(selectedOptions);
     };
+
+    const chartOptions = [
+        { value: 'max_celsius', label: 'Max °C' },
+        { value: 'min_celsius', label: 'Min °C' },
+        { value: 'average_celsius', label: 'Avg °C' },
+        { value: 'uv', label: 'UV Index' },
+        { value: 'uv_tomorrow', label: 'UV Index Tomorrow' },
+        { value: 'expected_max_celsius', label: 'Expected Max °C Tomorrow' },
+        { value: 'expected_min_celsius', label: 'Expected Min °C Tomorrow' },
+        { value: 'expected_avgtemp_celsius', label: 'Expected Avg Temp °C Tomorrow' },
+    ];
 
     return (
         <div className="flex min-h-48 flex-col items-center justify-center gap-4 rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">
@@ -30,19 +46,10 @@ export default function WeatherChartCard({ filtersOptions }: { filtersOptions: F
 
             <WeatherChartFilters filters={filters} filtersOptions={filtersOptions} onChange={handleFilterChange} />
 
-            <MultiSelect
-                options={[
-                    { value: 'chocolate', label: 'Chocolate' },
-                    { value: 'strawberry', label: 'Strawberry' },
-                    { value: 'vanilla', label: 'Vanilla' },
-                ]}
-                value={selectedValues}
-                onChange={handleSelectChange}
-                label="Hide Lines"
-            />
+            <MultiSelect options={!loading ? chartOptions : []} value={selectedValues} onChange={handleSelectChange} label="Hide Lines" />
 
             <div className="w-9/10 rounded-xl bg-gray-400/50 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20">
-                {loading ? <div>Loading...</div> : <WeatherChart data={chartData} />}
+                <WeatherChart data={chartData} selectedValues={selectedValues} />
             </div>
         </div>
     );
