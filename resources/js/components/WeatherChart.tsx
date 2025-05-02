@@ -104,11 +104,10 @@ export default function WeatherChart({ data, selectedValues, chartOptions }: Wea
         expected_max_celsius: item.expected_max_celsius / item.count,
         expected_min_celsius: item.expected_min_celsius / item.count,
         expected_avgtemp_celsius: item.expected_avgtemp_celsius / item.count,
-        condition: item.condition,
-        astro: item.astro,
     }));
 
     const xLabels = averagedData.map((item) => item.date);
+
     const colorPalette = [
         '#1f77b4', // blue
         '#ff7f0e', // orange
