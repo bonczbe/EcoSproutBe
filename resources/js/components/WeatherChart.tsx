@@ -3,6 +3,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 interface WeatherChartProps {
     data: any[];
     selectedValues: { value: string; label: string }[];
+    chartOptions: any[];
 }
 
 type AggregatedWeather = {
@@ -25,8 +26,6 @@ type AggregatedWeather = {
     expected_min_celsius: number;
     expected_avgtemp_celsius: number;
     count: number;
-    condition: any[];
-    astro: any[];
 };
 
 function safeParseFloat(value: any): number {
@@ -34,7 +33,7 @@ function safeParseFloat(value: any): number {
     return isNaN(parsed) ? 0 : parsed;
 }
 
-export default function WeatherChart({ data, selectedValues }: WeatherChartProps) {
+export default function WeatherChart({ data, selectedValues, chartOptions }: WeatherChartProps) {
     const margin = { right: 24 };
 
     const aggregatedByDate = data.reduce<Record<string, AggregatedWeather>>((acc, item) => {
@@ -60,8 +59,6 @@ export default function WeatherChart({ data, selectedValues }: WeatherChartProps
                 expected_max_celsius: safeParseFloat(item.expected_max_celsius),
                 expected_min_celsius: safeParseFloat(item.expected_min_celsius),
                 expected_avgtemp_celsius: safeParseFloat(item.expected_avgtemp_celsius),
-                condition: [item.condition],
-                astro: [item.astro],
                 count: 1,
             };
         } else {
@@ -112,44 +109,26 @@ export default function WeatherChart({ data, selectedValues }: WeatherChartProps
     }));
 
     const xLabels = averagedData.map((item) => item.date);
-    const maxCelsius = averagedData.map((item) => item.max_celsius);
-    const minCelsius = averagedData.map((item) => item.min_celsius);
-    const avgCelsius = averagedData.map((item) => item.average_celsius);
-    const uvData = averagedData.map((item) => item.uv);
-    const uvTomorrow = averagedData.map((item) => item.uv_tomorrow);
-    const maxCelsiusExpected = averagedData.map((item) => item.expected_max_celsius);
-    const minCelsiusExpected = averagedData.map((item) => item.expected_min_celsius);
-    const avgTempCelsiusExpected = averagedData.map((item) => item.expected_avgtemp_celsius);
-
-    console.log(selectedValues);
-
-    const series = [
-        { data: maxCelsius, label: 'Max °C' },
-        { data: minCelsius, label: 'Min °C' },
-        { data: avgCelsius, label: 'Avg °C' },
-        { data: uvData, label: 'UV Index' },
-        { data: uvTomorrow, label: 'UV Index Tomorrow' },
-        { data: maxCelsiusExpected, label: 'Expected Max °C Tomorrow' },
-        { data: minCelsiusExpected, label: 'Expected Min °C Tomorrow' },
-        { data: avgTempCelsiusExpected, label: 'Expected Avg Temp °C Tomorrow' },
+    const colorPalette = [
+        '#1f77b4', // blue
+        '#ff7f0e', // orange
+        '#2ca02c', // green
+        '#d62728', // red
+        '#9467bd', // purple
+        '#8c564b', // brown
+        '#e377c2', // pink
+        '#7f7f7f', // gray
+        '#bcbd22', // olive
+        '#17becf', // cyan
     ];
 
-    return (
-        <LineChart
-            height={300}
-            series={[
-                { data: maxCelsius, label: 'Max °C' },
-                { data: minCelsius, label: 'Min °C' },
-                { data: avgCelsius, label: 'Avg °C' },
-                { data: uvData, label: 'UV Index' },
-                { data: uvTomorrow, label: 'UV Index Tomorrow' },
-                { data: maxCelsiusExpected, label: 'Expected Max °C Tomorrow' },
-                { data: minCelsiusExpected, label: 'Expected Min °C Tomorrow' },
-                { data: avgTempCelsiusExpected, label: 'Expected Avg Temp °C Tomorrow' },
-            ]}
-            xAxis={[{ scaleType: 'point', data: xLabels }]}
-            yAxis={[{ width: 50 }]}
-            margin={margin}
-        />
-    );
+    const series = chartOptions
+        .filter((option) => !selectedValues.some((selected) => selected.value === option.value))
+        .map(({ value, label }, index) => ({
+            data: averagedData.map((item) => item[value as keyof AggregatedWeather] as number),
+            label,
+            color: colorPalette[index % colorPalette.length],
+        }));
+
+    return <LineChart height={300} series={series} xAxis={[{ scaleType: 'point', data: xLabels }]} yAxis={[{ width: 50 }]} margin={margin} />;
 }

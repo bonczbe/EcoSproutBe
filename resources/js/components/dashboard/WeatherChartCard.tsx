@@ -49,7 +49,7 @@ export default function WeatherChartCard({ filtersOptions }: { filtersOptions: F
             <MultiSelect options={!loading ? chartOptions : []} value={selectedValues} onChange={handleSelectChange} label="Hide Lines" />
 
             <div className="w-9/10 rounded-xl bg-gray-400/50 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20">
-                <WeatherChart data={chartData} selectedValues={selectedValues} />
+                <WeatherChart data={chartData} selectedValues={selectedValues} chartOptions={chartOptions} />
             </div>
         </div>
     );
