@@ -1,4 +1,4 @@
-import Select from 'react-select';
+import Select, { ActionMeta, MultiValue } from 'react-select';
 
 interface MultiOption {
     label: string;
@@ -8,7 +8,7 @@ interface MultiOption {
 interface MultiSelectProps {
     options: MultiOption[];
     value: MultiOption[];
-    onChange: (selectedOptions: MultiOption[]) => void;
+    onChange: (selectedOptions: MultiValue<MultiOption>, actionMeta: ActionMeta<MultiOption>) => void;
     label: string | null;
 }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Device;
 use App\Models\Weather;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'filters' => [
                 'cities' => $cities,
                 'startDate' => $startDate,
+                'devices' => Device::query()->with("customer_plants.plant")->get(),
             ],
         ]);
     })->name('dashboard');

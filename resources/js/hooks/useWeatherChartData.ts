@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { FiltersState } from '@/types/weather';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 export default function useWeatherChartData(filters: FiltersState) {
     const [chartData, setChartData] = useState<any[]>([]);

@@ -1,9 +1,10 @@
 import { LineChart } from '@mui/x-charts/LineChart';
 
+type AggregatedWeatherKey = keyof Omit<AggregatedWeather, 'date' | 'count'>;
 interface WeatherChartProps {
     data: any[];
     selectedValues: { value: string; label: string }[];
-    chartOptions: any[];
+    chartOptions: { value: AggregatedWeatherKey; label: string }[];
 }
 
 type AggregatedWeather = {
@@ -124,7 +125,7 @@ export default function WeatherChart({ data, selectedValues, chartOptions }: Wea
     const series = chartOptions
         .filter((option) => !selectedValues.some((selected) => selected.value === option.value))
         .map(({ value, label }, index) => ({
-            data: averagedData.map((item) => item[value as keyof AggregatedWeather] as number),
+            data: averagedData.map((item) => item[value] as number),
             label,
             color: colorPalette[index % colorPalette.length],
         }));

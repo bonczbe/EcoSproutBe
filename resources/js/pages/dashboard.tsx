@@ -1,4 +1,5 @@
-import ComingSoonCard from '@/components/ComingSoonCard';
+import DeviceChartCard from '@/components/dashboard/DeviceChartCard';
+import PlantChartCard from '@/components/dashboard/PlantChartCard';
 import ToggleInfoButton from '@/components/dashboard/ToggleInfoButton';
 import UserInfoCard from '@/components/dashboard/UserInfoCard';
 import WeatherChartCard from '@/components/dashboard/WeatherChartCard';
@@ -26,6 +27,7 @@ interface OverviewProps {
 interface Filters {
     cities: string[];
     startDate: string | null;
+    devices: string[];
 }
 
 function Overview({ user }: OverviewProps) {
@@ -33,6 +35,7 @@ function Overview({ user }: OverviewProps) {
     const [time, setTime] = useState<Date | null>(null);
     const [isInfoCardVisible, setIsInfoCardVisible] = useState<boolean>(true);
     const { filters } = usePage<PageProps<{ filters: Filters }>>().props;
+    console.log(filters);
 
     const getLocation = () => {
         if (navigator.geolocation) {
@@ -107,9 +110,8 @@ function Overview({ user }: OverviewProps) {
                 </div>
 
                 <WeatherChartCard filtersOptions={filters} />
-                <ComingSoonCard />
-                <ComingSoonCard />
-                <ComingSoonCard />
+                <DeviceChartCard filtersOptions={filters} />
+                <PlantChartCard filtersOptions={filters} />
             </div>
         </div>
     );
