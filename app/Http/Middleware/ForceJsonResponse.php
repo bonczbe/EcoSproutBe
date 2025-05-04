@@ -23,7 +23,7 @@ class ForceJsonResponse
                 return $response;
             }
 
-            if (!$this->isJsonResponse($response)) {
+            if (! $this->isJsonResponse($response)) {
                 return response()->json(
                     $response->getContent(),
                     $response->getStatusCode(),

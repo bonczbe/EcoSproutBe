@@ -3,7 +3,7 @@ import { FiltersOptions, FiltersState, weatherOption } from '@/types/weather';
 import { useState } from 'react';
 import WeatherChart from '../WeatherChart';
 import MultiSelect from './MultiSelect';
-import WeatherChartFilters from './WeatherChartFilters';
+import DeviceChartFilter from './DeviceChartFilter';
 
 export default function DeviceChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }) {
     const [filters, setFilters] = useState<FiltersState>({
@@ -44,7 +44,7 @@ export default function DeviceChartCard({ filtersOptions }: { filtersOptions: Fi
         <div className="flex min-h-48 flex-col items-center justify-center gap-4 rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">
             <h1 className="text-2xl font-bold">Device Chart</h1>
 
-            <WeatherChartFilters filters={filters} filtersOptions={filtersOptions} onChange={handleFilterChange} />
+            <DeviceChartFilter filters={filters} filtersOptions={filtersOptions} onChange={handleFilterChange} />
 
             <MultiSelect options={!loading ? chartOptions : []} value={selectedValues} onChange={handleSelectChange} label="Hide Lines" />
 

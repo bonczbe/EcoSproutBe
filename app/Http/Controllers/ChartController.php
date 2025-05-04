@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\WeatherChartRequest;
 use App\Models\Weather;
-use Illuminate\Http\Request;
 
 class ChartController extends Controller
 {

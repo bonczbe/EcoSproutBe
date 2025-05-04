@@ -28,6 +28,7 @@ interface Filters {
     cities: string[];
     startDate: string | null;
     devices: string[];
+    plants: string[];
 }
 
 function Overview({ user }: OverviewProps) {
@@ -109,9 +110,11 @@ function Overview({ user }: OverviewProps) {
                     </AnimatePresence>
                 </div>
 
-                <WeatherChartCard filtersOptions={filters} />
-                <DeviceChartCard filtersOptions={filters} />
-                <PlantChartCard filtersOptions={filters} />
+                <WeatherChartCard filtersOptions={filters.weather} />
+                {/*
+                    <DeviceChartCard filtersOptions={filters} />
+                <PlantChartCard filtersOptions={filters} />*/
+}
             </div>
         </div>
     );

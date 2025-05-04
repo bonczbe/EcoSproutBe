@@ -48,6 +48,7 @@ class Weather extends Model
         'astro' => 'array',
         'uv' => 'integer',
     ];
+
     public function getDateAttribute($value)
     {
         return \Carbon\Carbon::parse($value)->format('Y-m-d');

@@ -35,7 +35,7 @@ function safeParseFloat(value: any): number {
 }
 
 export default function WeatherChart({ data, selectedValues, chartOptions }: WeatherChartProps) {
-    const margin = { right: 24 };
+    const margin = { right: 40 };
 
     const aggregatedByDate = data.reduce<Record<string, AggregatedWeather>>((acc, item) => {
         const date = item.date;
