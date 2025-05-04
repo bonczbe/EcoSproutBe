@@ -1,5 +1,4 @@
 import DeviceChartCard from '@/components/dashboard/DeviceChartCard';
-import PlantChartCard from '@/components/dashboard/PlantChartCard';
 import ToggleInfoButton from '@/components/dashboard/ToggleInfoButton';
 import UserInfoCard from '@/components/dashboard/UserInfoCard';
 import WeatherChartCard from '@/components/dashboard/WeatherChartCard';
@@ -36,7 +35,7 @@ function Overview({ user }: OverviewProps) {
     const [time, setTime] = useState<Date | null>(null);
     const [isInfoCardVisible, setIsInfoCardVisible] = useState<boolean>(true);
     const { filters } = usePage<PageProps<{ filters: Filters }>>().props;
-    console.log(filters);
+    //console.log(filters);
 
     const getLocation = () => {
         if (navigator.geolocation) {
@@ -111,10 +110,8 @@ function Overview({ user }: OverviewProps) {
                 </div>
 
                 <WeatherChartCard filtersOptions={filters.weather} />
-                {/*
-                    <DeviceChartCard filtersOptions={filters} />
-                <PlantChartCard filtersOptions={filters} />*/
-}
+                <DeviceChartCard filtersOptions={filters.devices} />
+                {/*<PlantChartCard filtersOptions={filters} />*/}
             </div>
         </div>
     );

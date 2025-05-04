@@ -15,13 +15,14 @@ interface WeatherChartFiltersProps {
 }
 
 function DeviceChartFilter({ filters, filtersOptions, onChange }: WeatherChartFiltersProps) {
-    const toOptionList = (items: string[]) => items.map((item) => ({ label: item, value: item }));
+    const toOptionList = (items: string[]) => items.map((item) => ({ label: item.city + ' : ' + item.name, value: item.id }));
+    //console.log(toOptionList(filtersOptions.devices));
     return (
         <div className="grid-1 grid justify-center gap-4 lg:grid-cols-2 xl:grid-cols-3">
             <DropdownSelect
-                label="City"
+                label="Device Name"
                 value={filters.city}
-                options={toOptionList(filtersOptions.cities)}
+                options={toOptionList(filtersOptions.devices)}
                 onChange={(value) => onChange('city', value)}
             />
 
