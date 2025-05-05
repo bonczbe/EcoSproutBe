@@ -16,14 +16,14 @@ interface WeatherChartFiltersProps {
 
 function DeviceChartFilter({ filters, filtersOptions, onChange }: WeatherChartFiltersProps) {
     const toOptionList = (items: string[]) => items.map((item) => ({ label: item.city + ' : ' + item.name, value: item.id }));
-    //console.log(toOptionList(filtersOptions.devices));
+
     return (
         <div className="grid-1 grid justify-center gap-4 lg:grid-cols-2 xl:grid-cols-3">
             <DropdownSelect
                 label="Device Name"
                 value={filters.city}
                 options={toOptionList(filtersOptions.devices)}
-                onChange={(value) => onChange('city', value)}
+                onChange={(value) => onChange('device', value)}
             />
 
             <Input
@@ -31,14 +31,14 @@ function DeviceChartFilter({ filters, filtersOptions, onChange }: WeatherChartFi
                 value={filters.startDate || filtersOptions.startDate || ''}
                 onChange={(value) => onChange('startDate', value.target.value)}
                 label="Start Date"
-                type="date"
+                type="datetime-local"
             />
             <Input
                 className={`rounded bg-gray-100 p-2 px-4 dark:bg-gray-700`}
-                label="End Date"
-                type="date"
-                value={filters.endDate || new Date().toISOString().split('T')[0]}
+                value={filters.endDate}
                 onChange={(value) => onChange('endDate', value.target.value)}
+                label="End Date"
+                type="datetime-local"
             />
         </div>
     );

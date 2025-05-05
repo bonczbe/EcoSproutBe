@@ -1,13 +1,21 @@
-import { FiltersOptions, FiltersState, weatherOption } from '@/types/weather';
+import useDeviceChartData from '@/hooks/useDeviceChartData';
+import { FiltersOptions, FiltersState } from '@/types/device';
+import { weatherOption } from '@/types/weather';
 import { useState } from 'react';
 import DeviceChartFilter from './DeviceChartFilter';
 import MultiSelect from './MultiSelect';
 
 export default function DeviceChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }) {
+    const formatDate = (date: any) => {
+        const pad = (n: any) => n.toString().padStart(2, '0');
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+    };
+
+    const formattedDate = formatDate(new Date());
     const [filters, setFilters] = useState<FiltersState>({
-        city: '',
-        startDate: '',
-        endDate: '',
+        device: filtersOptions?.devices[0]['id'] ?? '',
+        startDate: filtersOptions.startDate ?? '',
+        endDate: formattedDate ?? '',
     });
 
     const [selectedValues, setSelectedValues] = useState<weatherOption[]>([]);
@@ -24,6 +32,8 @@ export default function DeviceChartCard({ filtersOptions }: { filtersOptions: Fi
         { value: 'water_level', label: 'Water level' },
         { value: 'temperature', label: 'Temperature °C' },
     ];
+
+    const { chartData, loading } = useDeviceChartData(filters);
 
     return (
         <div className="flex min-h-48 flex-col items-center justify-center gap-4 rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">

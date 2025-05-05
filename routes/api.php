@@ -16,7 +16,7 @@ Route::group(
     function () {
         Route::prefix('charts')->group(function () {
             Route::post('weather', [ChartController::class, 'weather']);
-            Route::post('device', [ChartController::class, 'weather']);
+            Route::post('device', [ChartController::class, 'device']);
             Route::post('plant', [ChartController::class, 'weather']);
         });
     });
