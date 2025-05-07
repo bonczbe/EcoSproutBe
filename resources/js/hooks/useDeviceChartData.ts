@@ -11,7 +11,7 @@ export default function useDeviceChartData(filters: FiltersState) {
             setLoading(true);
             try {
                 const response = await axios.post('/api/charts/device', {
-                    device: filters.device || 'all',
+                    device: filters.device,
                     startDate: filters.startDate || '2000-01-01',
                     endDate: filters.endDate || null,
                 });

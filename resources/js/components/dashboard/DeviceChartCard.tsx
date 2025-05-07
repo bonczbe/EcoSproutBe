@@ -13,7 +13,7 @@ export default function DeviceChartCard({ filtersOptions }: { filtersOptions: Fi
 
     const formattedDate = formatDate(new Date());
     const [filters, setFilters] = useState<FiltersState>({
-        device: filtersOptions?.devices[0]['id'] ?? '',
+        device: filtersOptions?.devices[0]['id'] ?? 0,
         startDate: filtersOptions.startDate ?? '',
         endDate: formattedDate ?? '',
     });
@@ -42,12 +42,13 @@ export default function DeviceChartCard({ filtersOptions }: { filtersOptions: Fi
             <DeviceChartFilter filters={filters} filtersOptions={filtersOptions} onChange={handleFilterChange} />
 
             <MultiSelect options={!false ? chartOptions : []} value={selectedValues} onChange={handleSelectChange} label="Hide Lines" />
-            {/*
-            <div className="w-9/10 rounded-xl bg-gray-400/50 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20">
-                <WeatherChart data={chartData} selectedValues={selectedValues} chartOptions={chartOptions} />
-            </div>
 
-*/}
+            <div className="w-9/10 rounded-xl bg-gray-400/50 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20">
+                kek
+                {
+                    //<WeatherChart data={chartData} selectedValues={selectedValues} chartOptions={chartOptions} />
+                }
+            </div>
         </div>
     );
 }

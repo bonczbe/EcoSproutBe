@@ -1,11 +1,11 @@
 export interface FiltersState {
-    device: string;
+    device: number;
     startDate: string;
     endDate: string;
 }
 
 export interface FiltersOptions {
-    cities: string[];
+    devices: string[];
     startDate: string | null;
 }
 
