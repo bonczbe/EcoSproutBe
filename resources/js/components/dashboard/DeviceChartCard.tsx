@@ -13,7 +13,7 @@ export default function DeviceChartCard({ filtersOptions }: { filtersOptions: Fi
 
     const formattedDate = formatDate(new Date());
     const [filters, setFilters] = useState<FiltersState>({
-        device: filtersOptions?.devices[0]['id'] ?? 0,
+        device: -1,
         startDate: filtersOptions.startDate ?? '',
         endDate: formattedDate ?? '',
     });
