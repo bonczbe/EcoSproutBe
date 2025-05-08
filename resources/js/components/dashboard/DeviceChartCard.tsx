@@ -34,6 +34,7 @@ export default function DeviceChartCard({ filtersOptions }: { filtersOptions: Fi
     ];
 
     const { chartData, loading } = useDeviceChartData(filters);
+    console.log(chartData);
 
     return (
         <div className="flex min-h-48 flex-col items-center justify-center gap-4 rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">

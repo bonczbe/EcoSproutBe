@@ -45,8 +45,8 @@ class ChartController extends Controller
         } else {
             return DeviceHistory::select([
                 DB::raw("updated_at"),
-                DB::raw("AVG(water_level) as avg_water_level"),
-                DB::raw("AVG(temperature) as avg_temperature"),
+                DB::raw("AVG(water_level) as water_level"),
+                DB::raw("AVG(temperature) as temperature"),
             ])
             ->whereBetween('updated_at', [$startDate, $endDate])
             ->groupBy("updated_at")

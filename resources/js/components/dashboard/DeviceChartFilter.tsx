@@ -14,7 +14,6 @@ interface WeatherChartFiltersProps {
 }
 
 function DeviceChartFilter({ filters, filtersOptions, onChange }: WeatherChartFiltersProps) {
-    console.log(filtersOptions);
     const toOptionList = (items: string[]) => [
         { label: 'All', value: -1 },
         ...items.map((item) => ({ label: item.city + ' : ' + item.name, value: item.id })),
