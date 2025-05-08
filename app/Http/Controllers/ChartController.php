@@ -36,9 +36,8 @@ class ChartController extends Controller
         $startDate = $validated['startDate'];
         $endDate = $validated['endDate'] ?? '9999-12-30';
 
-        $query = DeviceHistory::query();
         if ($validated['device'] != -1) {
-            return $query
+            return DeviceHistory::query()
                 ->where('device_id', $validated['device'])
                 ->whereBetween('updated_at', [$startDate, $endDate])
                 ->get()
