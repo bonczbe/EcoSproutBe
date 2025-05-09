@@ -1,7 +1,6 @@
-import DeviceChartCard from '@/components/dashboard/DeviceChartCard';
+import PlantChartCard from '@/components/dashboard/PlantChartCard';
 import ToggleInfoButton from '@/components/dashboard/ToggleInfoButton';
 import UserInfoCard from '@/components/dashboard/UserInfoCard';
-import WeatherChartCard from '@/components/dashboard/WeatherChartCard';
 import WelcomeCard from '@/components/dashboard/WelcomeCard';
 import { PageProps } from '@/types';
 import { usePage } from '@inertiajs/react';
@@ -9,7 +8,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import tzLookup from 'tz-lookup';
 import DashboardLayout from '../layouts/DashboardLayout';
-import PlantChartCard from '@/components/dashboard/PlantChartCard';
 
 interface OverviewProps {
     user: {
@@ -109,12 +107,10 @@ function Overview({ user }: OverviewProps) {
                     </AnimatePresence>
                 </div>
 
-                {
-                    /*
+                {/*
                                 <WeatherChartCard filtersOptions={filters.weather} />
                                 <DeviceChartCard filtersOptions={filters.devices} />
-                    */
-                }
+                    */}
                 <PlantChartCard filtersOptions={filters.plants} />
             </div>
         </div>

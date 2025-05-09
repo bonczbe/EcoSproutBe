@@ -24,13 +24,13 @@ class DashboardService
         $deviceStartDate = $this->deviceRepo->getHistoryStartDate();
 
         $plants = $this->plantRepo->getAllCustomerPlantIdWithPlantName()
-        ->map(function ($customerPlant) {
-            return [
-                'customer_plant_id' => $customerPlant->id,
-                'plant_name_botanical' => $customerPlant->plant->name_botanical,
-            ];
-        })
-        ->toArray();
+            ->map(function ($customerPlant) {
+                return [
+                    'customer_plant_id' => $customerPlant->id,
+                    'plant_name_botanical' => $customerPlant->plant->name_botanical,
+                ];
+            })
+            ->toArray();
         $plantStartDate = $this->plantRepo->getHistoryStartDate();
 
         return [

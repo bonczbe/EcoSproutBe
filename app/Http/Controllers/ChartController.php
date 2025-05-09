@@ -26,9 +26,10 @@ class ChartController extends Controller
         return $this->deviceService->getDeviceHistoryDataByDate($validated);
 
     }
+
     public function plant(PlantChartRequest $request)
     {
-        return "WIP";
+        return 'WIP';
 
     }
 }

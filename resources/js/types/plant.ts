@@ -1,6 +1,6 @@
 export interface FiltersState {
     plant: string;
-    startDate: string| null;
+    startDate: string | null;
     endDate: string;
 }
 
