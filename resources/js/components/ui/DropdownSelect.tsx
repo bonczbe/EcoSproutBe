@@ -8,13 +8,13 @@ interface DropdownSelectProps {
     className?: string;
 }
 
-function DropdownSelect({ label, value, options, onChange, className }: DropdownSelectProps) {
+function DropdownSelect({ label, value, options, onChange, className='' }: DropdownSelectProps) {
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         onChange(event.target.value);
     };
 
     return (
-        <div className="flex flex-col">
+        <div className={`flex flex-col ${className}`}>
             {label && <label className="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>}
             <select
                 value={value}

@@ -14,9 +14,9 @@ class PlantRepository
         Plant::upsert($plants, ['name_botanical']);
     }
 
-    public function getAllWithHistories(): Collection
+    public function getAllCustomerPlantIdWithPlantName(): Collection
     {
-        return CustomerPlant::with('histories')->get();
+        return CustomerPlant::with(['plant'])->get();
     }
 
     public function getHistoryStartDate(): ?string

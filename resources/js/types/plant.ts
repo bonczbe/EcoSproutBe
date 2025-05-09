@@ -1,11 +1,11 @@
 export interface FiltersState {
-    city: string;
-    startDate: string;
+    plant: string;
+    startDate: string| null;
     endDate: string;
 }
 
 export interface FiltersOptions {
-    plants: string[];
+    cities: string[];
     startDate: string | null;
 }
 

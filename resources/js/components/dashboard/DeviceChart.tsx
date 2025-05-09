@@ -28,7 +28,6 @@ export default function DeviceChart({ data, selectedValues, chartOptions }: Weat
         }));
 
     const xLabels = data.map((item) => new Date(item.updated_at));
-    console.log(xLabels);
     return (
         <LineChart
             height={300}

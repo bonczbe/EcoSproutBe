@@ -1,56 +1,34 @@
-import useWeatherChartData from '@/hooks/useWeatherChartData';
-import { FiltersOptions, FiltersState, weatherOption } from '@/types/weather';
+import { FiltersOptions } from '@/types/weather';
 import { useState } from 'react';
-import MultiSelect from './MultiSelect';
-import WeatherChart from './WeatherChart';
-import WeatherChartFilters from './WeatherChartFilters';
+import { FiltersState } from '@/types/plant';
+import PlantChartFilter from './PlantChartFilter';
+import usePlantChartData from '@/hooks/usePlantChartData copy';
 
 export default function PlantChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }) {
     const [filters, setFilters] = useState<FiltersState>({
-        city: '',
-        startDate: '',
-        endDate: '',
+        plant: filtersOptions?.plants[0]?.customer_plant_id??0,
+        startDate: filtersOptions.startDate?.split(' ')[0]??null,
+        endDate: new Date().toISOString().split('T')[0],
     });
 
-    const [selectedValues, setSelectedValues] = useState<weatherOption[]>([
-        { value: 'uv_tomorrow', label: 'UV Index Tomorrow' },
-        { value: 'expected_max_celsius', label: 'Expected Max °C Tomorrow' },
-        { value: 'expected_min_celsius', label: 'Expected Min °C Tomorrow' },
-        { value: 'expected_avgtemp_celsius', label: 'Expected Avg Temp °C Tomorrow' },
-    ]);
-
-    const { chartData, loading } = useWeatherChartData(filters);
+    const { chartData, loading } = usePlantChartData(filters);
 
     const handleFilterChange = (field: keyof FiltersState, value: string) => {
         setFilters((prev) => ({ ...prev, [field]: value }));
     };
 
-    const handleSelectChange = (selectedOptions: weatherOption[]) => {
-        setSelectedValues(selectedOptions);
-    };
-
-    const chartOptions = [
-        { value: 'max_celsius', label: 'Max °C' },
-        { value: 'min_celsius', label: 'Min °C' },
-        { value: 'average_celsius', label: 'Avg °C' },
-        { value: 'uv', label: 'UV Index' },
-        { value: 'uv_tomorrow', label: 'UV Index Tomorrow' },
-        { value: 'expected_max_celsius', label: 'Expected Max °C Tomorrow' },
-        { value: 'expected_min_celsius', label: 'Expected Min °C Tomorrow' },
-        { value: 'expected_avgtemp_celsius', label: 'Expected Avg Temp °C Tomorrow' },
-    ];
-
     return (
         <div className="flex min-h-48 flex-col items-center justify-center gap-4 rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">
             <h1 className="text-2xl font-bold">Plant Chart</h1>
-
-            <WeatherChartFilters filters={filters} filtersOptions={filtersOptions} onChange={handleFilterChange} />
-
-            <MultiSelect options={!loading ? chartOptions : []} value={selectedValues} onChange={handleSelectChange} label="Hide Lines" />
+            {
+            <PlantChartFilter filters={filters} filtersOptions={filtersOptions} onChange={handleFilterChange} />
+                /*
 
             <div className="w-9/10 rounded-xl bg-gray-400/50 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20">
                 <WeatherChart data={chartData} selectedValues={selectedValues} chartOptions={chartOptions} />
             </div>
+                */
+            }
         </div>
     );
 }

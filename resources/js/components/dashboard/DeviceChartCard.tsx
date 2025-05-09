@@ -45,7 +45,7 @@ export default function DeviceChartCard({ filtersOptions }: { filtersOptions: Fi
             <MultiSelect options={!false ? chartOptions : []} value={selectedValues} onChange={handleSelectChange} label="Hide Lines" />
 
             <div className="w-9/10 rounded-xl bg-gray-400/50 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20">
-                {<DeviceChart data={chartData} selectedValues={selectedValues} chartOptions={chartOptions} />}
+                <DeviceChart data={chartData} selectedValues={selectedValues} chartOptions={chartOptions} />
             </div>
         </div>
     );

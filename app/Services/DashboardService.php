@@ -16,17 +16,21 @@ class DashboardService
 
     public function getDashboardData(): array
     {
-        // Weather filters
         $weatherRecords = $this->weatherRepo->getWeatherFilters();
         $cities = $weatherRecords->pluck('city')->filter()->unique()->values();
         $weatherStartDate = $weatherRecords->pluck('date')->filter()->unique()->sort()->values()->first();
 
-        // Device filters
         $devices = $this->deviceRepo->getAllWithHistories();
         $deviceStartDate = $this->deviceRepo->getHistoryStartDate();
 
-        // Plant filters
-        $plants = $this->plantRepo->getAllWithHistories();
+        $plants = $this->plantRepo->getAllCustomerPlantIdWithPlantName()
+        ->map(function ($customerPlant) {
+            return [
+                'customer_plant_id' => $customerPlant->id,
+                'plant_name_botanical' => $customerPlant->plant->name_botanical,
+            ];
+        })
+        ->toArray();
         $plantStartDate = $this->plantRepo->getHistoryStartDate();
 
         return [

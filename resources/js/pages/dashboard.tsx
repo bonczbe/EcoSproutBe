@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import tzLookup from 'tz-lookup';
 import DashboardLayout from '../layouts/DashboardLayout';
+import PlantChartCard from '@/components/dashboard/PlantChartCard';
 
 interface OverviewProps {
     user: {
@@ -35,7 +36,6 @@ function Overview({ user }: OverviewProps) {
     const [time, setTime] = useState<Date | null>(null);
     const [isInfoCardVisible, setIsInfoCardVisible] = useState<boolean>(true);
     const { filters } = usePage<PageProps<{ filters: Filters }>>().props;
-    //console.log(filters);
 
     const getLocation = () => {
         if (navigator.geolocation) {
@@ -109,9 +109,13 @@ function Overview({ user }: OverviewProps) {
                     </AnimatePresence>
                 </div>
 
-                <WeatherChartCard filtersOptions={filters.weather} />
-                <DeviceChartCard filtersOptions={filters.devices} />
-                {/*<PlantChartCard filtersOptions={filters} />*/}
+                {
+                    /*
+                                <WeatherChartCard filtersOptions={filters.weather} />
+                                <DeviceChartCard filtersOptions={filters.devices} />
+                    */
+                }
+                <PlantChartCard filtersOptions={filters.plants} />
             </div>
         </div>
     );

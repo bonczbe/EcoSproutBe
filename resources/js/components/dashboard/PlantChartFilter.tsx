@@ -15,15 +15,18 @@ interface WeatherChartFiltersProps {
 }
 
 function PlantChartFilter({ filters, filtersOptions, onChange }: WeatherChartFiltersProps) {
-    const toOptionList = (items: string[]) => items.map((item) => ({ label: item, value: item }));
+    const toOptionList = (items: string[]) => items.map((item) => ({ label:+item.customer_plant_id+" : "+item.plant_name_botanical, value: item.customer_plant_id }));
     return (
         <div className="grid-1 grid justify-center gap-4 lg:grid-cols-2 xl:grid-cols-3">
-            <DropdownSelect
-                label="City"
-                value={filters.city}
-                options={toOptionList(filtersOptions.cities)}
-                onChange={(value) => onChange('city', value)}
+            {
+                <DropdownSelect
+                className='col-span-full'
+                label="Plant"
+                value={filters.plant}
+                options={toOptionList(filtersOptions.plants)}
+                onChange={(value) => onChange('plant', value)}
             />
+}
 
             <Input
                 className={`rounded bg-gray-100 p-2 px-4 dark:bg-gray-700`}
@@ -36,7 +39,7 @@ function PlantChartFilter({ filters, filtersOptions, onChange }: WeatherChartFil
                 className={`rounded bg-gray-100 p-2 px-4 dark:bg-gray-700`}
                 label="End Date"
                 type="date"
-                value={filters.endDate || new Date().toISOString().split('T')[0]}
+                value={filters.endDate}
                 onChange={(value) => onChange('endDate', value.target.value)}
             />
         </div>
