@@ -1,8 +1,8 @@
 import useWeatherChartData from '@/hooks/useWeatherChartData';
 import { FiltersOptions, FiltersState, weatherOption } from '@/types/weather';
 import { useState } from 'react';
-import WeatherChart from '../WeatherChart';
 import MultiSelect from './MultiSelect';
+import WeatherChart from './WeatherChart';
 import WeatherChartFilters from './WeatherChartFilters';
 
 export default function WeatherChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }) {

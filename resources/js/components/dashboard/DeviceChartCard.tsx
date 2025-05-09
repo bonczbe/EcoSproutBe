@@ -2,6 +2,7 @@ import useDeviceChartData from '@/hooks/useDeviceChartData';
 import { FiltersOptions, FiltersState } from '@/types/device';
 import { weatherOption } from '@/types/weather';
 import { useState } from 'react';
+import DeviceChart from './DeviceChart';
 import DeviceChartFilter from './DeviceChartFilter';
 import MultiSelect from './MultiSelect';
 
@@ -34,7 +35,6 @@ export default function DeviceChartCard({ filtersOptions }: { filtersOptions: Fi
     ];
 
     const { chartData, loading } = useDeviceChartData(filters);
-    console.log(chartData);
 
     return (
         <div className="flex min-h-48 flex-col items-center justify-center gap-4 rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">
@@ -45,10 +45,7 @@ export default function DeviceChartCard({ filtersOptions }: { filtersOptions: Fi
             <MultiSelect options={!false ? chartOptions : []} value={selectedValues} onChange={handleSelectChange} label="Hide Lines" />
 
             <div className="w-9/10 rounded-xl bg-gray-400/50 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20">
-                kek
-                {
-                    //<WeatherChart data={chartData} selectedValues={selectedValues} chartOptions={chartOptions} />
-                }
+                {<DeviceChart data={chartData} selectedValues={selectedValues} chartOptions={chartOptions} />}
             </div>
         </div>
     );

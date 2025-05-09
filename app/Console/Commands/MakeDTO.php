@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class MakeDTO extends Command
 {
     protected $signature = 'make:dto {name}';
+
     protected $description = 'Create a new Data Transfer Object (DTO)';
 
     public function handle()
@@ -18,10 +19,11 @@ class MakeDTO extends Command
 
         if (File::exists($path)) {
             $this->error("DTO {$name}DTO already exists.");
+
             return;
         }
 
-        if (!File::isDirectory(app_path('DTOs'))) {
+        if (! File::isDirectory(app_path('DTOs'))) {
             File::makeDirectory(app_path('DTOs'));
         }
 

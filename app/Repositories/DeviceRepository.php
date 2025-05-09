@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Device;
 use App\Models\DeviceHistory;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class DeviceRepository
 {
@@ -23,5 +24,28 @@ class DeviceRepository
         return DeviceHistory::orderBy('created_at')
             ->limit(1)
             ->value('created_at');
+    }
+
+    public function getDeviceHistoriesByDate($startDate, $endDate, $device): array
+    {
+        return DeviceHistory::query()
+            ->where('device_id', $device)
+            ->whereBetween('updated_at', [$startDate, $endDate])
+            ->get()
+            ->toArray();
+    }
+
+    public function getDevicesHistoriesByDate($startDate, $endDate): array
+    {
+        return DeviceHistory::select([
+            DB::raw('updated_at'),
+            DB::raw('AVG(water_level) as water_level'),
+            DB::raw('AVG(temperature) as temperature'),
+        ])
+            ->whereBetween('updated_at', [$startDate, $endDate])
+            ->groupBy('updated_at')
+            ->orderBy('updated_at')
+            ->get()
+            ->toArray();
     }
 }

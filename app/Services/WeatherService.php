@@ -76,4 +76,12 @@ class WeatherService
             return null;
         }
     }
+
+    public function getWeatherByFilters($data): array
+    {
+        $startDate = $data['startDate'];
+        $endDate = $data['endDate'] ?? '9999-12-30';
+
+        return $this->weatherRepository->getWeatherByFilters($data['city'], $startDate, $endDate);
+    }
 }

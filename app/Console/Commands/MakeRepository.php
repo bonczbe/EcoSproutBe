@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class MakeRepository extends Command
 {
     protected $signature = 'make:repository {name}';
+
     protected $description = 'Create a new repository class';
 
     public function handle()
@@ -17,11 +18,12 @@ class MakeRepository extends Command
         $path = app_path("Repositories/{$name}Repository.php");
 
         if (File::exists($path)) {
-            $this->error("Repository already exists.");
+            $this->error('Repository already exists.');
+
             return;
         }
 
-        if (!File::isDirectory(app_path('Repositories'))) {
+        if (! File::isDirectory(app_path('Repositories'))) {
             File::makeDirectory(app_path('Repositories'));
         }
 
