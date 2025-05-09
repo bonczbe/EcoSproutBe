@@ -1,4 +1,4 @@
-import usePlantChartData from '@/hooks/usePlantChartData copy';
+import usePlantChartData from '@/hooks/usePlantChartData';
 import { FiltersState } from '@/types/plant';
 import { FiltersOptions } from '@/types/weather';
 import { useState } from 'react';
