@@ -76,4 +76,12 @@ class PlantService
 
         }
     }
+
+    public function getPlantHistoriesByCustomerPlantId($filters){
+
+        $plantId = $filters['plant'];
+        $startDate = $filters['startDate'];
+        $endDate = $filters['endDate'] ?? '9999-12-30';
+        return $this->plantRepository->getHistoryByFilters($plantId,$startDate,$endDate);
+    }
 }

@@ -25,4 +25,13 @@ class PlantRepository
             ->limit(1)
             ->value('created_at');
     }
+
+    public function getHistoryByFilters($plantId, $startDate,$endDate): array
+    {
+        return PlantHistory::query()
+            ->where('customer_plant_id',$plantId)
+            ->whereBetween('updated_at', [$startDate, $endDate])
+            ->get()
+            ->toArray();
+    }
 }
