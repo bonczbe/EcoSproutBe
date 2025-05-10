@@ -14,14 +14,17 @@ class PlantRepository
         Plant::upsert($plants, ['name_botanical']);
     }
 
-    public function getAllCustomerPlantIdWithPlantName(): Collection
+    public function getAllCustomerPlantIdWithPlantNameForUser($user): Collection
     {
-        return CustomerPlant::with(['plant'])->get();
+        return CustomerPlant::with(['plant'])
+            ->forUser($user)
+            ->get();
     }
 
-    public function getHistoryStartDate(): ?string
+    public function getHistoryStartDateForUser($user): ?string
     {
-        return PlantHistory::orderBy('created_at')
+        return PlantHistory::forUser($user)
+            ->orderBy('created_at')
             ->limit(1)
             ->value('created_at');
     }

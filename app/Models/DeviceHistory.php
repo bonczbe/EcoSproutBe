@@ -20,4 +20,11 @@ class DeviceHistory extends Model
     {
         return $this->belongsTo(Device::class);
     }
+
+    public function scopeForUser($query, $user)
+{
+    return $query->whereHas('device.users', function ($q) use ($user) {
+        $q->where('users.id', $user->id);
+    });
+}
 }

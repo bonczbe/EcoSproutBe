@@ -13,7 +13,7 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $filters = $this->dashboardService->getDashboardData();
+        $filters = $this->dashboardService->getDashboardData($user);
 
         return Inertia::render('dashboard', [
             'user' => $user->toArray(),

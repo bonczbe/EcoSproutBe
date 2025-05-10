@@ -18,4 +18,11 @@ class PlantHistory extends Model
     {
         return $this->belongsTo(CustomerPlant::class, 'customer_plant_id');
     }
+
+    public function scopeForUser($query, $user)
+    {
+        return $query->whereHas('customerPlant.device.users', function ($q) use ($user) {
+            $q->where('users.id', $user->id);
+        });
+    }
 }

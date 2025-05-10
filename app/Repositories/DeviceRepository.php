@@ -14,14 +14,15 @@ class DeviceRepository
         return Device::all()->pluck('city')->toArray();
     }
 
-    public function getAllWithHistories(): Collection
+    public function getAllWithHistoriesForUser($user): Collection
     {
-        return Device::with('histories')->get();
+        return Device::with('histories')
+        ->forUser($user)->get();
     }
 
-    public function getHistoryStartDate(): ?string
+    public function getHistoryStartDateForUser($user): ?string
     {
-        return DeviceHistory::orderBy('created_at')
+        return DeviceHistory::forUser($user)->orderBy('created_at')
             ->limit(1)
             ->value('created_at');
     }

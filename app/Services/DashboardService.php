@@ -14,16 +14,16 @@ class DashboardService
         protected PlantRepository $plantRepo
     ) {}
 
-    public function getDashboardData(): array
+    public function getDashboardData($user): array
     {
         $weatherRecords = $this->weatherRepo->getWeatherFilters();
         $cities = $weatherRecords->pluck('city')->filter()->unique()->values();
         $weatherStartDate = $weatherRecords->pluck('date')->filter()->unique()->sort()->values()->first();
 
-        $devices = $this->deviceRepo->getAllWithHistories();
-        $deviceStartDate = $this->deviceRepo->getHistoryStartDate();
+        $devices = $this->deviceRepo->getAllWithHistoriesForUser($user);
+        $deviceStartDate = $this->deviceRepo->getHistoryStartDateForUser($user);
 
-        $plants = $this->plantRepo->getAllCustomerPlantIdWithPlantName()
+        $plants = $this->plantRepo->getAllCustomerPlantIdWithPlantNameForUser($user)
             ->map(function ($customerPlant) {
                 return [
                     'customer_plant_id' => $customerPlant->id,
@@ -31,7 +31,7 @@ class DashboardService
                 ];
             })
             ->toArray();
-        $plantStartDate = $this->plantRepo->getHistoryStartDate();
+        $plantStartDate = $this->plantRepo->getHistoryStartDateForUser($user);
 
         return [
             'weather' => [
