@@ -19,11 +19,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('plants');
     })->name('plants');
 
-        Route::prefix('charts')->group(function () {
-            Route::post('weather', [ChartController::class, 'weather']);
-            Route::post('device', [ChartController::class, 'device']);
-            Route::post('plant', [ChartController::class, 'plant']);
-        });
+    Route::prefix('charts')->group(function () {
+        Route::post('weather', [ChartController::class, 'weather']);
+        Route::post('device', [ChartController::class, 'device']);
+        Route::post('plant', [ChartController::class, 'plant']);
+    });
 });
 
 require __DIR__.'/settings.php';
