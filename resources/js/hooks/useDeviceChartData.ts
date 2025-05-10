@@ -10,7 +10,7 @@ export default function useDeviceChartData(filters: FiltersState) {
         const fetchChartData = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('/api/charts/device', {
+                const response = await axios.post('/charts/device', {
                     device: filters.device,
                     startDate: filters.startDate || '2000-01-01',
                     endDate: filters.endDate || null,

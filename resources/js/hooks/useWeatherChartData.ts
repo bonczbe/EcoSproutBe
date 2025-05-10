@@ -10,7 +10,7 @@ export default function useWeatherChartData(filters: FiltersState) {
         const fetchChartData = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('/api/charts/weather', {
+                const response = await axios.post('/charts/weather', {
                     city: filters.city || 'all',
                     startDate: filters.startDate || '2000-01-01',
                     endDate: filters.endDate || null,

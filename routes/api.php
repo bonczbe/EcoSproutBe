@@ -12,7 +12,7 @@ Route::get('/user', function (Request $request) {
 });
 
 Route::group(
-    [],// ['middleware' => 'auth:sanctum'],
+    ['middleware' => 'auth:sanctum'],
     function () {
         Route::prefix('charts')->group(function () {
             Route::post('weather', [ChartController::class, 'weather']);

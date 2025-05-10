@@ -24,7 +24,7 @@ class ChartController extends Controller
     public function device(DeviceChartRequest $request)
     {
         $validated = $request->validated();
-        $user = Auth::user();
+        $user = Auth::user('web');
 
         return $this->deviceService->getDeviceHistoryDataByDate($validated, $user);
 

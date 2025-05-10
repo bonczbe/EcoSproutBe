@@ -10,7 +10,7 @@ export default function usePlantChartData(filters: FiltersState) {
         const fetchChartData = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('/api/charts/plant', {
+                const response = await axios.post('/charts/plant', {
                     plant: filters.plant || 0,
                     startDate: filters.startDate || '2000-01-01',
                     endDate: filters.endDate || null,
