@@ -8,6 +8,7 @@ use App\Http\Requests\WeatherChartRequest;
 use App\Services\DeviceService;
 use App\Services\PlantService;
 use App\Services\WeatherService;
+use Illuminate\Support\Facades\Auth;
 
 class ChartController extends Controller
 {
@@ -23,15 +24,17 @@ class ChartController extends Controller
     public function device(DeviceChartRequest $request)
     {
         $validated = $request->validated();
+        $user = Auth::user();
 
-        return $this->deviceService->getDeviceHistoryDataByDate($validated);
+        return $this->deviceService->getDeviceHistoryDataByDate($validated,$user);
 
     }
 
     public function plant(PlantChartRequest $request)
     {
         $validated = $request->validated();
+        $user = Auth::user();
 
-        return $this->plantService->getPlantHistoriesByCustomerPlantId($validated);
+        return $this->plantService->getPlantHistoriesByCustomerPlantId($validated,$user);
     }
 }

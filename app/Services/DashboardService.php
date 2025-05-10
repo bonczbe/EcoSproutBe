@@ -17,8 +17,18 @@ class DashboardService
     public function getDashboardData($user): array
     {
         $weatherRecords = $this->weatherRepo->getWeatherFilters();
-        $cities = $weatherRecords->pluck('city')->filter()->unique()->values();
-        $weatherStartDate = $weatherRecords->pluck('date')->filter()->unique()->sort()->values()->first();
+        $cities = $weatherRecords
+            ->pluck('city')
+            ->filter()
+            ->unique()
+            ->values();
+        $weatherStartDate = $weatherRecords
+            ->pluck('date')
+            ->filter()
+            ->unique()
+            ->sort()
+            ->values()
+            ->first();
 
         $devices = $this->deviceRepo->getAllWithHistoriesForUser($user);
         $deviceStartDate = $this->deviceRepo->getHistoryStartDateForUser($user);
