@@ -37,10 +37,11 @@ class Device extends Model
     {
         return $this->belongsToMany(User::class, 'device_user');
     }
+
     public function scopeForUser($query, $user)
-{
-    return $query->whereHas('users', function ($q) use ($user) {
-        $q->where('users.id', $user->id);
-    });
-}
+    {
+        return $query->whereHas('users', function ($q) use ($user) {
+            $q->where('users.id', $user->id);
+        });
+    }
 }

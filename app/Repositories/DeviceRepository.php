@@ -17,7 +17,7 @@ class DeviceRepository
     public function getAllWithHistoriesForUser($user): Collection
     {
         return Device::with('histories')
-        ->forUser($user)->get();
+            ->forUser($user)->get();
     }
 
     public function getHistoryStartDateForUser($user): ?string
