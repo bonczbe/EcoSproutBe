@@ -26,7 +26,7 @@ class ChartController extends Controller
         $validated = $request->validated();
         $user = Auth::user();
 
-        return $this->deviceService->getDeviceHistoryDataByDate($validated,$user);
+        return $this->deviceService->getDeviceHistoryDataByDate($validated, $user);
 
     }
 
@@ -35,6 +35,6 @@ class ChartController extends Controller
         $validated = $request->validated();
         $user = Auth::user();
 
-        return $this->plantService->getPlantHistoriesByCustomerPlantId($validated,$user);
+        return $this->plantService->getPlantHistoriesByCustomerPlantId($validated, $user);
     }
 }

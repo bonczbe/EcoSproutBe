@@ -27,17 +27,17 @@ class DeviceRepository
             ->value('created_at');
     }
 
-    public function getDeviceHistoriesByDate($startDate, $endDate, $device,$user): array
+    public function getDeviceHistoriesByDate($startDate, $endDate, $device, $user): array
     {
         return DeviceHistory::query()
-        ->forUser($user)
+            ->forUser($user)
             ->where('device_id', $device)
             ->whereBetween('updated_at', [$startDate, $endDate])
             ->get()
             ->toArray();
     }
 
-    public function getDevicesHistoriesByDate($startDate, $endDate,$user): array
+    public function getDevicesHistoriesByDate($startDate, $endDate, $user): array
     {
         return DeviceHistory::select([
             DB::raw('updated_at'),
