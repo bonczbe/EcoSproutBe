@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DeviceChartRequest;
 use App\Http\Requests\PlantChartRequest;
 use App\Http\Requests\WeatherChartRequest;
-use App\Models\PlantHistory;
 use App\Services\DeviceService;
 use App\Services\PlantService;
 use App\Services\WeatherService;

@@ -26,10 +26,10 @@ class PlantRepository
             ->value('created_at');
     }
 
-    public function getHistoryByFilters($plantId, $startDate,$endDate): array
+    public function getHistoryByFilters($plantId, $startDate, $endDate): array
     {
         return PlantHistory::query()
-            ->where('customer_plant_id',$plantId)
+            ->where('customer_plant_id', $plantId)
             ->whereBetween('updated_at', [$startDate, $endDate])
             ->get()
             ->toArray();

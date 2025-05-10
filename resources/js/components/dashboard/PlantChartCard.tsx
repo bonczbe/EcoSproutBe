@@ -3,6 +3,8 @@ import { FiltersState } from '@/types/plant';
 import { FiltersOptions } from '@/types/weather';
 import { useState } from 'react';
 import PlantChartFilter from './PlantChartFilter';
+import WeatherChart from './WeatherChart';
+import PlantChart from './PlantChart';
 
 export default function PlantChartCard({ filtersOptions }: { filtersOptions: FiltersOptions }) {
     const [filters, setFilters] = useState<FiltersState>({
@@ -20,15 +22,10 @@ export default function PlantChartCard({ filtersOptions }: { filtersOptions: Fil
     return (
         <div className="flex min-h-48 flex-col items-center justify-center gap-4 rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">
             <h1 className="text-2xl font-bold">Plant Chart</h1>
-            {
-                <PlantChartFilter filters={filters} filtersOptions={filtersOptions} onChange={handleFilterChange} />
-                /*
-
+            <PlantChartFilter filters={filters} filtersOptions={filtersOptions} onChange={handleFilterChange} />
             <div className="w-9/10 rounded-xl bg-gray-400/50 p-6 shadow-sm inset-shadow-sm shadow-green-800/20 inset-shadow-green-800/20">
-                <WeatherChart data={chartData} selectedValues={selectedValues} chartOptions={chartOptions} />
+                <PlantChart data={chartData} />
             </div>
-                */
-            }
         </div>
     );
 }

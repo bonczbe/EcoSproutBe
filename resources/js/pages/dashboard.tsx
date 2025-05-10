@@ -1,6 +1,8 @@
+import DeviceChartCard from '@/components/dashboard/DeviceChartCard';
 import PlantChartCard from '@/components/dashboard/PlantChartCard';
 import ToggleInfoButton from '@/components/dashboard/ToggleInfoButton';
 import UserInfoCard from '@/components/dashboard/UserInfoCard';
+import WeatherChartCard from '@/components/dashboard/WeatherChartCard';
 import WelcomeCard from '@/components/dashboard/WelcomeCard';
 import { PageProps } from '@/types';
 import { usePage } from '@inertiajs/react';
@@ -106,11 +108,8 @@ function Overview({ user }: OverviewProps) {
                         )}
                     </AnimatePresence>
                 </div>
-
-                {/*
-                                <WeatherChartCard filtersOptions={filters.weather} />
-                                <DeviceChartCard filtersOptions={filters.devices} />
-                    */}
+                <WeatherChartCard filtersOptions={filters.weather} />
+                <DeviceChartCard filtersOptions={filters.devices} />
                 <PlantChartCard filtersOptions={filters.plants} />
             </div>
         </div>

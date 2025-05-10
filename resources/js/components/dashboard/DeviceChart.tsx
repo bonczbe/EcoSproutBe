@@ -1,17 +1,17 @@
 import { LineChart } from '@mui/x-charts/LineChart';
 
-type AggregatedWeatherKey = keyof Omit<AggregatedWeather, 'date' | 'count'>;
-interface WeatherChartProps {
+type AggregatedDeviceKey = keyof Omit<AggregatedDevice, 'date' | 'count'>;
+interface DeviceChartProps {
     data: any[];
     selectedValues: { value: string; label: string }[];
-    chartOptions: { value: AggregatedWeatherKey; label: string }[];
+    chartOptions: { value: AggregatedDeviceKey; label: string }[];
 }
 
-type AggregatedWeather = {
+type AggregatedDevice = {
     date: string;
 };
 
-export default function DeviceChart({ data, selectedValues, chartOptions }: WeatherChartProps) {
+export default function DeviceChart({ data, selectedValues, chartOptions }: DeviceChartProps) {
     const margin = { right: 40 };
 
     const colorPalette = [
