@@ -1,11 +1,13 @@
+import AddDevice from '@/components/devices/AddDevice';
+import DeviceList from '@/components/devices/DeviceList';
 import DashboardLayout from '../layouts/DashboardLayout';
 
 function Overview() {
     return (
-        <div>
-            <h1 className="text-2xl font-bold">Welcome</h1>
-            <p>This is the dashboard overview.</p>
-        </div>
+        <>
+            <AddDevice />
+            <DeviceList />
+        </>
     );
 }
 
