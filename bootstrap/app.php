@@ -29,8 +29,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->api(prepend: [
             EnsureFrontendRequestsAreStateful::class,
-        //'throttle:api',
-        SubstituteBindings::class,
+            // 'throttle:api',
+            SubstituteBindings::class,
             ForceJsonResponse::class,
         ]);
     })

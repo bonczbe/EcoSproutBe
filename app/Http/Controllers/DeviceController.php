@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 
 class DeviceController extends Controller
 {
-    public function __construct(private readonly DeviceService $deviceService) {
-    }
+    public function __construct(private readonly DeviceService $deviceService) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -32,8 +32,9 @@ class DeviceController extends Controller
      */
     public function store(RegisterDeviceRequest $request)
     {
-    $device = $this->deviceService->storeNewDevice($request->validated());
-        return ($device)?response($device,201):response("Unprocessable Content",422);
+        $device = $this->deviceService->storeNewDevice($request->validated());
+
+        return ($device) ? response($device, 201) : response('Unprocessable Content', 422);
     }
 
     /**

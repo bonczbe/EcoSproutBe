@@ -20,7 +20,7 @@ Route::middleware(['web'])->group(function () {
             Route::post('store', [DeviceController::class, 'store']);
         });
     });
-    Route::middleware('auth:sanctum')->get('test-auth', function() {
-    return response()->json(['message' => 'Authenticated!']);
-});
+    Route::middleware('auth:sanctum')->get('test-auth', function () {
+        return response()->json(['message' => 'Authenticated!']);
+    });
 });

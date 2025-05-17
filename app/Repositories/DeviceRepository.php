@@ -51,7 +51,8 @@ class DeviceRepository
             ->toArray();
     }
 
-    public function storeDevice($data): Device{
+    public function storeDevice($data): Device
+    {
         return Device::create($data);
     }
 }
