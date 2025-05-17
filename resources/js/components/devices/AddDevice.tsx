@@ -52,7 +52,7 @@ export default function AddDevice({ onDeviceAdded }: { onDeviceAdded?: () => voi
 
     return (
         <>
-            <ToastMessage message={successMessage} />
+            <ToastMessage message={successMessage}  type={'success'}/>
             <button onClick={() => setIsOpen(true)} className="w-fit rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800">
                 Add New Device
             </button>
