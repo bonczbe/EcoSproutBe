@@ -2,13 +2,20 @@ import axios from 'axios';
 
 const axiosClient = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
-    withCredentials: true, // This is crucial for Sanctum
+    withCredentials: true,
+    headers: {
+        Accept: 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+    },
 });
 
-// Add request interceptor to handle CSRF token
-axiosClient.interceptors.request.use((config) => {
+// Ensure CSRF cookie is obtained before any request that needs it
+axiosClient.interceptors.request.use(async (config) => {
     if (['post', 'put', 'delete', 'patch'].includes(config.method?.toLowerCase())) {
-        return axios.get('/sanctum/csrf-cookie').then(() => config);
+        await axios.get('/sanctum/csrf-cookie', {
+            baseURL: import.meta.env.VITE_API_BASE_URL,
+            withCredentials: true,
+        });
     }
     return config;
 });

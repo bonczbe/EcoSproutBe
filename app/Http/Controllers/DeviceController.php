@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterDeviceRequest;
 use App\Models\Device;
+use App\Services\DeviceService;
 use Illuminate\Http\Request;
 
 class DeviceController extends Controller
 {
+    public function __construct(private readonly DeviceService $deviceService) {
+    }
     /**
      * Display a listing of the resource.
      */
@@ -26,9 +30,10 @@ class DeviceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RegisterDeviceRequest $request)
     {
-        //
+    $device = $this->deviceService->storeNewDevice($request->validated());
+        return ($device)?response($device,201):response("Unprocessable Content",422);
     }
 
     /**

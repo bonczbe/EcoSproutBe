@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\DeviceController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])->group(function () {
@@ -15,5 +16,11 @@ Route::middleware(['web'])->group(function () {
             Route::post('device', [ChartController::class, 'device']);
             Route::post('plant', [ChartController::class, 'plant']);
         });
+        Route::prefix('device')->group(function () {
+            Route::post('store', [DeviceController::class, 'store']);
+        });
     });
+    Route::middleware('auth:sanctum')->get('test-auth', function() {
+    return response()->json(['message' => 'Authenticated!']);
+});
 });

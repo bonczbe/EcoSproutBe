@@ -19,4 +19,9 @@ class DeviceService
             return $this->deviceRepository->getDevicesHistoriesByDate($startDate, $endDate, $user);
         }
     }
+
+    public function storeNewDevice($data)
+    {
+        return $this->deviceRepository->storeDevice($data);
+    }
 }
