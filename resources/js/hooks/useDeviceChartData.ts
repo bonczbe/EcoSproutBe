@@ -1,5 +1,5 @@
 import { FiltersState } from '@/types/device';
-import axios from 'axios';
+import axiosClient from '@/utils/axiosClient';
 import { useEffect, useState } from 'react';
 
 export default function useDeviceChartData(filters: FiltersState) {
@@ -10,7 +10,7 @@ export default function useDeviceChartData(filters: FiltersState) {
         const fetchChartData = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('/charts/device', {
+                const response = await axiosClient.post('/api/charts/device', {
                     device: filters.device,
                     startDate: filters.startDate || '2000-01-01',
                     endDate: filters.endDate || null,

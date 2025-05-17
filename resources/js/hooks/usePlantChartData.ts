@@ -1,5 +1,5 @@
 import { FiltersState } from '@/types/plant';
-import axios from 'axios';
+import axiosClient from '@/utils/axiosClient';
 import { useEffect, useState } from 'react';
 
 export default function usePlantChartData(filters: FiltersState) {
@@ -10,7 +10,7 @@ export default function usePlantChartData(filters: FiltersState) {
         const fetchChartData = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('/charts/plant', {
+                const response = await axiosClient.post('/api/charts/plant', {
                     plant: filters.plant || 0,
                     startDate: filters.startDate || '2000-01-01',
                     endDate: filters.endDate || null,

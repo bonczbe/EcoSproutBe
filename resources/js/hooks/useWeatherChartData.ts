@@ -1,5 +1,5 @@
 import { FiltersState } from '@/types/weather';
-import axios from 'axios';
+import axiosClient from '@/utils/axiosClient';
 import { useEffect, useState } from 'react';
 
 export default function useWeatherChartData(filters: FiltersState) {
@@ -10,7 +10,7 @@ export default function useWeatherChartData(filters: FiltersState) {
         const fetchChartData = async () => {
             setLoading(true);
             try {
-                const response = await axios.post('/charts/weather', {
+                const response = await axiosClient.post('/api/charts/weather', {
                     city: filters.city || 'all',
                     startDate: filters.startDate || '2000-01-01',
                     endDate: filters.endDate || null,

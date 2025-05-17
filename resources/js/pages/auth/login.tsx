@@ -32,12 +32,13 @@ export default function Login({ status, canResetPassword }: LoginProps) {
     const submit: FormEventHandler = async (e) => {
         e.preventDefault();
 
-        await axiosClient.get('/sanctum/csrf-cookie');
-        await axiosClient.post('/login', {
-            email: data.email,
-            password: data.password,
-        });
-
+        await axiosClient.get('/sanctum/csrf-cookie').then(
+            async () =>
+                await axiosClient.post('/api/login', {
+                    email: data.email,
+                    password: data.password,
+                }),
+        );
         post(route('login'), {
             onFinish: () => reset('password'),
         });
