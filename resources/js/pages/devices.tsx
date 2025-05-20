@@ -1,19 +1,21 @@
 import AddDevice from '@/components/devices/AddDevice';
 import DeviceList from '@/components/devices/DeviceList';
+import { router } from '@inertiajs/react';
 import { useState } from 'react';
 import DashboardLayout from '../layouts/DashboardLayout';
 
-function Overview() {
+function Overview({ bdevices }: any) {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     const handleDeviceAdded = () => {
+        router.reload({ only: ['bdevices'] });
         setRefreshTrigger((prev) => prev + 1);
     };
 
     return (
         <>
             <AddDevice onDeviceAdded={handleDeviceAdded} />
-            <DeviceList key={refreshTrigger} />
+            <DeviceList key={refreshTrigger} devices={bdevices} />
         </>
     );
 }
