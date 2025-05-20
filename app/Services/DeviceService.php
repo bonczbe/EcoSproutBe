@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\DeviceRepository;
+use Illuminate\Support\Facades\Auth;
 
 class DeviceService
 {
@@ -22,6 +23,17 @@ class DeviceService
 
     public function storeNewDevice($data)
     {
-        return $this->deviceRepository->storeDevice($data);
+        $user = Auth::user('web');
+        $device = $this->deviceRepository->storeDevice($data, $user);
+        $device->users()->syncWithoutDetaching($user->id);
+
+        return $device;
+    }
+
+    public function getDevicesByUser($user)
+    {
+        return [
+            'bdevices' => $this->deviceRepository->getDevicesByUser($user),
+        ];
     }
 }

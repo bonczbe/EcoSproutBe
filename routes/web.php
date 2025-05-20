@@ -1,8 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Models\Device;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DeviceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,14 +12,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
-    Route::get('devices', function () {
-        return Inertia::render('devices', [
-            'bdevices' => Device::query()
-                ->whereHas('users', fn ($q) => $q
-                    ->where('users.id', Auth::id()))
-                ->get(),
-        ]);
-    })->name('devices');
+    Route::get('devices', [DeviceController::class, 'index'])->name('devices');
     Route::get('plants', function () {
         return Inertia::render('plants');
     })->name('plants');

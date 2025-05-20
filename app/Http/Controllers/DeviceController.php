@@ -6,6 +6,8 @@ use App\Http\Requests\RegisterDeviceRequest;
 use App\Models\Device;
 use App\Services\DeviceService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class DeviceController extends Controller
 {
@@ -16,7 +18,9 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user('web');
+
+        return Inertia::render('devices', $this->deviceService->getDevicesByUser($user));
     }
 
     /**

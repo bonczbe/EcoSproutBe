@@ -51,8 +51,15 @@ class DeviceRepository
             ->toArray();
     }
 
-    public function storeDevice($data): Device
+    public function storeDevice($data, $user): Device
     {
         return Device::create($data);
+    }
+
+    public function getDevicesByUser($user)
+    {
+        return Device::query()
+            ->forUser($user)
+            ->get();
     }
 }
