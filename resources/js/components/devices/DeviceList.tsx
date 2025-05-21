@@ -1,12 +1,14 @@
 import Device from './Device';
 
-export default function DeviceList({ devices, weathers }: { devices: any[]; weathers: any[] }) {
+export default function DeviceList({ devices, weathers, reloadPage }: { devices: any[]; weathers: any[]; reloadPage: () => void }) {
     const handleUpdate = (deviceId: number) => {
         console.log('Update device:', deviceId);
+        reloadPage();
     };
 
     const handleDelete = (deviceId: number) => {
         console.log('Delete device:', deviceId);
+        reloadPage();
     };
 
     const findWeatherForCity = (city: string) => {

@@ -7,15 +7,15 @@ import DashboardLayout from '../layouts/DashboardLayout';
 function Overview({ bdevices, weathers }: any) {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-    const handleDeviceAdded = () => {
+    const reloadPage = () => {
         router.reload({ only: ['bdevices'] });
         setRefreshTrigger((prev) => prev + 1);
     };
 
     return (
         <>
-            <AddDevice onDeviceAdded={handleDeviceAdded} />
-            <DeviceList key={refreshTrigger} devices={bdevices} weathers={weathers} />
+            <AddDevice onDeviceAdded={reloadPage} />
+            <DeviceList key={refreshTrigger} devices={bdevices} weathers={weathers} reloadPage={reloadPage} />
         </>
     );
 }
