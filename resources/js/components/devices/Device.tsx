@@ -1,4 +1,5 @@
 import { CheckCircle, XCircle } from 'lucide-react';
+import { useState } from 'react';
 
 type DeviceType = {
     id: number;
@@ -29,6 +30,8 @@ type DeviceProps = {
     handleUpdate: (id: number) => void;
 };
 export default function Device({ device, weather, handleDelete, handleUpdate }: DeviceProps) {
+    const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const renderStatusIcon = (status: boolean) =>
         status ? (
             <CheckCircle className="inline h-5 w-5 text-green-600 dark:text-green-400" />
@@ -82,13 +85,10 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
                 {/* Actions & Meta */}
                 <div className="flex flex-col items-end justify-between">
                     <div className="flex flex-col space-y-2">
-                        <button
-                            onClick={() => handleUpdate(device.id)}
-                            className="rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700"
-                        >
+                        <button onClick={() => setIsUpdateOpen(true)} className="rounded bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700">
                             Update
                         </button>
-                        <button onClick={() => handleDelete(device.id)} className="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700">
+                        <button onClick={() => setIsDeleteOpen(true)} className="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700">
                             Delete
                         </button>
                     </div>
