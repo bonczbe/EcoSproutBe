@@ -4,7 +4,7 @@ import { router } from '@inertiajs/react';
 import { useState } from 'react';
 import DashboardLayout from '../layouts/DashboardLayout';
 
-function Overview({ bdevices }: any) {
+function Overview({ bdevices, weathers }: any) {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     const handleDeviceAdded = () => {
@@ -15,7 +15,7 @@ function Overview({ bdevices }: any) {
     return (
         <>
             <AddDevice onDeviceAdded={handleDeviceAdded} />
-            <DeviceList key={refreshTrigger} devices={bdevices} />
+            <DeviceList key={refreshTrigger} devices={bdevices} weathers={weathers} />
         </>
     );
 }

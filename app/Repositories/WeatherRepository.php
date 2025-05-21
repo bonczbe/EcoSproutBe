@@ -31,4 +31,14 @@ class WeatherRepository
             ->get()
             ->toArray();
     }
+
+    public function getLastWeatherForCities($cities)
+    {
+        return Weather::query()
+            ->whereIn('city', $cities)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->unique('city')
+            ->values();
+    }
 }

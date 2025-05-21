@@ -3,11 +3,12 @@
 namespace App\Services;
 
 use App\Repositories\DeviceRepository;
+use App\Repositories\WeatherRepository;
 use Illuminate\Support\Facades\Auth;
 
 class DeviceService
 {
-    public function __construct(private DeviceRepository $deviceRepository) {}
+    public function __construct(private DeviceRepository $deviceRepository, private WeatherRepository $weatherRepository) {}
 
     public function getDeviceHistoryDataByDate($data, $user): array
     {
@@ -32,8 +33,13 @@ class DeviceService
 
     public function getDevicesByUser($user)
     {
+        $devices = $this->deviceRepository->getDevicesByUser($user);
+        $cities = $devices->pluck('city')->unique();
+        $weathers = $this->weatherRepository->getLastWeatherForCities($cities);
+
         return [
             'bdevices' => $this->deviceRepository->getDevicesByUser($user),
+            'weathers' => $weathers,
         ];
     }
 }
