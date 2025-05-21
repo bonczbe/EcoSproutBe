@@ -11,7 +11,7 @@ class RegisterDeviceRequest extends FormRequest
         return [
             'name' => 'required|string',
             'location' => 'required|',
-            'city' => '',
+            'city' => 'required',
             'is_on' => 'required|boolean',
             'is_inside' => 'required|boolean',
 

@@ -1,4 +1,5 @@
-import { CheckCircle, XCircle } from 'lucide-react';
+import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
+import { CheckCircle, X, XCircle } from 'lucide-react';
 import { useState } from 'react';
 
 type DeviceType = {
@@ -42,6 +43,38 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
         <>
             <div className="grid grid-cols-1 gap-4 rounded border border-gray-200 bg-white p-4 shadow sm:grid-cols-2 lg:grid-cols-3 dark:border-gray-700 dark:bg-gray-900">
                 {/* Device Info */}
+
+                <Dialog open={isUpdateOpen} onClose={() => setIsUpdateOpen(false)} className="relative z-50">
+                    <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
+
+                    <div className="fixed inset-0 flex items-center justify-center p-4">
+                        <DialogPanel className="w-full max-w-xl rounded bg-white p-6 shadow-xl dark:bg-gray-800">
+                            <div className="mb-4 flex items-center justify-between">
+                                <DialogTitle className="w-full text-center text-2xl font-semibold">Update Device</DialogTitle>
+                                <button onClick={() => setIsUpdateOpen(false)} className="text-gray-500 hover:text-gray-700">
+                                    <X className="h-5 w-5" />
+                                </button>
+                            </div>
+                            <form>kek</form>
+                        </DialogPanel>
+                    </div>
+                </Dialog>
+
+                <Dialog open={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} className="relative z-50">
+                    <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
+
+                    <div className="fixed inset-0 flex items-center justify-center p-4">
+                        <DialogPanel className="w-full max-w-xl rounded bg-white p-6 shadow-xl dark:bg-gray-800">
+                            <div className="mb-4 flex items-center justify-between">
+                                <DialogTitle className="w-full text-center text-2xl font-semibold">Delete Device</DialogTitle>
+                                <button onClick={() => setIsDeleteOpen(false)} className="text-gray-500 hover:text-gray-700">
+                                    <X className="h-5 w-5" />
+                                </button>
+                            </div>
+                            <form>kek</form>
+                        </DialogPanel>
+                    </div>
+                </Dialog>
                 <div>
                     <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{device.name}</h2>
                     <p className="text-sm text-gray-700 dark:text-gray-300">
