@@ -16,6 +16,7 @@ export default function AddDevice({ onDeviceAdded }: { onDeviceAdded?: () => voi
         is_on: false,
         is_inside: false,
     });
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
         setForm((prev) => ({
@@ -23,6 +24,7 @@ export default function AddDevice({ onDeviceAdded }: { onDeviceAdded?: () => voi
             [name]: type === 'checkbox' ? checked : value,
         }));
     };
+
     const submit = async () => {
         let validCity = false;
         await axios
