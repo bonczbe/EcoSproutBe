@@ -28,26 +28,26 @@ export default function AddDevice({ onDeviceAdded }: { onDeviceAdded?: () => voi
         await axios
             .get(`https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(form.city)}&format=json&limit=1&addressdetails=1`)
             .then((res) => {
-                validCity = res.data[0]['address'][res.data[0].addresstype].toLowerCase() === form.city.toLowerCase();
+                validCity = res.data[0]['address'][res.data[0].addresstype];
+                if (validCity) {
+                    axiosClient
+                        .post('/api/device/store', { ...form, city: validCity })
+                        .then((res) => {
+                            setSuccessMessage('Device added successfully!');
+                            setForm({
+                                name: '',
+                                location: '',
+                                city: '',
+                                is_on: false,
+                                is_inside: false,
+                            });
+                            onDeviceAdded?.();
+                            setTimeout(() => setSuccessMessage(''), 5000);
+                        })
+                        .catch((err) => console.error(err));
+                }
             })
             .catch((err) => console.error(err));
-        if (validCity) {
-            axiosClient
-                .post('/api/device/store', form)
-                .then((res) => {
-                    setSuccessMessage('Device added successfully!');
-                    setForm({
-                        name: '',
-                        location: '',
-                        city: '',
-                        is_on: false,
-                        is_inside: false,
-                    });
-                    onDeviceAdded?.();
-                    setTimeout(() => setSuccessMessage(''), 5000);
-                })
-                .catch((err) => console.error(err));
-        }
     };
 
     return (
