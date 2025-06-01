@@ -4,7 +4,8 @@ import axios from 'axios';
 import { X } from 'lucide-react';
 import { useState } from 'react';
 import { Input } from '../ui/input';
-import ToastMessage from '../ui/ToastMessage';
+import toast from 'react-hot-toast';
+import { Button } from '../ui/button';
 
 export default function AddDevice({ onDeviceAdded }: { onDeviceAdded?: () => void }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -35,7 +36,7 @@ export default function AddDevice({ onDeviceAdded }: { onDeviceAdded?: () => voi
                     axiosClient
                         .post('/api/device/store', { ...form, city: validCity })
                         .then((res) => {
-                            setSuccessMessage('Device added successfully!');
+                            toast.success('Device added successfully!');
                             setForm({
                                 name: '',
                                 location: '',
@@ -44,9 +45,10 @@ export default function AddDevice({ onDeviceAdded }: { onDeviceAdded?: () => voi
                                 is_inside: false,
                             });
                             onDeviceAdded?.();
-                            setTimeout(() => setSuccessMessage(''), 5000);
                         })
-                        .catch((err) => console.error(err));
+                        .catch((err) => {
+                            toast.error('Device add failed!');console.error(err);
+                        });
                 }
             })
             .catch((err) => console.error(err));
@@ -54,10 +56,9 @@ export default function AddDevice({ onDeviceAdded }: { onDeviceAdded?: () => voi
 
     return (
         <>
-            <ToastMessage message={successMessage} type={'success'} />
-            <button onClick={() => setIsOpen(true)} className="w-fit rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800">
+            <Button onClick={() => setIsOpen(true)} className="w-fit bg-green-700 text-white hover:bg-green-800">
                 Add New Device
-            </button>
+            </Button>
 
             <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50">
                 <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
