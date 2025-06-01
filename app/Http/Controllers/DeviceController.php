@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteDeviceRequest;
 use App\Http\Requests\RegisterDeviceRequest;
+use App\Http\Requests\UpdateDeviceRequest;
 use App\Models\Device;
 use App\Services\DeviceService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -38,7 +39,7 @@ class DeviceController extends Controller
     {
         $device = $this->deviceService->storeNewDevice($request->validated());
 
-        return ($device) ? response($device, 201) : response('Unprocessable Content', 422);
+        return ($device) ? response($device, 200) : response('Unprocessable Content', 422);
     }
 
     /**
@@ -60,16 +61,28 @@ class DeviceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RegisterDeviceRequest $request, Device $device)
+    public function update(UpdateDeviceRequest $request)
     {
-        //
+        $validate = $request->validated();
+        $updated = $this->deviceService->updateDeviceById($validate['id'], $validate);
+        if ($updated === -1) {
+            return response('Unprocessable Content', 422);
+        }
+
+        return response($updated);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Device $device)
+    public function destroy(DeleteDeviceRequest $request)
     {
-        //
+        $validate = $request->validated();
+        $updated = $this->deviceService->deleteDeviceById($validate['id']);
+        if ($updated === -1) {
+            return response('Unprocessable Content', 422);
+        }
+
+        return response($updated);
     }
 }

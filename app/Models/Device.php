@@ -13,9 +13,9 @@ class Device extends Model
     protected $fillable = [
         'name',
         'location',
+        'city',
         'is_on',
         'is_inside',
-        'city',
     ];
 
     protected $casts = [

@@ -62,4 +62,21 @@ class DeviceRepository
             ->forUser($user)
             ->get();
     }
+
+    public function getDeviceById($id, $user)
+    {
+        return Device::query()
+            ->forUser($user)
+            ->find($id);
+    }
+
+    public function updateDevice(Device $device, $data)
+    {
+        return $device->update($data);
+    }
+
+    public function destroyDevice(Device $device)
+    {
+        return $device->delete();
+    }
 }

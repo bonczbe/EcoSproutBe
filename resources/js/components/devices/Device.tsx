@@ -1,7 +1,9 @@
+import axiosClient from '@/utils/axiosClient';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { CheckCircle, X, XCircle } from 'lucide-react';
 import { useState } from 'react';
 import { Input } from '../ui/input';
+import ToastMessage from '../ui/ToastMessage';
 
 type DeviceType = {
     id: number;
@@ -34,7 +36,9 @@ type DeviceProps = {
 export default function Device({ device, weather, handleDelete, handleUpdate }: DeviceProps) {
     const [isUpdateOpen, setIsUpdateOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
     const [form, setForm] = useState({
+        id: device.id,
         name: device.name,
         location: device.location,
         city: device.city,
@@ -43,6 +47,7 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
     });
     const resetForm = () => {
         setForm({
+            id: device.id,
             name: device.name,
             location: device.location,
             city: device.city,
@@ -66,15 +71,38 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
         }));
     };
 
-    const submit = () => {};
+    const submit = () => {
+        axiosClient
+            .put('/api/device/update', form)
+            .then((res) => {
+                setSuccessMessage('Device updated successfully!');
+                resetForm();
+                handleUpdate(device.id);
+                setTimeout(() => setSuccessMessage(''), 5000);
+            })
+            .catch((err) => console.error(err));
+    };
+
+    const deleteDevice = () => {
+        axiosClient
+            .delete(`/api/device/destroy/`, {
+                data: { id: device.id },
+            })
+            .then((res) => {
+                setSuccessMessage('Device deleted successfully!');
+                handleDelete(device.id);
+                setTimeout(() => setSuccessMessage(''), 5000);
+            })
+            .catch((err) => console.error(err));
+    };
 
     return (
         <>
+            <ToastMessage message={successMessage} type={'success'} />
             <div className="grid grid-cols-1 gap-4 rounded border border-gray-200 bg-white p-4 shadow sm:grid-cols-2 lg:grid-cols-3 dark:border-gray-700 dark:bg-gray-900">
                 <Dialog
                     open={isUpdateOpen}
                     onClose={() => {
-                        submit();
                         setIsUpdateOpen(false);
                         resetForm();
                     }}
@@ -100,6 +128,7 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
                                 className="items-center space-y-4"
                                 onSubmit={(e) => {
                                     e.preventDefault();
+                                    submit();
                                     resetForm();
                                     setIsUpdateOpen(false);
                                 }}
@@ -163,7 +192,9 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
                             </div>
                             <div className="w-full text-center">Are you sure about delete {device.name}?</div>
                             <div className="flex justify-center pt-4">
-                                <button className="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700">Delete</button>
+                                <button onClick={() => deleteDevice()} className="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700">
+                                    Delete
+                                </button>
                             </div>
                         </DialogPanel>
                     </div>

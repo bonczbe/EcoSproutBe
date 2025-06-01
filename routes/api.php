@@ -18,6 +18,8 @@ Route::middleware(['web'])->group(function () {
         });
         Route::prefix('device')->group(function () {
             Route::post('store', [DeviceController::class, 'store']);
+            Route::put('update', [DeviceController::class, 'update']);
+            Route::delete('destroy', [DeviceController::class, 'destroy']);
         });
     });
     Route::middleware('auth:sanctum')->get('test-auth', function () {

@@ -42,4 +42,36 @@ class DeviceService
             'weathers' => $weathers,
         ];
     }
+
+    public function updateDeviceById($id, $data)
+    {
+        $user = Auth::user('web');
+        $device = $this->deviceRepository->getDeviceById($id, $user);
+
+        if (! $device) {
+            return -1;
+        }
+
+        $status = $this->deviceRepository->updateDevice($device, $data);
+
+        return [
+            'status' => $status,
+        ];
+    }
+
+    public function deleteDeviceById($id)
+    {
+        $user = Auth::user('web');
+        $device = $this->deviceRepository->getDeviceById($id, $user);
+
+        if (! $device) {
+            return -1;
+        }
+
+        $status = $this->deviceRepository->destroyDevice($device);
+
+        return [
+            'status' => $status,
+        ];
+    }
 }
