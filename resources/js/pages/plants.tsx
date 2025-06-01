@@ -4,7 +4,7 @@ import { router } from '@inertiajs/react';
 import { useState } from 'react';
 import DashboardLayout from '../layouts/DashboardLayout';
 
-function Overview({ plants, devices }: any) {
+function Overview({ plants, devices, plantFamilies }: any) {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const reloadPage = () => {
         router.reload({ only: ['plants'] });
@@ -12,7 +12,7 @@ function Overview({ plants, devices }: any) {
     };
     return (
         <div>
-            <AddPlant onPlantAdded={reloadPage} devices={devices} />
+            <AddPlant onPlantAdded={reloadPage} devices={devices} plantFamilies={plantFamilies} />
             <PlantList plants={plants} />
         </div>
     );

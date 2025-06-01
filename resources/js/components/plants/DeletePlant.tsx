@@ -1,11 +1,7 @@
-import React from 'react'
-
-type Props = {}
+type Props = {};
 
 function DeletePlant({}: Props) {
-  return (
-    <div>DeletePlant</div>
-  )
+    return <div>DeletePlant</div>;
 }
 
-export default DeletePlant
+export default DeletePlant;

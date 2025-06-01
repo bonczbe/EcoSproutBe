@@ -1,11 +1,7 @@
-import React from 'react'
-
-type Props = {}
+type Props = {};
 
 function Plant({}: Props) {
-  return (
-    <div>Plant</div>
-  )
+    return <div>Plant</div>;
 }
 
-export default Plant
+export default Plant;

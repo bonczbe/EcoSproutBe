@@ -1,12 +1,7 @@
-import React from 'react'
+type Props = {};
 
-type Props = {
+function PlantList({ plants }: Props) {
+    return <div>PlantList</div>;
 }
 
-function PlantList({plants}: Props) {
-  return (
-    <div>PlantList</div>
-  )
-}
-
-export default PlantList
+export default PlantList;

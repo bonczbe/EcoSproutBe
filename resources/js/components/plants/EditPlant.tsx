@@ -1,11 +1,7 @@
-import React from 'react'
-
-type Props = {}
+type Props = {};
 
 function EditPlant({}: Props) {
-  return (
-    <div>EditPlant</div>
-  )
+    return <div>EditPlant</div>;
 }
 
-export default EditPlant
+export default EditPlant;

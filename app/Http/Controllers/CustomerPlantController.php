@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerPlant;
+use App\Models\Plant;
 use App\Services\CustomerPlantService;
 use App\Services\DeviceService;
+use App\Services\PlantService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CustomerPlantController extends Controller
 {
-    public function __construct(private readonly CustomerPlantService $customerPlantService, private readonly DeviceService $deviceService) {}
+    public function __construct(
+        private readonly CustomerPlantService $customerPlantService,
+         private readonly DeviceService $deviceService,
+         private readonly PlantService $plantService
+         ) {}
 
     /**
      * Display a listing of the resource.
@@ -23,6 +29,7 @@ class CustomerPlantController extends Controller
         return Inertia::render('plants', [
             'plants' => $this->customerPlantService->getDevicesByUser($user),
             'devices' => $this->deviceService->getDevicesByUser($user),
+            'plantFamilies'=> $this->plantService->getPlantFamilies(),
         ]
         );
     }

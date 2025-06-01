@@ -3,10 +3,15 @@ import { X } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Button } from '../ui/button';
+import DropdownSelect from '../ui/DropdownSelect';
+import CustomAutocomplete from './CustomAutoComplete';
 
-function AddPlant({ onPlantAdded, devices }: any) {
+function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
     const [isOpen, setIsOpen] = useState(false);
-    const [form, setForm] = useState({});
+    const [selectedFamily, setSelectedFamily] = useState('');
+    const [form, setForm] = useState({
+        device: -1,
+    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
@@ -19,6 +24,9 @@ function AddPlant({ onPlantAdded, devices }: any) {
     const submit = async () => {
         toast.success('Plant added successfully!');
     };
+
+    const toOptionList = (items: any) => items.map((item: any) => ({ label: '(' + item.id + ') ' + item.city + ': ' + item.name, value: item.id }));
+
     return (
         <>
             <Button onClick={() => setIsOpen(true)} className="w-fit bg-green-700 text-white hover:bg-green-800">
@@ -45,11 +53,22 @@ function AddPlant({ onPlantAdded, devices }: any) {
                             className="items-center space-y-4"
                         >
                             <div>
+                                <DropdownSelect
+                                    label="Device"
+                                    value={form.device}
+                                    options={toOptionList(devices)}
+                                    onChange={(value) => setForm({ ...form, device: value })}
+                                    className="mb-4"
+                                />
+                                <CustomAutocomplete
+                                    label="Plant Family"
+                                    options={plantFamilies}
+                                    value={selectedFamily}
+                                    onChange={setSelectedFamily}
+                                />
                                 devices
                             </div>
-                            <div>
-                                other parts to create the customer plant
-                            </div>
+                            <div>other parts to create the customer plant</div>
                             <div className="flex justify-center">
                                 <button type="submit" className="rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800">
                                     Register Plant
