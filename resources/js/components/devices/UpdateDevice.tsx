@@ -2,9 +2,9 @@ import axiosClient from '@/utils/axiosClient';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { X } from 'lucide-react';
 import { useState } from 'react';
-import { Input } from '../ui/input';
 import toast from 'react-hot-toast';
 import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 export default function UpdateDevice({ device, onClose, onUpdate }: { device: any; onClose: () => void; onUpdate: (id: number, data: any) => void }) {
     const [form, setForm] = useState({ ...device });
@@ -21,7 +21,7 @@ export default function UpdateDevice({ device, onClose, onUpdate }: { device: an
         axiosClient.put('/api/device/update', form).then(() => {
             onUpdate(device.id, form);
             onClose();
-            toast.success(device.name+' updated');
+            toast.success(device.name + ' updated');
         });
     };
 
@@ -44,24 +44,24 @@ export default function UpdateDevice({ device, onClose, onUpdate }: { device: an
                         className="space-y-4"
                     >
                         {[
-                                    { id: 'name', label: 'Device Name', required: true },
-                                    { id: 'location', label: 'Location' },
-                                    { id: 'city', label: 'City' },
-                                ].map(({ id, label, required }) => (
-                                    <div key={id} className="flex justify-center">
-                                        <Input
-                                            className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
-                                            type="text"
-                                            id={id}
-                                            name={id}
-                                            required={required}
-                                            value={form[id as keyof typeof form] as string}
-                                            onChange={handleChange}
-                                            placeholder={`Enter ${label.toLowerCase()}`}
-                                            label={label}
-                                        />
-                                    </div>
-                                ))}
+                            { id: 'name', label: 'Device Name', required: true },
+                            { id: 'location', label: 'Location' },
+                            { id: 'city', label: 'City' },
+                        ].map(({ id, label, required }) => (
+                            <div key={id} className="flex justify-center">
+                                <Input
+                                    className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
+                                    type="text"
+                                    id={id}
+                                    name={id}
+                                    required={required}
+                                    value={form[id as keyof typeof form] as string}
+                                    onChange={handleChange}
+                                    placeholder={`Enter ${label.toLowerCase()}`}
+                                    label={label}
+                                />
+                            </div>
+                        ))}
                         <div className="flex items-center justify-center gap-4">
                             <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                                 <input type="checkbox" name="is_on" checked={form.is_on} onChange={handleChange} className="h-4 w-4" />

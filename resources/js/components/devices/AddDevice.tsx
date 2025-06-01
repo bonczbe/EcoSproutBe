@@ -3,9 +3,9 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import axios from 'axios';
 import { X } from 'lucide-react';
 import { useState } from 'react';
-import { Input } from '../ui/input';
 import toast from 'react-hot-toast';
 import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 export default function AddDevice({ onDeviceAdded }: { onDeviceAdded?: () => void }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +47,8 @@ export default function AddDevice({ onDeviceAdded }: { onDeviceAdded?: () => voi
                             onDeviceAdded?.();
                         })
                         .catch((err) => {
-                            toast.error('Device add failed!');console.error(err);
+                            toast.error('Device add failed!');
+                            console.error(err);
                         });
                 }
             })

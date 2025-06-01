@@ -14,7 +14,7 @@ export default function DashboardLayout({ children, title = 'Dashboard', breadcr
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={title} />
-      <Toaster position="top-right" />
+            <Toaster position="top-right" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">{children}</div>
         </AppLayout>
     );

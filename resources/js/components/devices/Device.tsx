@@ -1,8 +1,8 @@
 import { CheckCircle, XCircle } from 'lucide-react';
 import { useState } from 'react';
+import { Button } from '../ui/button';
 import DeleteDevice from './DeleteDevice';
 import UpdateDevice from './UpdateDevice';
-import { Button } from '../ui/button';
 
 type DeviceType = {
     id: number;
@@ -20,8 +20,8 @@ type WeatherType = {
     average_celsius: string;
     rain_chance: number;
     date: string;
-    max_celsius: string,
-    min_celsius: string,
+    max_celsius: string;
+    min_celsius: string;
     condition: {
         icon: string;
         text: string;
@@ -44,7 +44,7 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
         ) : (
             <XCircle className="inline h-5 w-5 text-red-600 dark:text-red-400" />
         );
-        console.log(weather)
+    console.log(weather);
 
     return (
         <>
@@ -65,7 +65,14 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
                         <strong>Location:</strong> {device.location}
                     </p>
                     <p className="text-sm text-gray-700 dark:text-gray-300">
-                        <strong>City:</strong> <a className='underline text-blue-800 dark:text-blue-200' href={'https://www.google.com/search?q=weather+'+device.city} target='blank'>{device.city}</a>
+                        <strong>City:</strong>{' '}
+                        <a
+                            className="text-blue-800 underline dark:text-blue-200"
+                            href={'https://www.google.com/search?q=weather+' + device.city}
+                            target="blank"
+                        >
+                            {device.city}
+                        </a>
                     </p>
                     <p className="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-300">
                         <strong>Is Inside:</strong> {renderStatusIcon(device.is_inside)}
@@ -104,10 +111,9 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
                     )}
                 </div>
 
-
                 <div className="flex flex-col items-end justify-between">
                     <div className="flex flex-col space-y-2">
-                        <Button onClick={() => setShowUpdate(true)} className=" bg-blue-600 text-white hover:bg-blue-700">
+                        <Button onClick={() => setShowUpdate(true)} className="bg-blue-600 text-white hover:bg-blue-700">
                             Update
                         </Button>
                         <Button onClick={() => setShowDelete(true)} className="bg-red-600 text-white hover:bg-red-700">
