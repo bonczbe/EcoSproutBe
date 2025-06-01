@@ -1,10 +1,19 @@
+import AddPlant from '@/components/plants/AddPlant';
+import PlantList from '@/components/plants/PlantList';
+import { router } from '@inertiajs/react';
+import { useState } from 'react';
 import DashboardLayout from '../layouts/DashboardLayout';
 
-function Overview() {
+function Overview({ plants, devices }: any) {
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+    const reloadPage = () => {
+        router.reload({ only: ['plants'] });
+        setRefreshTrigger((prev) => prev + 1);
+    };
     return (
         <div>
-            <h1 className="text-2xl font-bold">Welcome</h1>
-            <p>This is the dashboard overview.</p>
+            <AddPlant onPlantAdded={reloadPage} devices={devices} />
+            <PlantList plants={plants} />
         </div>
     );
 }

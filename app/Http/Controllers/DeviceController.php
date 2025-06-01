@@ -21,7 +21,7 @@ class DeviceController extends Controller
     {
         $user = Auth::user('web');
 
-        return Inertia::render('devices', $this->deviceService->getDevicesByUser($user));
+        return Inertia::render('devices', $this->deviceService->getDeviceWithWeatherByUser($user));
     }
 
     /**

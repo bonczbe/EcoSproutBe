@@ -2,23 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Models\CustomerPlant;
 use App\Models\Plant;
 use App\Models\PlantHistory;
-use Illuminate\Support\Collection;
 
 class PlantRepository
 {
     public function upsertPlantData(array $plants)
     {
         Plant::upsert($plants, ['name_botanical']);
-    }
-
-    public function getAllCustomerPlantIdWithPlantNameForUser($user): Collection
-    {
-        return CustomerPlant::with(['plant'])
-            ->forUser($user)
-            ->get();
     }
 
     public function getHistoryStartDateForUser($user): ?string
@@ -37,5 +28,12 @@ class PlantRepository
             ->whereBetween('updated_at', [$startDate, $endDate])
             ->get()
             ->toArray();
+    }
+
+    public function getPlantsByUser($user)
+    {
+        return Plant::query()
+            ->forUser($user)
+            ->get();
     }
 }

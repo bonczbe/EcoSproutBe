@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\CustomerPlantRepository;
 use App\Repositories\DeviceRepository;
 use App\Repositories\PlantRepository;
 use App\Repositories\WeatherRepository;
@@ -11,7 +12,8 @@ class DashboardService
     public function __construct(
         protected WeatherRepository $weatherRepo,
         protected DeviceRepository $deviceRepo,
-        protected PlantRepository $plantRepo
+        protected PlantRepository $plantRepo,
+        protected CustomerPlantRepository $customerPlantRepo
     ) {}
 
     public function getDashboardData($user): array
@@ -33,7 +35,7 @@ class DashboardService
         $devices = $this->deviceRepo->getAllWithHistoriesForUser($user);
         $deviceStartDate = $this->deviceRepo->getHistoryStartDateForUser($user);
 
-        $plants = $this->plantRepo->getAllCustomerPlantIdWithPlantNameForUser($user)
+        $plants = $this->customerPlantRepo->getAllCustomerPlantIdWithPlantNameForUser($user)
             ->map(function ($customerPlant) {
                 return [
                     'customer_plant_id' => $customerPlant->id,

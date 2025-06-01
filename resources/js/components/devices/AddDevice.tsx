@@ -9,7 +9,6 @@ import { Input } from '../ui/input';
 
 export default function AddDevice({ onDeviceAdded }: { onDeviceAdded?: () => void }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [successMessage, setSuccessMessage] = useState('');
     const [form, setForm] = useState({
         name: '',
         location: '',

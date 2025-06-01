@@ -31,9 +31,8 @@ class DeviceService
         return $device;
     }
 
-    public function getDevicesByUser($user)
-    {
-        $devices = $this->deviceRepository->getDevicesByUser($user);
+    public function getDeviceWithWeatherByUser($user){
+        $devices = $this->getDevicesByUser($user);
         $cities = $devices->pluck('city')->unique();
         $weathers = $this->weatherRepository->getLastWeatherForCities($cities);
 
@@ -41,6 +40,11 @@ class DeviceService
             'bdevices' => $this->deviceRepository->getDevicesByUser($user),
             'weathers' => $weathers,
         ];
+    }
+
+    public function getDevicesByUser($user)
+    {
+        return $this->deviceRepository->getDevicesByUser($user);
     }
 
     public function updateDeviceById($id, $data)
