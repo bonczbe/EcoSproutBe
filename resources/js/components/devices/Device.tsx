@@ -20,6 +20,8 @@ type WeatherType = {
     average_celsius: string;
     rain_chance: number;
     date: string;
+    max_celsius: string,
+    min_celsius: string,
     condition: {
         icon: string;
         text: string;
@@ -42,6 +44,7 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
         ) : (
             <XCircle className="inline h-5 w-5 text-red-600 dark:text-red-400" />
         );
+        console.log(weather)
 
     return (
         <>
@@ -62,7 +65,7 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
                         <strong>Location:</strong> {device.location}
                     </p>
                     <p className="text-sm text-gray-700 dark:text-gray-300">
-                        <strong>City:</strong> {device.city}
+                        <strong>City:</strong> <a className='underline text-blue-800 dark:text-blue-200' href={'https://www.google.com/search?q=weather+'+device.city} target='blank'>{device.city}</a>
                     </p>
                     <p className="flex items-center gap-1 text-sm text-gray-700 dark:text-gray-300">
                         <strong>Is Inside:</strong> {renderStatusIcon(device.is_inside)}
@@ -79,6 +82,12 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
                                 <strong>Weather:</strong>
                                 <img src={`https:${weather.condition.icon}`} alt={weather.condition.text} className="h-6 w-6" />
                                 {weather.condition.text}
+                            </p>
+                            <p>
+                                <strong>Max Temp:</strong> {weather.max_celsius}°C
+                            </p>
+                            <p>
+                                <strong>Min Temp:</strong> {weather.min_celsius}°C
                             </p>
                             <p>
                                 <strong>Avg Temp:</strong> {weather.average_celsius}°C
