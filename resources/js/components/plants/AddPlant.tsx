@@ -58,7 +58,7 @@ function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
                                     value={form.device}
                                     options={toOptionList(devices)}
                                     onChange={(value) => setForm({ ...form, device: value })}
-                                    className="mb-4"
+                                    className="mb-4 max-w-md"
                                 />
                                 <CustomAutocomplete
                                     label="Plant Family"
