@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { FixedSizeList as List } from 'react-window';
 import { Input } from '../ui/input';
 
 interface CustomAutocompleteProps {
@@ -9,6 +10,9 @@ interface CustomAutocompleteProps {
     loading?: boolean;
     className?: string;
 }
+
+const ITEM_HEIGHT = 40;
+const MAX_VISIBLE_ITEMS = 6;
 
 const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({ label, options, value, onChange, loading = false, className = '' }) => {
     const [inputValue, setInputValue] = useState(value);
@@ -26,7 +30,6 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({ label, options,
                 setIsOpen(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
@@ -51,6 +54,17 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({ label, options,
         setIsOpen(true);
     };
 
+    const renderRow = ({ index, style }: { index: number; style: React.CSSProperties }) => (
+        <li
+            style={style}
+            key={filteredOptions[index]}
+            onClick={() => handleOptionClick(filteredOptions[index])}
+            className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-gray-600"
+        >
+            {filteredOptions[index]}
+        </li>
+    );
+
     return (
         <div ref={wrapperRef} className={`relative flex flex-col ${className}`}>
             <Input
@@ -65,23 +79,22 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({ label, options,
             />
             <div>
                 {isOpen && (
-                    <ul className="absolute z-10 mt-1 max-h-60 w-full max-w-md overflow-auto rounded border border-gray-300 bg-white shadow dark:border-gray-600 dark:bg-gray-800">
+                    <div className="absolute z-10 mt-1 w-full max-w-md overflow-hidden rounded border border-gray-300 bg-white shadow dark:border-gray-600 dark:bg-gray-800">
                         {loading ? (
-                            <li className="px-4 py-2 text-sm text-gray-500 italic dark:text-gray-400">Loading...</li>
+                            <div className="px-4 py-2 text-sm text-gray-500 italic dark:text-gray-400">Loading...</div>
                         ) : filteredOptions.length > 0 ? (
-                            filteredOptions.map((option) => (
-                                <li
-                                    key={option}
-                                    onClick={() => handleOptionClick(option)}
-                                    className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-gray-600"
-                                >
-                                    {option}
-                                </li>
-                            ))
+                            <List
+                                height={Math.min(filteredOptions.length, MAX_VISIBLE_ITEMS) * ITEM_HEIGHT}
+                                itemCount={filteredOptions.length}
+                                itemSize={ITEM_HEIGHT}
+                                width="100%"
+                            >
+                                {renderRow}
+                            </List>
                         ) : (
-                            <li className="px-4 py-2 text-sm text-gray-500 italic dark:text-gray-400">No options found</li>
+                            <div className="px-4 py-2 text-sm text-gray-500 italic dark:text-gray-400">No options found</div>
                         )}
-                    </ul>
+                    </div>
                 )}
             </div>
         </div>
