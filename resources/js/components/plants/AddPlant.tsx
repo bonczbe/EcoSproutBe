@@ -8,9 +8,10 @@ import CustomAutocomplete from './CustomAutoComplete';
 
 function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedFamily, setSelectedFamily] = useState('');
     const [form, setForm] = useState({
         device: -1,
+        family: '',
+        plant: '',
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,8 +64,24 @@ function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
                                 <CustomAutocomplete
                                     label="Plant Family"
                                     options={plantFamilies}
-                                    value={selectedFamily}
-                                    onChange={setSelectedFamily}
+                                    value={form.family}
+                                    onChange={(e) =>
+                                        setForm({
+                                            ...form,
+                                            family: e.target.value,
+                                        })
+                                    }
+                                />
+                                <CustomAutocomplete
+                                    label="Plant"
+                                    options={plantFamilies}
+                                    value={form.plant}
+                                    onChange={(e) =>
+                                        setForm({
+                                            ...form,
+                                            plant: e.target.value,
+                                        })
+                                    }
                                 />
                                 devices
                             </div>
