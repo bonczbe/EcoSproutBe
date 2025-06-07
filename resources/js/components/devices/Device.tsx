@@ -44,7 +44,6 @@ export default function Device({ device, weather, handleDelete, handleUpdate }: 
         ) : (
             <XCircle className="inline h-5 w-5 text-red-600 dark:text-red-400" />
         );
-    console.log(weather);
 
     return (
         <>
