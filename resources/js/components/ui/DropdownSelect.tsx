@@ -21,7 +21,6 @@ function DropdownSelect({ label, value, options, onChange, className='' }: Dropd
                 onChange={handleChange}
                 className={`p-2 px-4 rounded bg-gray-100 dark:bg-gray-700 ${className ?? ''}`}
             >
-                <option value="">Select {label}</option>
                 {options.map((option) => (
                     <option key={option.value} value={option.value}>
                         {option.label}

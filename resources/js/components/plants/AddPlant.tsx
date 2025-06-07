@@ -1,6 +1,7 @@
+import axiosClient from '@/utils/axiosClient';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { X } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Button } from '../ui/button';
 import DropdownSelect from '../ui/DropdownSelect';
@@ -8,11 +9,26 @@ import CustomAutocomplete from './CustomAutoComplete';
 
 function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
     const [isOpen, setIsOpen] = useState(false);
+    const [plants, setPlants] = useState([]);
+    const [family, setFamily] = useState('');
+    const [selectedPlant, setSelectedPlants] = useState('');
     const [form, setForm] = useState({
         device: -1,
-        family: '',
-        plant: '',
     });
+
+    useEffect(() => {
+        setSelectedPlants('');
+        const fetchChartData = async () => {
+            if (family != '') {
+                await axiosClient
+                    .post('/api/plant/index', {
+                        family: family,
+                    })
+                    .then((res) => setPlants(res.data));
+            }
+        };
+        fetchChartData();
+    }, [family]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
@@ -53,38 +69,28 @@ function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
                             }}
                             className="items-center space-y-4"
                         >
-                            <div>
-                                <DropdownSelect
-                                    label="Device"
-                                    value={form.device}
-                                    options={toOptionList(devices)}
-                                    onChange={(value) => setForm({ ...form, device: value })}
-                                    className="mb-4 max-w-md"
-                                />
-                                <CustomAutocomplete
-                                    label="Plant Family"
-                                    options={plantFamilies}
-                                    value={form.family}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            family: e.target.value,
-                                        })
-                                    }
-                                />
-                                <CustomAutocomplete
-                                    label="Plant"
-                                    options={plantFamilies}
-                                    value={form.plant}
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            plant: e.target.value,
-                                        })
-                                    }
-                                />
-                                devices
-                            </div>
+                            <DropdownSelect
+                                label="Device"
+                                value={form.device}
+                                options={toOptionList(devices)}
+                                onChange={(value) => setForm({ ...form, device: value })}
+                                className="w-full max-w-md"
+                            />
+                            <CustomAutocomplete
+                                label="Plant Family"
+                                className="w-full max-w-md"
+                                options={plantFamilies}
+                                value={family}
+                                onChange={setFamily}
+                            />
+                            <CustomAutocomplete
+                                label="Plant"
+                                className="w-full max-w-md"
+                                options={plants}
+                                value={selectedPlant}
+                                onChange={setSelectedPlants}
+                            />
+                            devices
                             <div>other parts to create the customer plant</div>
                             <div className="flex justify-center">
                                 <button type="submit" className="rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800">

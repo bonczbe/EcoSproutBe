@@ -87,7 +87,8 @@ class PlantService
         return $this->plantRepository->getHistoryByFilters($plantId, $startDate, $endDate, $user);
     }
 
-    public function getPlantFamilies(){
+    public function getPlantFamilies()
+    {
         return $this->plantRepository->getPlantFamilies();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexPlantRequest;
 use App\Models\Plant;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,13 @@ class PlantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() {}
+    public function index(IndexPlantRequest $request)
+    {
+        return Plant::query()
+            ->where('family', $request->input('family'))
+            ->distinct()
+            ->pluck('name_en');
+    }
 
     /**
      * Show the form for creating a new resource.

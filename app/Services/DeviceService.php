@@ -31,7 +31,8 @@ class DeviceService
         return $device;
     }
 
-    public function getDeviceWithWeatherByUser($user){
+    public function getDeviceWithWeatherByUser($user)
+    {
         $devices = $this->getDevicesByUser($user);
         $cities = $devices->pluck('city')->unique();
         $weathers = $this->weatherRepository->getLastWeatherForCities($cities);

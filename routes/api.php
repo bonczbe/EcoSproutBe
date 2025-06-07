@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\CustomerPlantController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\PlantController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])->group(function () {
@@ -20,6 +22,18 @@ Route::middleware(['web'])->group(function () {
             Route::post('store', [DeviceController::class, 'store']);
             Route::put('update', [DeviceController::class, 'update']);
             Route::delete('destroy', [DeviceController::class, 'destroy']);
+        });
+        Route::prefix('plant')->group(function () {
+            Route::prefix('customer')->group(function () {
+                Route::post('index', [CustomerPlantController::class, 'index']);
+                Route::post('store', [CustomerPlantController::class, 'store']);
+                Route::put('update', [CustomerPlantController::class, 'update']);
+                Route::delete('destroy', [CustomerPlantController::class, 'destroy']);
+            });
+            Route::post('index', [PlantController::class, 'index']);
+            Route::post('store', [PlantController::class, 'store']);
+            Route::put('update', [PlantController::class, 'update']);
+            Route::delete('destroy', [PlantController::class, 'destroy']);
         });
     });
     Route::middleware('auth:sanctum')->get('test-auth', function () {

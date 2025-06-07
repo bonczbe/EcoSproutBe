@@ -37,10 +37,11 @@ class PlantRepository
             ->get();
     }
 
-    public function getPlantFamilies(){
+    public function getPlantFamilies()
+    {
         return Plant::query()
-    ->distinct()
-    ->orderBy('family')
-    ->pluck('family');
+            ->distinct()
+            ->orderBy('family')
+            ->pluck('family');
     }
 }
