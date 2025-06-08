@@ -38,9 +38,9 @@ class PlantController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Plant $plant)
+    public function show(string $name)
     {
-        //
+        return Plant::where('name_en', $name)->with('plantType')->first();
     }
 
     /**

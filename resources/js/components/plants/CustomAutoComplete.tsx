@@ -14,7 +14,7 @@ interface CustomAutocompleteProps {
 const ITEM_HEIGHT = 40;
 const MAX_VISIBLE_ITEMS = 6;
 
-const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({ label, options, value, onChange, loading = false, className = '' }) => {
+const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({ label, options, value, onChange, loading = false, className = '', ...props }) => {
     const [inputValue, setInputValue] = useState(value);
     const [isOpen, setIsOpen] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
@@ -35,6 +35,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({ label, options,
     }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (props?.disabled) return;
         const val = e.target.value;
         setInputValue(val);
         const filtered = options.filter((option) => option.toLowerCase().includes(val.toLowerCase()));
@@ -43,12 +44,14 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({ label, options,
     };
 
     const handleOptionClick = (option: string) => {
+        if (props?.disabled) return;
         setIsOpen(false);
         setInputValue(option);
         onChange(option);
     };
 
     const handleFocus = () => {
+        if (props?.disabled) return;
         const filtered = options.filter((option) => option.toLowerCase().includes(inputValue.toLowerCase()));
         setFilteredOptions(filtered);
         setIsOpen(true);
@@ -76,6 +79,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({ label, options,
                 value={inputValue}
                 placeholder={`Select ${label}`}
                 onFocus={handleFocus}
+                {...props}
             />
             <div>
                 {isOpen && (
