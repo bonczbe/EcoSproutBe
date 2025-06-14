@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FixedSizeList as List } from 'react-window';
 import { Input } from '../ui/input';
 
-interface CustomAutocompleteProps {
+interface CustomAutocompleteProps<T = string> {
     label?: string;
-    options: string[];
-    value: string;
-    onChange: (value: string) => void;
+    options: T[];
+    value: T;
+    onChange: (value: T) => void;
     loading?: boolean;
     className?: string;
+    disabled?: boolean;
 }
 
 const ITEM_HEIGHT = 40;
@@ -62,7 +63,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({ label, options,
             style={style}
             key={filteredOptions[index]}
             onClick={() => handleOptionClick(filteredOptions[index])}
-            className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-gray-600"
+            className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-gray-600 truncate"
         >
             {filteredOptions[index]}
         </li>

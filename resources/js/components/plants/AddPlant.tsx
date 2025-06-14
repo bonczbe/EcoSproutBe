@@ -49,6 +49,7 @@ function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
 
     useEffect(() => {
         setSelectedPlant('');
+        setPlants([]);
         const fetchChartData = async () => {
             if (family != '') {
                 await axiosClient
@@ -180,14 +181,24 @@ function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
                                     value={family}
                                     onChange={setFamily}
                                 />
+                                {
+                                    (plants.length > 0)?
                                 <CustomAutocomplete
                                     label="Plant"
-                                    disabled={family.trim() == '' && plants.length > 0}
                                     className="w-full max-w-md"
                                     options={plants}
                                     value={selectedPlant}
                                     onChange={setSelectedPlant}
+                                />:
+                                <Input
+                                    className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700 underline decoration-pink-500"
+                                    type="text"
+                                    value={form.name}
+                                    disabled={true}
+                                    placeholder={`Select family first!`}
+                                    label={'Plant'}
                                 />
+                                }
                                 <Input
                                     className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
                                     type="text"
@@ -254,7 +265,7 @@ function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
                                     type="file"
                                     name="plantImage"
                                     accept="image/*"
-                                    onChange={(e) => {
+                                    onChange={(e:any) => {
                                         if (e.target.files?.[0]) {
                                             setForm((prev) => ({
                                                 ...prev,

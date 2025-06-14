@@ -16,7 +16,7 @@ function DropdownSelect({ label, value, options, onChange, className='', require
 
     return (
         <div className={`flex flex-col ${className}`}>
-            {label && <label className="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>}
+            {label && <label className="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300 truncate">{label}</label>}
             <select
             required={required}
                 value={value}
