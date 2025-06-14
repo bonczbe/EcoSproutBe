@@ -1,51 +1,24 @@
-type PlantType = {
-  id: number;
-  type: string;
-  type_hu: string;
-  min_soil_moisture: number;
-  max_soil_moisture: number;
-  created_at: string | null;
-  updated_at: string | null;
-};
+import { PlantListProps } from '@/types/plant';
+import Plant from './Plant';
 
-type Plant = {
-  id: number;
-  name_botanical: string;
-  name_en: string;
-  name_hu: string;
-  genus: string;
-  family: string;
-  family_hu: string;
-  species_epithet: string;
-  default_image: string | null;
-  created_at: string;
-  updated_at: string;
-  plant_type_id: number;
-  plant_type: PlantType;
-};
+function PlantList({ plants, reloadPage }: PlantListProps) {
+    const handleUpdate = (plantId: number) => {
+        console.log('Update plant:', plantId);
+        reloadPage();
+    };
 
-type PlantListItem = {
-  id: number;
-  name: string;
-  device_id: number;
-  dirt_type: string;
-  minimum_moisture: number;
-  maximum_moisture: number;
-  pot_size: string;
-  plant_id: number;
-  plant_img: string | null;
-  created_at: string;
-  updated_at: string;
-  plant: Plant;
-  plant_type: PlantType;
-};
+    const handleDelete = (plantId: number) => {
+        console.log('Delete plant:', plantId);
+        reloadPage();
+    };
 
-type Props = {
-  plants: PlantListItem[];
-};
-
-function PlantList({ plants }: Props) {
-    return <div>PlantList</div>;
+    return (
+        <div className="grid gap-4 pt-4">
+            {plants.map((plant) => (
+                <Plant key={plant.id} plant={plant} handleDelete={handleDelete} handleUpdate={handleUpdate} />
+            ))}
+        </div>
+    );
 }
 
 export default PlantList;

@@ -13,7 +13,7 @@ function Overview({ plants, devices, plantFamilies }: any) {
     return (
         <div>
             <AddPlant onPlantAdded={reloadPage} devices={devices} plantFamilies={plantFamilies} />
-            <PlantList plants={plants} />
+            <PlantList plants={plants} reloadPage={reloadPage} />
         </div>
     );
 }

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\PlantType;
 use App\Repositories\PlantTypeRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class PlantTypeService
 {
@@ -13,8 +14,11 @@ class PlantTypeService
     public function storePlantTypeIfNotExist(string $plantType, int $minMoist, int $maxMoist): PlantType
     {
         $user = Auth::user('web');
+
+        $customTypeName = Str::slug($user->email).','.$plantType.','.$minMoist.','.$maxMoist;
         $primaryPlantType = $this->plantTypeRepository->show($plantType);
-        $compositePlantType = $this->plantTypeRepository->show($user->email.'-'.$plantType.'-'.$minMoist.'-'.$maxMoist);
+        $compositePlantType = $this->plantTypeRepository->show($customTypeName);
+
         if (
             (
                 $primaryPlantType === null
@@ -27,7 +31,7 @@ class PlantTypeService
             )
         ) {
             return $this->plantTypeRepository->store([
-                'type' => $user->email.'-'.$plantType.'-'.$minMoist.'-'.$maxMoist,
+                'type' => $customTypeName,
                 'min_soil_moisture' => $minMoist,
                 'max_soil_moisture' => $maxMoist,
             ]);

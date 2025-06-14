@@ -38,6 +38,11 @@ class CustomerPlant extends Model
         return $this->belongsTo(PlantType::class);
     }
 
+    public function latestHistory()
+    {
+        return $this->hasOne(PlantHistory::class, 'customer_plant_id')->latestOfMany();
+    }
+
     public function histories(): HasMany
     {
         return $this->hasMany(PlantHistory::class, 'customer_plant_id');

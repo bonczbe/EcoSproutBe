@@ -50,6 +50,7 @@ class CustomerPlantController extends Controller
     public function store(StoreCustomerPlantRequest $request)
     {
         $validated = $request->validated();
+
         $plantType = $this->plantTypeService->storePlantTypeIfNotExist($validated['plantType'], (int) $validated['minMoist'], (int) $validated['maxMoist']);
 
         $customerPlant = $this->customerPlantService->storeCustomerPlant([...$request->validated(), 'realPlantType' => $plantType->id]);

@@ -63,7 +63,7 @@ const CustomAutocomplete: React.FC<CustomAutocompleteProps> = ({ label, options,
             style={style}
             key={filteredOptions[index]}
             onClick={() => handleOptionClick(filteredOptions[index])}
-            className="cursor-pointer px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-gray-600 truncate"
+            className="cursor-pointer truncate px-4 py-2 text-sm hover:bg-gray-200 dark:hover:bg-gray-600"
         >
             {filteredOptions[index]}
         </li>

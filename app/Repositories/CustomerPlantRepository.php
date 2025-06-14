@@ -9,7 +9,7 @@ class CustomerPlantRepository
 {
     public function getAllCustomerPlantIdWithPlantNameForUser($user): Collection
     {
-        return CustomerPlant::with(['plant.plantType', 'plantType'])
+        return CustomerPlant::with(['plant.plantType', 'plantType', 'latestHistory'])
             ->forUser($user)
             ->get();
     }
