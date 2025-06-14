@@ -8,40 +8,43 @@ import DropdownSelect from '../ui/DropdownSelect';
 import { Input } from '../ui/input';
 import CustomAutocomplete from './CustomAutoComplete';
 
+const DIRT_TYPES = [
+    'All-purpose potting mix|all_purpose',
+    'Cactus and succulent mix|cactus_succulent',
+    'Orchid mix|orchid',
+    'Seed starting mix|seed_starting',
+    'African violet mix|african_violet',
+    'Indoor plant mix|indoor',
+    'Moisture control potting mix|moisture_control',
+    'Peat-based mix|peat_based',
+    'Coco coir mix|coco_coir',
+    'Compost-rich mix|compost_rich',
+    'Bonsai soil mix|bonsai',
+    'Aquatic plant soil|aquatic',
+    'Perlite mix|perlite',
+    'Vermiculite mix|vermiculite',
+    'Sandy loam|sandy_loam',
+].map((item) => {
+    const [label, value] = item.split('|');
+    return { label, value };
+});
+
 function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
+    const toOptionList = (items: any) => items.map((item: any) => ({ label: '(' + item.id + ') ' + item.city + ': ' + item.name, value: item.id }));
     const [isOpen, setIsOpen] = useState(false);
     const [plants, setPlants] = useState([]);
     const [family, setFamily] = useState('');
     const [selectedPlant, setSelectedPlant] = useState('');
+    let deviceList = toOptionList(devices);
     const [form, setForm] = useState({
-        device: -1,
+        device: deviceList[0].value ?? -1,
         potSize: 0,
         maxMoist: -1,
         minMoist: -1,
-        dritType: '',
+        dritType: DIRT_TYPES[0].value,
         name: '',
         plantType: '',
-    });
-
-    const DIRT_TYPES = [
-        'All-purpose potting mix|all_purpose',
-        'Cactus and succulent mix|cactus_succulent',
-        'Orchid mix|orchid',
-        'Seed starting mix|seed_starting',
-        'African violet mix|african_violet',
-        'Indoor plant mix|indoor',
-        'Moisture control potting mix|moisture_control',
-        'Peat-based mix|peat_based',
-        'Coco coir mix|coco_coir',
-        'Compost-rich mix|compost_rich',
-        'Bonsai soil mix|bonsai',
-        'Aquatic plant soil|aquatic',
-        'Perlite mix|perlite',
-        'Vermiculite mix|vermiculite',
-        'Sandy loam|sandy_loam',
-    ].map((item) => {
-        const [label, value] = item.split('|');
-        return { label, value };
+        plantImage: '',
     });
 
     useEffect(() => {
@@ -90,10 +93,53 @@ function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
     };
 
     const submit = async () => {
-        toast.success('Plant added successfully!');
-    };
+        if (form.device != -1) {
+            const formData = new FormData();
+            formData.append('device', form.device);
+            formData.append('potSize', String(form.potSize));
+            formData.append('maxMoist', String(form.maxMoist));
+            formData.append('minMoist', String(form.minMoist));
+            formData.append('dritType', form.dritType);
+            formData.append('name', form.name);
+            formData.append('plantType', form.plantType);
+            formData.append('plantName', selectedPlant);
+            formData.append('family', family);
+            if (form.plantImage) {
+                formData.append('plantImage', form.plantImage);
+            }
 
-    const toOptionList = (items: any) => items.map((item: any) => ({ label: '(' + item.id + ') ' + item.city + ': ' + item.name, value: item.id }));
+            axiosClient
+                .post('/api/plant/customer/store', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+                .then((res) => {
+                    toast.success('Plant added successfully!');
+                    setForm({
+                        device: deviceList[0].value,
+                        potSize: 0,
+                        maxMoist: -1,
+                        minMoist: -1,
+                        dritType: DIRT_TYPES[0].value,
+                        name: '',
+                        plantType: '',
+                        plantImage: '',
+                    });
+                    setSelectedPlant('');
+                    setFamily('');
+                    setPlants([]);
+                    setIsOpen(false);
+                    onPlantAdded?.();
+                })
+                .catch((err) => {
+                    toast.error('Plant add failed!');
+                    console.error(err);
+                });
+        } else {
+            toast.error('You need to register a device first!');
+        }
+    };
 
     return (
         <>
@@ -104,7 +150,7 @@ function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
                 <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
 
                 <div className="fixed inset-0 flex items-center justify-center p-4">
-                    <DialogPanel className="flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden rounded bg-white p-6 shadow-xl dark:bg-gray-800">
+                    <DialogPanel className="flex max-h-[90vh] w-full max-w-8/12 flex-col overflow-hidden rounded bg-white p-6 shadow-xl md:max-w-2xl dark:bg-gray-800">
                         <div className="mb-4 flex items-center justify-between">
                             <DialogTitle className="w-full text-center text-2xl font-semibold">Add New Plant</DialogTitle>
                             <button onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-gray-700">
@@ -118,91 +164,108 @@ function AddPlant({ onPlantAdded, devices, plantFamilies }: any) {
                                 submit();
                                 setIsOpen(false);
                             }}
-                            className="flex-1 space-y-4 overflow-y-auto pr-2"
                         >
-                            <DropdownSelect
-                                label="Device"
-                                value={form.device}
-                                options={toOptionList(devices)}
-                                onChange={(value) => setForm({ ...form, device: value })}
-                                className="w-full max-w-md"
-                            />
-                            <CustomAutocomplete
-                                label="Plant Family"
-                                className="w-full max-w-md"
-                                options={plantFamilies}
-                                value={family}
-                                onChange={setFamily}
-                            />
-                            <CustomAutocomplete
-                                label="Plant"
-                                disabled={family.trim() == '' && plants.length > 0}
-                                className="w-full max-w-md"
-                                options={plants}
-                                value={selectedPlant}
-                                onChange={setSelectedPlant}
-                            />
-                            <Input
-                                className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
-                                type="text"
-                                name={'name'}
-                                value={form.name}
-                                onChange={handleChange}
-                                placeholder={`Named as`}
-                                label={'Own Name of "plant"'}
-                            />
-                            <Input
-                                className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
-                                type="number"
-                                name={'potSize'}
-                                required={true}
-                                value={form.potSize}
-                                onChange={handleChange}
-                                placeholder={`Enter Pot Size`}
-                                label={'Pot Size (ml)'}
-                                min="0"
-                            />
-                            <DropdownSelect
-                                label="Dirt Type"
-                                value={form.dritType}
-                                options={DIRT_TYPES}
-                                onChange={(value) => setForm({ ...form, dritType: value })}
-                                className="w-full max-w-md"
-                            />
-                            <Input
-                                className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
-                                type="text"
-                                name={'plantType'}
-                                disabled
-                                value={form.plantType}
-                                onChange={handleChange}
-                                placeholder={`Plant Type`}
-                                label={'Plant type'}
-                            />
-                            <Input
-                                className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
-                                type="number"
-                                name={'minMoist'}
-                                required={true}
-                                value={form.minMoist == -1 ? null : form.minMoist}
-                                onChange={handleChange}
-                                placeholder={`Min moisture level of the soil under the plant`}
-                                label={'Min moisture (%)'}
-                                min="0"
-                                max={Math.min(100, form.maxMoist)}
-                            />
-                            <Input
-                                className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
-                                type="number"
-                                name={'maxMoist'}
-                                required={true}
-                                value={form.maxMoist == -1 ? null : form.maxMoist}
-                                onChange={handleChange}
-                                placeholder={`Max moisture level of the soil under the plant`}
-                                label={'Max moisture (%)'}
-                                min={Math.max(0, form.minMoist)}
-                                max={100}
-                            />
+                            <div className="grid grid-cols-1 content-center gap-2 overflow-y-auto pr-2 pb-5 md:grid-cols-2">
+                                <DropdownSelect
+                                    label="Device"
+                                    value={form.device}
+                                    options={deviceList}
+                                    onChange={(value) => setForm({ ...form, device: value })}
+                                    className="w-full max-w-md"
+                                />
+                                <CustomAutocomplete
+                                    label="Plant Family"
+                                    className="w-full max-w-md"
+                                    options={plantFamilies}
+                                    value={family}
+                                    onChange={setFamily}
+                                />
+                                <CustomAutocomplete
+                                    label="Plant"
+                                    disabled={family.trim() == '' && plants.length > 0}
+                                    className="w-full max-w-md"
+                                    options={plants}
+                                    value={selectedPlant}
+                                    onChange={setSelectedPlant}
+                                />
+                                <Input
+                                    className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
+                                    type="text"
+                                    name={'name'}
+                                    value={form.name}
+                                    onChange={handleChange}
+                                    placeholder={`Named as`}
+                                    label={'Own Name of "plant"'}
+                                />
+                                <Input
+                                    className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
+                                    type="number"
+                                    name={'potSize'}
+                                    required={true}
+                                    value={form.potSize}
+                                    onChange={handleChange}
+                                    placeholder={`Enter Pot Size`}
+                                    label={'Pot Size (ml)'}
+                                    min={0}
+                                />
+                                <DropdownSelect
+                                    required={true}
+                                    label="Dirt Type"
+                                    value={form.dritType}
+                                    options={DIRT_TYPES}
+                                    onChange={(value) => setForm({ ...form, dritType: value })}
+                                    className="w-full max-w-md"
+                                />
+                                <Input
+                                    className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
+                                    type="text"
+                                    name={'plantType'}
+                                    disabled
+                                    value={form.plantType}
+                                    onChange={handleChange}
+                                    placeholder={`Plant Type`}
+                                    label={'Plant type'}
+                                />
+                                <Input
+                                    className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
+                                    type="number"
+                                    name={'minMoist'}
+                                    required={true}
+                                    value={form.minMoist == -1 ? null : form.minMoist}
+                                    onChange={handleChange}
+                                    placeholder={`Min moisture level of the soil under the plant`}
+                                    label={'Min moisture (%)'}
+                                    min="0"
+                                    max={Math.min(100, form.maxMoist)}
+                                />
+                                <Input
+                                    className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
+                                    type="number"
+                                    name={'maxMoist'}
+                                    required={true}
+                                    value={form.maxMoist == -1 ? null : form.maxMoist}
+                                    onChange={handleChange}
+                                    placeholder={`Max moisture level of the soil under the plant`}
+                                    label={'Max moisture (%)'}
+                                    min={Math.max(0, form.minMoist)}
+                                    max={100}
+                                />
+                                <Input
+                                    type="file"
+                                    name="plantImage"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        if (e.target.files?.[0]) {
+                                            setForm((prev) => ({
+                                                ...prev,
+                                                plantImage: e.target.files[0],
+                                            }));
+                                        }
+                                    }}
+                                    label={'Image of the Plant'}
+                                />
+                            </div>
+
                             <div className="flex justify-center">
                                 <button type="submit" className="rounded bg-green-700 px-4 py-2 text-white hover:bg-green-800">
                                     Register Plant

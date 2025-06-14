@@ -36,26 +36,17 @@ class PlantHistoryResource extends Resource
                 TextColumn::make('moisture_level')
                     ->label('Moisture Level')
                     ->suffix('%')
-                    ->sortable()
-                    ->color(fn ($record) => $record->moisture_level < (
-                        ($record->customerPlant->minimum_moisture === null || $record->customerPlant->minimum_moisture < 0)
-                            ? $record->customerPlant->plant?->plantType?->min_soil_moisture
-                            : $record->customerPlant->minimum_moisture
-                    ) ? 'danger' : null),
+                    ->sortable(),
                 TextColumn::make('maximum_moisture')
                     ->label('Max Moisture')
-                    ->getStateUsing(fn ($record) => ($record->customerPlant->maximum_moisture === null || $record->customerPlant->maximum_moisture < 0)
-                            ? $record->customerPlant->plant?->plantType?->max_soil_moisture
-                            : $record->customerPlant->maximum_moisture
+                    ->getStateUsing(fn ($record) => $record->customerPlant->plant?->plantType?->max_soil_moisture
                     )
                     ->sortable()
                     ->suffix('%')
                     ->alignRight(),
                 TextColumn::make('minimum_moisture')
                     ->label('Min Moisture')
-                    ->getStateUsing(fn ($record) => ($record->customerPlant->minimum_moisture === null || $record->customerPlant->minimum_moisture < 0)
-                            ? $record->customerPlant->plant?->plantType?->min_soil_moisture
-                            : $record->customerPlant->minimum_moisture
+                    ->getStateUsing(fn ($record) => $record->customerPlant->plant?->plantType?->min_soil_moisture
                     )
                     ->sortable()
                     ->suffix('%')

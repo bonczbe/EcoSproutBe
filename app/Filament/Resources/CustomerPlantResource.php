@@ -32,13 +32,10 @@ class CustomerPlantResource extends Resource
                 TextColumn::make('id'),
                 TextColumn::make('device.users.name')
                     ->label('User Name'),
+                TextColumn::make('name'),
                 TextColumn::make('pot_size')
                     ->label('Pot Size'),
                 TextColumn::make('dirt_type'),
-                TextColumn::make('maximum_moisture')
-                    ->suffix('%'),
-                TextColumn::make('minimum_moisture')
-                    ->suffix('%'),
                 TextColumn::make('plant.name_en')
                     ->label('Plant Name (EN)'),
                 TextColumn::make('plant.name_hu')
@@ -51,13 +48,7 @@ class CustomerPlantResource extends Resource
                     ->label('Plant Type (HU)'),
                 TextColumn::make('Moisture Level')
                     ->getStateUsing(fn ($record) => $record->histories->last()->moisture_level ?? 0)
-                    ->suffix('%')
-                    ->color(function ($record) {
-                        $moistureLevel = $record->histories->last()->moisture_level ?? 0;
-                        $minMoisture = $record->minimum_moisture ?? 0;
-
-                        return $moistureLevel < $minMoisture ? 'danger' : null;
-                    }),
+                    ->suffix('%'),
             ])
             ->filters([
                 //

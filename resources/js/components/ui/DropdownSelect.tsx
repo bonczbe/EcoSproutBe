@@ -6,9 +6,10 @@ interface DropdownSelectProps {
     options: { label: string; value: string }[];
     onChange: (value: string) => void;
     className?: string;
+    required?:boolean
 }
 
-function DropdownSelect({ label, value, options, onChange, className='' }: DropdownSelectProps) {
+function DropdownSelect({ label, value, options, onChange, className='', required=false }: DropdownSelectProps) {
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         onChange(event.target.value);
     };
@@ -17,6 +18,7 @@ function DropdownSelect({ label, value, options, onChange, className='' }: Dropd
         <div className={`flex flex-col ${className}`}>
             {label && <label className="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>}
             <select
+            required={required}
                 value={value}
                 onChange={handleChange}
                 className={`p-2 px-4 rounded bg-gray-100 dark:bg-gray-700 ${className ?? ''}`}

@@ -44,4 +44,11 @@ class PlantRepository
             ->orderBy('family')
             ->pluck('family');
     }
+
+    public function getPlantByNameEnFamily($nameEn, $family)
+    {
+        return Plant::where('name_en', $nameEn)
+            ->where('family', $family)
+            ->first();
+    }
 }

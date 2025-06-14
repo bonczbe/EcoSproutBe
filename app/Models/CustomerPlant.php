@@ -12,13 +12,15 @@ class CustomerPlant extends Model
     use HasFactory;
 
     protected $fillable = [
-        'maximum_moisture',
-        'minimum_moisture',
+        'maximum_moisture', // TODO: Delete in the future
+        'minimum_moisture', // TODO: Delete in the future
         'pot_size',
+        'name',
         'plant_img',
         'dirt_type',
         'device_id',
         'plant_id',
+        'plant_type_id',
     ];
 
     public function device(): BelongsTo
@@ -29,6 +31,11 @@ class CustomerPlant extends Model
     public function plant(): BelongsTo
     {
         return $this->belongsTo(Plant::class);
+    }
+
+    public function plantType()
+    {
+        return $this->belongsTo(PlantType::class);
     }
 
     public function histories(): HasMany

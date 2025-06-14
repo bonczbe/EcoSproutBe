@@ -16,8 +16,6 @@ class CustomerPlantSeeder extends Seeder
 
         if ($device && $plant) {
             CustomerPlant::create([
-                'maximum_moisture' => 80,
-                'minimum_moisture' => 40,
                 'dirt_type' => 'mid',
                 'device_id' => $device->id,
                 'plant_id' => $plant->id,
