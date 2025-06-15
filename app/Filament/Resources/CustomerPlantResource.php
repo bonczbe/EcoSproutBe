@@ -35,6 +35,8 @@ class CustomerPlantResource extends Resource
                 TextColumn::make('name'),
                 TextColumn::make('pot_size')
                     ->label('Pot Size'),
+                TextColumn::make('pin_number')
+                    ->label('Pin Number'),
                 TextColumn::make('dirt_type'),
                 TextColumn::make('plant.name_en')
                     ->label('Plant Name (EN)'),

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('dirt_type')->default('mid');
             $table->string('pot_size')->default('mid');
             $table->string('name');
+            $table->integer('pin_number');
             $table->string('plant_img')->nullable();
             $table->foreignId('device_id')->constrained()->onDelete('cascade');
             $table->foreignId('plant_id')->constrained()->onDelete('cascade');

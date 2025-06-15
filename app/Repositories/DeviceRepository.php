@@ -59,6 +59,7 @@ class DeviceRepository
     public function getDevicesByUser($user)
     {
         return Device::query()
+            ->with('customer_plants.latestHistory')
             ->forUser($user)
             ->get();
     }

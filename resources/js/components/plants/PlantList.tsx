@@ -1,7 +1,7 @@
 import { PlantListProps } from '@/types/plant';
 import Plant from './Plant';
 
-function PlantList({ plants, reloadPage }: PlantListProps) {
+function PlantList({ plants, reloadPage, devices, plantFamilies }: PlantListProps) {
     const handleUpdate = (plantId: number) => {
         console.log('Update plant:', plantId);
         reloadPage();
@@ -15,7 +15,14 @@ function PlantList({ plants, reloadPage }: PlantListProps) {
     return (
         <div className="grid gap-4 pt-4">
             {plants.map((plant) => (
-                <Plant key={plant.id} plant={plant} handleDelete={handleDelete} handleUpdate={handleUpdate} />
+                <Plant
+                    key={plant.id}
+                    plant={plant}
+                    handleDelete={handleDelete}
+                    handleUpdate={handleUpdate}
+                    devices={devices}
+                    plantFamilies={plantFamilies}
+                />
             ))}
         </div>
     );

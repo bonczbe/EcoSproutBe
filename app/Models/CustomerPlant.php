@@ -21,6 +21,7 @@ class CustomerPlant extends Model
         'device_id',
         'plant_id',
         'plant_type_id',
+        'pin_number',
     ];
 
     public function device(): BelongsTo

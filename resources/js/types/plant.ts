@@ -49,6 +49,7 @@ export type PlantListItem = {
     maximum_moisture: number;
     pot_size: string;
     plant_id: number;
+    pin_number: number;
     plant_img: string | null;
     created_at: string;
     updated_at: string;
@@ -69,10 +70,32 @@ export type PlantHistory = {
 export type PlantListProps = {
     plants: PlantListItem[];
     reloadPage: () => void;
+    devices: Device[];
+    plantFamilies: any;
 };
+export interface Device {
+    id: number;
+    name: string;
+    city: string;
+    location: string;
+    is_inside: boolean;
+    is_on: boolean;
+    created_at: string;
+    updated_at: string;
+}
 
 export type PlantProps = {
     plant: PlantListItem;
     handleDelete: (id: number) => void;
     handleUpdate: (id: number) => void;
+    devices: Device[];
+    plantFamilies: any;
+};
+
+export type UpdatePlantProps = {
+    plant: PlantListItem;
+    onClose: () => void;
+    onUpdate: (id: number, form: PlantListItem) => void;
+    devices: any;
+    plantFamilies: any;
 };
