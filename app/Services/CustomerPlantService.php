@@ -44,12 +44,12 @@ class CustomerPlantService
             $filename = "{$shortenedBase}.{$extension}";
             $path = "plant/{$userEmail}/{$filename}";
 
-            $imagePath = $datas['plantImage']->storeAs('public', $path);
+            $imagePath = $datas['plantImage']->storeAs('plant/' . $userEmail, $filename, 'public');
         }
 
         return $this->customerPlantRepository->store([
             'pot_size' => $datas['potSize'],
-            'plant_img' => $imagePath ? Storage::url($imagePath) : null,
+            'plant_img' => $imagePath ? asset(Storage::url($imagePath)) : null,
             'dirt_type' => $datas['dritType'],
             'name' => $datas['name'],
             'device_id' => $datas['device'],
