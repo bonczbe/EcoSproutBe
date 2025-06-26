@@ -228,6 +228,11 @@ function UpdatePlant({ plant, onClose, onUpdate, devices, plantFamilies }: Updat
                                     label={'Image of the Plant'}
                                 />
                                 </div>
+                        {plant.plant_img !== null && plant.plant_img.trim().length > 0 ? (
+                    <div className="max-h-24 max-w-24 overflow-hidden rounded-2xl md:max-h-18 md:max-w-18 lg:max-h-40 lg:max-w-40">
+                        <img src={plant.plant_img} className="h-full w-full" alt={plant.name} loading="lazy"></img>
+                    </div>
+                ) : null}
                     </form>
                 </DialogPanel>
             </div>
