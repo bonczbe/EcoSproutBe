@@ -4,6 +4,7 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { Button } from '../ui/button';
 import DropdownSelect from '../ui/DropdownSelect';
 import { Input } from '../ui/input';
 import CustomAutocomplete from './CustomAutoComplete';
@@ -37,7 +38,7 @@ function UpdatePlant({ plant, onClose, onUpdate, devices, plantFamilies }: Updat
         minMoist: 0,
         maxMoist: 0,
         device: plant.device_id,
-        plantImage:'',
+        plantImage: '',
     });
     const [plants, setPlants] = useState([]);
     const [family, setFamily] = useState(plant.plant.family);
@@ -51,7 +52,7 @@ function UpdatePlant({ plant, onClose, onUpdate, devices, plantFamilies }: Updat
     };
 
     useEffect(() => {
-        if(plant.plant.name_en!==form.plant.name_en)setSelectedPlant('');
+        if (plant.plant.name_en !== form.plant.name_en) setSelectedPlant('');
         setPlants([]);
         const fetchChartData = async () => {
             if (family != '') {
@@ -60,6 +61,7 @@ function UpdatePlant({ plant, onClose, onUpdate, devices, plantFamilies }: Updat
                         family: family,
                     })
                     .then((res) => setPlants(res.data));
+                    setSelectedPlant('')
             }
         };
         fetchChartData();
@@ -74,7 +76,6 @@ function UpdatePlant({ plant, onClose, onUpdate, devices, plantFamilies }: Updat
                     })
                     .then((res) => {
                         const plantdatas = res.data;
-                        console.log(plantdatas);
                         setForm({
                             ...form,
                             name: 'My ' + plantdatas.name_en,
@@ -89,21 +90,37 @@ function UpdatePlant({ plant, onClose, onUpdate, devices, plantFamilies }: Updat
     }, [selectedPlant]);
 
     const submit = () => {
+            const formData = new FormData();
+            formData.append('device', form.device);
+            formData.append('potSize', String(form.pot_size));
+            formData.append('maxMoist', String(form.maximum_moisture));
+            formData.append('minMoist', String(form.minimum_moisture));
+            formData.append('dritType', form.dirt_type);
+            formData.append('name', form.name);
+            formData.append('plantType', form.plant_type);
+            formData.append('plantName', selectedPlant);
+            formData.append('family', family);
+
             if (form.plantImage) {
-                //formData.append('plantImage', form.plantImage);
+                formData.append('plantImage', form.plantImage);
             }
-        axiosClient.put('/api/device/update', form).then(() => {
+
+        axiosClient.put('/api/plant/customer/update', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+        .then(() => {
             onUpdate(plant.id, form);
             onClose();
             toast.success(plant.name + ' updated');
         });
     };
-    console.log(plant);
     return (
         <Dialog open onClose={onClose} className="relative z-50">
             <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
             <div className="fixed inset-0 flex items-center justify-center p-4">
-                <DialogPanel className="w-full  max-w-8/12 rounded bg-white p-6 text-center dark:bg-gray-800">
+                <DialogPanel className="w-full max-w-8/12 rounded bg-white p-6 dark:bg-gray-800">
                     <div className="mb-4 flex items-center justify-between">
                         <DialogTitle className="w-full text-center text-2xl font-semibold">Update {plant.name}</DialogTitle>
                         <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
@@ -117,24 +134,32 @@ function UpdatePlant({ plant, onClose, onUpdate, devices, plantFamilies }: Updat
                         }}
                         className="space-y-4"
                     >
-                            <div className="grid grid-cols-1 content-center gap-2 overflow-y-auto pr-2 pb-5 md:grid-cols-2">
-                        <Input
-                            className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
-                            type="text"
-                            name={'name'}
-                            required={true}
-                            value={form.name}
-                            onChange={handleChange}
-                            placeholder={`Enter the name of the plant`}
-                            label={'Name'}
-                        />
-                        <DropdownSelect
-                            label="Device"
-                            value={form.device}
-                            options={deviceList}
-                            onChange={(value) => setForm({ ...form, device: value })}
-                            className="w-full max-w-md"
-                        />
+                        {plant.plant_img !== null && plant.plant_img.trim().length > 0 ? (
+                            <div className="flex justify-center">
+                                <div className="max-h-24 max-w-24 overflow-hidden rounded-2xl md:max-h-18 md:max-w-18 lg:max-h-40 lg:max-w-40">
+                                    <img src={plant.plant_img} className="h-full w-full" alt={plant.name} loading="lazy"></img>
+                                </div>
+                            </div>
+                        ) : null}
+                        <div className="flex justify-center">
+                            <div className="grid grid-cols-1 content-center gap-2 gap-x-16 overflow-y-auto pr-2 pb-5 md:grid-cols-2">
+                                <Input
+                                    className="w-full max-w-md rounded bg-gray-100 p-2 px-4 dark:bg-gray-700"
+                                    type="text"
+                                    name={'name'}
+                                    required={true}
+                                    value={form.name}
+                                    onChange={handleChange}
+                                    placeholder={`Enter the name of the plant`}
+                                    label={'Name'}
+                                />
+                                <DropdownSelect
+                                    label="Device"
+                                    value={form.device}
+                                    options={deviceList}
+                                    onChange={(value) => setForm({ ...form, device: value })}
+                                    className="w-full max-w-md"
+                                />
                                 <CustomAutocomplete
                                     label="Plant Family"
                                     className="w-full max-w-md"
@@ -194,7 +219,7 @@ function UpdatePlant({ plant, onClose, onUpdate, devices, plantFamilies }: Updat
                                     type="number"
                                     name={'minimum_moisture'}
                                     required={true}
-                                    value={form.plant_type.min_soil_moisture == -1 ? null : form.plant_type.min_soil_moisture}
+                                    value={form.minimum_moisture == 0 ?form.plant_type.min_soil_moisture  : form.minimum_moisture}
                                     onChange={handleChange}
                                     placeholder={`Min moisture level of the soil under the plant`}
                                     label={'Min moisture (%)'}
@@ -206,7 +231,7 @@ function UpdatePlant({ plant, onClose, onUpdate, devices, plantFamilies }: Updat
                                     type="number"
                                     name={'maximum_moisture'}
                                     required={true}
-                                    value={form.plant_type.max_soil_moisture == -1 ? null : form.plant_type.max_soil_moisture}
+                                    value={form.maximum_moisture == 0 ?form.plant_type.max_soil_moisture : form.maximum_moisture }
                                     onChange={handleChange}
                                     placeholder={`Max moisture level of the soil under the plant`}
                                     label={'Max moisture (%)'}
@@ -217,6 +242,7 @@ function UpdatePlant({ plant, onClose, onUpdate, devices, plantFamilies }: Updat
                                     type="file"
                                     name="plantImage"
                                     accept="image/*"
+                                    className="w-full max-w-md"
                                     onChange={(e: any) => {
                                         if (e.target.files?.[0]) {
                                             setForm((prev) => ({
@@ -227,12 +253,13 @@ function UpdatePlant({ plant, onClose, onUpdate, devices, plantFamilies }: Updat
                                     }}
                                     label={'Image of the Plant'}
                                 />
-                                </div>
-                        {plant.plant_img !== null && plant.plant_img.trim().length > 0 ? (
-                    <div className="max-h-24 max-w-24 overflow-hidden rounded-2xl md:max-h-18 md:max-w-18 lg:max-h-40 lg:max-w-40">
-                        <img src={plant.plant_img} className="h-full w-full" alt={plant.name} loading="lazy"></img>
-                    </div>
-                ) : null}
+                            </div>
+                        </div>
+                        <div className="flex justify-center">
+                            <Button type="submit" className="bg-blue-600 text-white hover:bg-blue-700">
+                                Update
+                            </Button>
+                        </div>
                     </form>
                 </DialogPanel>
             </div>
